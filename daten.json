@@ -59,7 +59,8 @@
       "titel": "Heimspiel gegen DJK Beucherling",
       "start": "2026-08-16T15:00",
       "ort": "Sportplatz Mitterdorf",
-      "text": "Kreisliga-Heimspiel. Vorher spielt die A-Jugend um 12:45 Uhr."
+      "text": "Kreisliga-Heimspiel. Vorher spielt die A-Jugend um 12:45 Uhr.",
+      "ortsteil": "mitterdorf"
     },
     {
       "id": 9,
@@ -78,7 +79,8 @@
       "titel": "SpVgg Mitterdorf II – (SG) Chambtal II / SV Gleißenberg-Lixenried II",
       "start": "2026-08-09T13:30",
       "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
-      "text": "Herren · B Klasse · Heimspiel"
+      "text": "Herren · B Klasse · Heimspiel",
+      "ortsteil": "mitterdorf"
     },
     {
       "id": 11,
@@ -96,7 +98,8 @@
       "titel": "SpVgg Willmering-Waff. II – SpVgg Mitterdorf II",
       "start": "2026-08-16T13:30",
       "ort": "Sportgelände Willmering, Platz 1,Am Sportplatz 2,93497 Willmering",
-      "text": "Herren · B Klasse · Auswärtsspiel"
+      "text": "Herren · B Klasse · Auswärtsspiel",
+      "ortsteil": "mitterdorf"
     },
     {
       "id": 13,
@@ -392,7 +395,8 @@
       "verein": "burschen",
       "start": "2026-08-16T10:00",
       "ort": "Gasthof Hecht",
-      "text": "Servus Burschen,\nam Sonntag den 16.08 gehts dann midn Bus zum Gäubodenfest.☝🏻\nAbfahrt is dann um 10:00 Uhr vom Hecht\nRückfahrt is um 18:00 Uhr😁\n\nMir dadn wieda an kleinen Betrag vo 15€ verlanga, dass se da Bus a wengl trägt🍻"
+      "text": "Servus Burschen,\nam Sonntag den 16.08 gehts dann midn Bus zum Gäubodenfest.☝🏻\nAbfahrt is dann um 10:00 Uhr vom Hecht\nRückfahrt is um 18:00 Uhr😁\n\nMir dadn wieda an kleinen Betrag vo 15€ verlanga, dass se da Bus a wengl trägt🍻",
+      "ortsteil": "mitterdorf"
     },
     {
       "id": 46,
