@@ -59,6 +59,15 @@
   ],
   "termine": [
     {
+      "id": 3,
+      "verein": "spvgg-fussball",
+      "titel": "Heimspiel gegen DJK Beucherling",
+      "start": "2026-08-16T15:00",
+      "ort": "Sportplatz Mitterdorf",
+      "text": "Kreisliga-Heimspiel. Vorher spielt die A-Jugend um 12:45 Uhr.",
+      "ortsteil": "mitterdorf"
+    },
+    {
       "id": 9,
       "verein": "spvgg-fussball",
       "quelle": "bfv",
@@ -105,8 +114,7 @@
       "titel": "SpVgg Willmering-Waffenbrunn – SpVgg Mitterdorf",
       "start": "2026-08-16T15:15",
       "ort": "Sportgelände Willmering, Platz 1,Am Sportplatz 2,93497 Willmering",
-      "text": "Herren · Kreisliga · Auswärtsspiel",
-      "ortsteil": "mitterdorf"
+      "text": "Herren · Kreisliga · Auswärtsspiel"
     },
     {
       "id": 14,
@@ -125,8 +133,7 @@
       "titel": "SpVgg Mitterdorf – 1. FC Miltach",
       "start": "2026-08-23T15:15",
       "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
-      "text": "Herren · Kreisliga · Heimspiel",
-      "ortsteil": "mitterdorf"
+      "text": "Herren · Kreisliga · Heimspiel"
     },
     {
       "id": 16,
@@ -144,8 +151,7 @@
       "titel": "(SG2) Geigant II/Waldmünchen I – SpVgg Mitterdorf II",
       "start": "2026-08-28T19:00",
       "ort": "",
-      "text": "Herren · B Klasse · Auswärtsspiel",
-      "ortsteil": "mitterdorf"
+      "text": "Herren · B Klasse · Auswärtsspiel"
     },
     {
       "id": 18,
@@ -154,8 +160,7 @@
       "titel": "(SG) SpVgg Willmering-Waffenbrunn – (SG) Mitterkreith/Mitterdorf",
       "start": "2026-08-29T16:00",
       "ort": "Sportgelände Willmering, Platz 2,Am Sportplatz 2,93497 Willmering",
-      "text": "B-Junioren · Freundschaftsspiele · Auswärtsspiel",
-      "ortsteil": "mitterdorf"
+      "text": "B-Junioren · Freundschaftsspiele · Auswärtsspiel"
     },
     {
       "id": 19,
@@ -339,7 +344,7 @@
       "start": "2026-10-31T14:45",
       "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
       "text": "Herren · B Klasse · Heimspiel",
-      "ortsteil": "alle"
+      "ortsteil": "mitterdorf"
     },
     {
       "id": 39,
