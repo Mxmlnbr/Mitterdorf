@@ -221,13 +221,15 @@ button.tat{font:inherit;font-size:13.5px;font-weight:600;border-radius:8px;paddi
     <div class="formular">
       <h3>Vorschlag aus einer Nachricht übernehmen</h3>
       <div class="unter">
-        Den Text aus WhatsApp oder der E-Mail hier einfügen. Die Felder oben werden
-        ausgefüllt, gespeichert wird erst mit „Übernehmen“.
+        Nachricht in WhatsApp oder im Mailprogramm kopieren, dann hier auf
+        „Aus Zwischenablage übernehmen“ tippen. Einfügen ins Feld funktioniert auch —
+        die Felder oben füllen sich dabei von selbst. Gespeichert wird erst mit „Übernehmen“.
       </div>
       <label for="vorschlag-text">Nachricht</label>
       <textarea id="vorschlag-text" placeholder="### Terminvorschlag&#10;Titel: …"></textarea>
       <div class="knopfreihe">
-        <button class="tat primaer" id="vorschlag-lesen">Ins Formular übertragen</button>
+        <button class="tat primaer" id="vorschlag-einfuegen">Aus Zwischenablage übernehmen</button>
+        <button class="tat sekundaer" id="vorschlag-lesen">Ins Formular übertragen</button>
         <button class="tat sekundaer" id="vorschlag-leeren">Feld leeren</button>
       </div>
       <div id="vorschlag-melder" class="melder"></div>
@@ -974,6 +976,23 @@ $('vorschlag-lesen').onclick = () => {
 
   window.scrollTo({top:0, behavior:'smooth'});
   melde('Vorschlag übertragen. Bitte prüfen und übernehmen.');
+};
+
+/* Beim Einfügen sofort auswerten, das spart einen Klick */
+$('vorschlag-text').addEventListener('paste', () => {
+  setTimeout(() => { if ($('vorschlag-text').value.trim()) $('vorschlag-lesen').click(); }, 40);
+});
+
+$('vorschlag-einfuegen').onclick = async () => {
+  try {
+    const text = await navigator.clipboard.readText();
+    if (!text || !text.trim()){ melde('Die Zwischenablage ist leer.', false); return; }
+    $('vorschlag-text').value = text;
+    $('vorschlag-lesen').click();
+  } catch(e){
+    melde('Der Browser gibt die Zwischenablage nicht frei. Bitte in das Feld einfügen.', false);
+    $('vorschlag-text').focus();
+  }
 };
 
 $('vorschlag-leeren').onclick = () => {
