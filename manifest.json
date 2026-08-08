@@ -1,0 +1,15 @@
+{
+  "name": "Mitterdorf",
+  "short_name": "Mitterdorf",
+  "description": "Termine, Meldungen und Abfuhrtermine für Mitterdorf",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FBF9F5",
+  "theme_color": "#1B4670",
+  "lang": "de",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icon-maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}
