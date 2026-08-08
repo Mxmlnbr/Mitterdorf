@@ -2,93 +2,715 @@
   "ort": "Mitterdorf",
   "stand": "2026-08-08",
   "vereine": [
-    { "id": "ffmitterdorf", "name": "Freiwillige Feuerwehr Mitterdorf", "kuerzel": "FFW", "ortsteil": "mitterdorf" },
-    { "id": "spvggmitterdorf", "name": "SpVgg Mitterdorf", "kuerzel": "SpVg", "ortsteil": "mitterdorf" },
-    { "id": "spvgg-fussball", "name": "Abteilung Fußball", "kuerzel": "FB", "mutter": "spvggmitterdorf" },
-    { "id": "spvgg-ski", "name": "Abteilung Ski", "kuerzel": "SKI", "mutter": "spvggmitterdorf" },
-    { "id": "bvmitterdorf", "name": "Burschenverein Mitterdorf", "kuerzel": "BV", "ortsteil": "mitterdorf" },
-    { "id": "waldeslustschuetzen", "name": "Schützenverein Waldeslust Roding-Bahnhof", "kuerzel": "SVW", "ortsteil": "mitterdorf" },
-    { "id": "ogv", "name": "Obst- und Gartenbauverein Mitterdorf", "kuerzel": "OGV", "ortsteil": "mitterdorf" },
-    { "id": "jugendfeuerwehr", "name": "Jugendfeuerwehr", "kuerzel": "JFW", "mutter": "ffmitterdorf" },
-    { "id": "kinderfeuerwehr", "name": "Kinderfeuerwehr", "kuerzel": "KFW", "mutter": "ffmitterdorf" },
-    { "id": "abteilungturne", "name": "Abteilung Turnen", "ortsteil": "mitterdorf", "mutter": "spvggmitterdorf" },
-    { "id": "abteilungradsp", "name": "Abteilung Radsport", "ortsteil": "mitterdorf", "mutter": "spvggmitterdorf" }
+    {
+      "id": "ffmitterdorf",
+      "name": "Freiwillige Feuerwehr Mitterdorf",
+      "kuerzel": "FFW",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": "spvggmitterdorf",
+      "name": "SpVgg Mitterdorf",
+      "kuerzel": "SpVg",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": "spvgg-fussball",
+      "name": "Abteilung Fußball",
+      "kuerzel": "FB",
+      "mutter": "spvggmitterdorf"
+    },
+    {
+      "id": "spvgg-ski",
+      "name": "Abteilung Ski",
+      "kuerzel": "SKI",
+      "mutter": "spvggmitterdorf"
+    },
+    {
+      "id": "bvmitterdorf",
+      "name": "Burschenverein Mitterdorf",
+      "kuerzel": "BV",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": "waldeslustschuetzen",
+      "name": "Schützenverein Waldeslust Roding-Bahnhof",
+      "kuerzel": "SVW",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": "ogv",
+      "name": "Obst- und Gartenbauverein Mitterdorf",
+      "kuerzel": "OGV",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": "jugendfeuerwehr",
+      "name": "Jugendfeuerwehr",
+      "kuerzel": "JFW",
+      "mutter": "ffmitterdorf"
+    },
+    {
+      "id": "kinderfeuerwehr",
+      "name": "Kinderfeuerwehr",
+      "kuerzel": "KFW",
+      "mutter": "ffmitterdorf"
+    },
+    {
+      "id": "abteilungturne",
+      "name": "Abteilung Turnen",
+      "ortsteil": "mitterdorf",
+      "mutter": "spvggmitterdorf"
+    },
+    {
+      "id": "abteilungradsp",
+      "name": "Abteilung Radsport",
+      "ortsteil": "mitterdorf",
+      "mutter": "spvggmitterdorf"
+    }
   ],
   "termine": [
-    { "id": 3, "verein": "spvgg-fussball", "titel": "Heimspiel gegen DJK Beucherling", "start": "2026-08-16T15:00", "ort": "Sportplatz Mitterdorf", "text": "Kreisliga-Heimspiel. Vorher spielt die A-Jugend um 12:45 Uhr.", "ortsteil": "mitterdorf" },
-    { "id": 9, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "(SG) Mitterdorf/Mitterkreith 2 (9) – (SG) Wetterfeld/Pösing/Stamsried", "start": "2026-08-09T10:30", "ort": "Sportgelände Mitterkeith, Platz 2,Weiherhausweg 48,93426 Roding", "text": "C-Junioren · Freundschaftsspiele · Auswärtsspiel", "ortsteil": "mitterdorf" },
-    { "id": 10, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "SpVgg Mitterdorf II – (SG) Chambtal II / SV Gleißenberg-Lixenried II", "start": "2026-08-09T13:30", "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding", "text": "Herren · B Klasse · Heimspiel", "ortsteil": "mitterdorf" },
-    { "id": 11, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "SpVgg Mitterdorf – SG Chambtal", "start": "2026-08-09T15:15", "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding", "text": "Herren · Kreisliga · Heimspiel", "ortsteil": "mitterdorf" },
-    { "id": 12, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "SpVgg Willmering-Waff. II – SpVgg Mitterdorf II", "start": "2026-08-16T13:30", "ort": "Sportgelände Willmering, Platz 1,Am Sportplatz 2,93497 Willmering", "text": "Herren · B Klasse · Auswärtsspiel", "ortsteil": "mitterdorf" },
-    { "id": 13, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "SpVgg Willmering-Waffenbrunn – SpVgg Mitterdorf", "start": "2026-08-16T15:15", "ort": "Sportgelände Willmering, Platz 1,Am Sportplatz 2,93497 Willmering", "text": "Herren · Kreisliga · Auswärtsspiel", "ortsteil": "mitterdorf" },
-    { "id": 14, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "(SG2) Geigant II/Waldmünchen I – SpVgg Mitterdorf II", "start": "2026-08-19T19:00", "ort": "Sportgelände Geigant, Platz 1,Kellerweg 35,93449 Geigant", "text": "Herren · B Klasse · Auswärtsspiel", "ortsteil": "mitterdorf" },
-    { "id": 15, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "SpVgg Mitterdorf – 1. FC Miltach", "start": "2026-08-23T15:15", "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding", "text": "Herren · Kreisliga · Heimspiel", "ortsteil": "mitterdorf" },
-    { "id": 16, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "(SG) SV Wiesenfelden – (SG) Mitterdorf/Mitterkreith", "start": "2026-08-25T18:00", "ort": "Leopold-Bartl-Sportgelände Wiesenfelden, Platz 1,Falkensteiner Str. 31,94344 Wiesenfelden", "text": "C-Junioren · Freundschaftsspiele · Auswärtsspiel", "ortsteil": "mitterdorf" },
-    { "id": 17, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "(SG2) Geigant II/Waldmünchen I – SpVgg Mitterdorf II", "start": "2026-08-28T19:00", "ort": "", "text": "Herren · B Klasse · Auswärtsspiel", "ortsteil": "mitterdorf" },
-    { "id": 18, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "(SG) SpVgg Willmering-Waffenbrunn – (SG) Mitterkreith/Mitterdorf", "start": "2026-08-29T16:00", "ort": "Sportgelände Willmering, Platz 2,Am Sportplatz 2,93497 Willmering", "text": "B-Junioren · Freundschaftsspiele · Auswärtsspiel", "ortsteil": "mitterdorf" },
-    { "id": 19, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "TSV Nittenau 2 – (SG) Mitterdorf/Mitterkreith", "start": "2026-08-30T10:30", "ort": "Sportgelände Nittenau, Platz 1,Fischbacher Str. 52,93149 Nittenau", "text": "D-Junioren · Freundschaftsspiele · Auswärtsspiel", "ortsteil": "mitterdorf" },
-    { "id": 20, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "TV Waldmünchen – SpVgg Mitterdorf", "start": "2026-08-30T15:15", "ort": "Sportgelände Geigant, Platz 1,Kellerweg 35,93449 Geigant", "text": "Herren · Kreisliga · Auswärtsspiel", "ortsteil": "mitterdorf" },
-    { "id": 21, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "SpVgg Mitterdorf II – FC Furth im Wald II", "start": "2026-09-06T13:30", "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding", "text": "Herren · B Klasse · Heimspiel", "ortsteil": "mitterdorf" },
-    { "id": 22, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "SpVgg Mitterdorf – FC Stamsried", "start": "2026-09-06T15:15", "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding", "text": "Herren · Kreisliga · Heimspiel", "ortsteil": "mitterdorf" },
-    { "id": 23, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "(SG) Pemfling/Katzbach – (SG) Mitterdorf/Mitterkreith", "start": "2026-09-10T18:00", "ort": "Sportgelände Katzbach, Platz 1,Loiblinger Str. 12,93413 Cham", "text": "C-Junioren · Freundschaftsspiele · Auswärtsspiel", "ortsteil": "mitterdorf" },
-    { "id": 24, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "SpVgg Eschlkam II – SpVgg Mitterdorf II", "start": "2026-09-13T13:30", "ort": "Chambtal-Arena Eschlkam, Platz 1,Jahnweg 10,93458 Eschlkam", "text": "Herren · B Klasse · Auswärtsspiel", "ortsteil": "mitterdorf" },
-    { "id": 25, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "SpVgg Eschlkam – SpVgg Mitterdorf", "start": "2026-09-13T15:15", "ort": "Chambtal-Arena Eschlkam, Platz 1,Jahnweg 10,93458 Eschlkam", "text": "Herren · Kreisliga · Auswärtsspiel", "ortsteil": "mitterdorf" },
-    { "id": 26, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "SpVgg Mitterdorf II – (SG) Chammünster II /Chamerau II", "start": "2026-09-20T13:30", "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding", "text": "Herren · B Klasse · Heimspiel", "ortsteil": "mitterdorf" },
-    { "id": 27, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "SpVgg Mitterdorf – (SG )Chamerau-Chammünster", "start": "2026-09-20T15:15", "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding", "text": "Herren · Kreisliga · Heimspiel", "ortsteil": "mitterdorf" },
-    { "id": 28, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "SpVgg Mitterdorf II – DJK Arnschwang II", "start": "2026-09-26T15:15", "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding", "text": "Herren · B Klasse · Heimspiel", "ortsteil": "mitterdorf" },
-    { "id": 29, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "SpVgg Mitterdorf – DJK Arnschwang", "start": "2026-09-26T17:00", "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding", "text": "Herren · Kreisliga · Heimspiel", "ortsteil": "mitterdorf" },
-    { "id": 30, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "(SG1) Zandt I/Vilzing III – SpVgg Mitterdorf II", "start": "2026-10-04T13:15", "ort": "", "text": "Herren · B Klasse · Auswärtsspiel", "ortsteil": "mitterdorf" },
-    { "id": 31, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "DJK Vilzing II – SpVgg Mitterdorf", "start": "2026-10-04T15:00", "ort": "Waldsportplatz Zandt, Platz 1,Sportplatzstr. 15,93499 Zandt", "text": "Herren · Kreisliga · Auswärtsspiel", "ortsteil": "mitterdorf" },
-    { "id": 32, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "SpVgg Mitterdorf II – (SG2) Michelsdorf II / Cham III", "start": "2026-10-10T15:15", "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding", "text": "Herren · B Klasse · Heimspiel", "ortsteil": "mitterdorf" },
-    { "id": 33, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "SpVgg Mitterdorf – (SG1) Michelsdorf / Cham II", "start": "2026-10-10T17:00", "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding", "text": "Herren · Kreisliga · Heimspiel", "ortsteil": "mitterdorf" },
-    { "id": 34, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "SpVgg Mitterdorf II – FC Untertraubenbach II", "start": "2026-10-17T15:15", "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding", "text": "Herren · B Klasse · Heimspiel", "ortsteil": "mitterdorf" },
-    { "id": 35, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "SpVgg Mitterdorf – FC Untertraubenbach", "start": "2026-10-17T17:00", "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding", "text": "Herren · Kreisliga · Heimspiel", "ortsteil": "mitterdorf" },
-    { "id": 36, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "SG Schönthal-Premeischl II – SpVgg Mitterdorf II", "start": "2026-10-25T12:30", "ort": "Sportgelände Schönthal, Platz 1,Im Winkerl,93488 Schönthal", "text": "Herren · B Klasse · Auswärtsspiel", "ortsteil": "mitterdorf" },
-    { "id": 37, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "SG Schönthal-Premeischl – SpVgg Mitterdorf", "start": "2026-10-25T14:15", "ort": "Sportgelände Schönthal, Platz 1,Im Winkerl,93488 Schönthal", "text": "Herren · Kreisliga · Auswärtsspiel", "ortsteil": "mitterdorf" },
-    { "id": 38, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "SpVgg Mitterdorf II – SG Schloßberg 09 II", "start": "2026-10-31T14:45", "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding", "text": "Herren · B Klasse · Heimspiel", "ortsteil": "mitterdorf" },
-    { "id": 39, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "SpVgg Mitterdorf – SG Schloßberg", "start": "2026-10-31T16:30", "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding", "text": "Herren · Kreisliga · Heimspiel", "ortsteil": "mitterdorf" },
-    { "id": 40, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "(SG) Chambtal II / SV Gleißenberg-Lixenried II – SpVgg Mitterdorf II", "start": "2026-11-08T12:30", "ort": "Sportplatz Dalking,Ränkamer Str.,93495 Weiding", "text": "Herren · B Klasse · Auswärtsspiel", "ortsteil": "mitterdorf" },
-    { "id": 41, "verein": "spvgg-fussball", "quelle": "bfv", "titel": "SG Chambtal – SpVgg Mitterdorf", "start": "2026-11-08T14:15", "ort": "Sportplatz Dalking,Ränkamer Str.,93495 Weiding", "text": "Herren · Kreisliga · Auswärtsspiel", "ortsteil": "mitterdorf" },
-    { "id": 42, "titel": "Straßenfest Ziehring", "verein": "ffmitterdorf", "start": "2026-08-08T18:30", "ort": "Gerätehaus Mitterdorf", "text": "Wir besuchen am Samstag, 08.08. das Straßenfest der FFW Ziehring. Treffpunkt in Vereinskleidung zur gemeinsamen Abfahrt um 18.30 Uhr am Feuerwehrhaus", "ortsteil": "mitterdorf" },
-    { "id": 43, "titel": "Altburschentreffen", "verein": "bvmitterdorf", "start": "2026-08-08T18:00", "ort": "Gasthaus Hecht", "text": "", "ortsteil": "mitterdorf" },
-    { "id": 44, "titel": "Kameradschaftsabend", "verein": "ffmitterdorf", "start": "2026-08-14T19:00", "ort": "Gerätehaus Mitterdorf", "text": "Am Freitag, 14.08. findet unserer Kameradschaftsabend um 19 Uhr im Feuerwehrhaus statt.\nEingeladen sind alle aktiven Mitglieder, Helfer und Unterstützer der Feuerwehr.", "ortsteil": "mitterdorf" },
-    { "id": 45, "titel": "Busfahrt Gäubodenfest", "verein": "bvmitterdorf", "start": "2026-08-16T10:00", "ort": "Gasthof Hecht", "text": "Servus Burschen,\nam Sonntag den 16.08 gehts dann midn Bus zum Gäubodenfest.☝🏻\nAbfahrt is dann um 10:00 Uhr vom Hecht\nRückfahrt is um 18:00 Uhr😁\n\nMir dadn wieda an kleinen Betrag vo 15€ verlanga, dass se da Bus a wengl trägt🍻", "ortsteil": "mitterdorf" },
-    { "id": 46, "titel": "Schlachtfest", "verein": "waldeslustschuetzen", "start": "2027-05-01T10:00", "ort": "Oberkreith", "text": "", "ortsteil": "mitterdorf" },
-    { "id": 47, "titel": "Gerätepflege", "verein": "ffmitterdorf", "start": "2026-09-01T18:30", "ortsteil": "mitterdorf", "ort": "Gerätehaus Mitterdorf", "text": "", "wiederholung": { "art": "monat-wochentag", "wochentag": 2, "position": 1 } },
-    { "id": 48, "titel": "Stammtisch", "verein": "ffmitterdorf", "start": "2026-08-14T19:30", "ortsteil": "mitterdorf", "ort": "Gerätehaus Mitterdorf", "text": "", "wiederholung": { "art": "monat-wochentag", "wochentag": 5, "position": 2 } },
-    { "id": 49, "titel": "Herbstwanderung 2026", "verein": "abteilungradsp", "start": "2026-09-26T08:45", "ortsteil": "mitterdorf", "ort": "Grundschule Mitterdorf", "text": "Liebe Radler,\nam Samstag, den 26.09.2026 findet unsere traditionelle Herbstwanderung statt. Andreas Heeb und Markus Kittsteiner haben wieder eine großartige Tour geplant und führen uns durch das schöne Waldnaabtal in der Nördlichen Oberpfalz. Bei entsprechender Beteiligung möchten wir wieder gemeinsam per Bus anreisen (Kosten pro Erwachsener 10,00 €, Kinder sind frei).\nAblauf:\n08:40 Uhr Treffpunkt Grundschule Mitterdorf\n08:45 Uhr Abfahrt\n10:15 Uhr Ankunft Falkenberg\n16:30 Uhr Rückfahrt\n18:00 Uhr Ankunft Grundschule Mitterdorf\nDie leichte Wanderung auf guten Feld- und Waldwegen ist ca. 12km lang und ist auch für Kinder (ab 6 Jahren) geeignet. Normales Schuhwerk ist ausreichend. Bei Schlechtwetterprognose behalten wir uns vor,\ndie Wanderung kurzfristig abzusagen.\nEs würde uns sehr freuen, wenn möglichst viele Mitglieder das Angebot annehmen.\nWir bitten um verbindliche Anmeldung bis zum 11.09.2026 bei Martin Feldbauer unter Tel.: 0151/44066116.\nGerne könnt Ihr die Einladung auch an weitere Interessierte weiterleiten.\nViele Grüße von der Vorstandschaft" }
+    {
+      "id": 3,
+      "verein": "spvgg-fussball",
+      "titel": "Heimspiel gegen DJK Beucherling",
+      "start": "2026-08-16T15:00",
+      "ort": "Sportplatz Mitterdorf",
+      "text": "Kreisliga-Heimspiel. Vorher spielt die A-Jugend um 12:45 Uhr.",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 9,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "(SG) Mitterdorf/Mitterkreith 2 (9) – (SG) Wetterfeld/Pösing/Stamsried",
+      "start": "2026-08-09T10:30",
+      "ort": "Sportgelände Mitterkeith, Platz 2,Weiherhausweg 48,93426 Roding",
+      "text": "C-Junioren · Freundschaftsspiele · Auswärtsspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 10,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf II – (SG) Chambtal II / SV Gleißenberg-Lixenried II",
+      "start": "2026-08-09T13:30",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · B Klasse · Heimspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 11,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf – SG Chambtal",
+      "start": "2026-08-09T15:15",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · Kreisliga · Heimspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 12,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Willmering-Waff. II – SpVgg Mitterdorf II",
+      "start": "2026-08-16T13:30",
+      "ort": "Sportgelände Willmering, Platz 1,Am Sportplatz 2,93497 Willmering",
+      "text": "Herren · B Klasse · Auswärtsspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 13,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Willmering-Waffenbrunn – SpVgg Mitterdorf",
+      "start": "2026-08-16T15:15",
+      "ort": "Sportgelände Willmering, Platz 1,Am Sportplatz 2,93497 Willmering",
+      "text": "Herren · Kreisliga · Auswärtsspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 14,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "(SG2) Geigant II/Waldmünchen I – SpVgg Mitterdorf II",
+      "start": "2026-08-19T19:00",
+      "ort": "Sportgelände Geigant, Platz 1,Kellerweg 35,93449 Geigant",
+      "text": "Herren · B Klasse · Auswärtsspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 15,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf – 1. FC Miltach",
+      "start": "2026-08-23T15:15",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · Kreisliga · Heimspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 16,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "(SG) SV Wiesenfelden – (SG) Mitterdorf/Mitterkreith",
+      "start": "2026-08-25T18:00",
+      "ort": "Leopold-Bartl-Sportgelände Wiesenfelden, Platz 1,Falkensteiner Str. 31,94344 Wiesenfelden",
+      "text": "C-Junioren · Freundschaftsspiele · Auswärtsspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 17,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "(SG2) Geigant II/Waldmünchen I – SpVgg Mitterdorf II",
+      "start": "2026-08-28T19:00",
+      "ort": "",
+      "text": "Herren · B Klasse · Auswärtsspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 18,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "(SG) SpVgg Willmering-Waffenbrunn – (SG) Mitterkreith/Mitterdorf",
+      "start": "2026-08-29T16:00",
+      "ort": "Sportgelände Willmering, Platz 2,Am Sportplatz 2,93497 Willmering",
+      "text": "B-Junioren · Freundschaftsspiele · Auswärtsspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 19,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "TSV Nittenau 2 – (SG) Mitterdorf/Mitterkreith",
+      "start": "2026-08-30T10:30",
+      "ort": "Sportgelände Nittenau, Platz 1,Fischbacher Str. 52,93149 Nittenau",
+      "text": "D-Junioren · Freundschaftsspiele · Auswärtsspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 20,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "TV Waldmünchen – SpVgg Mitterdorf",
+      "start": "2026-08-30T15:15",
+      "ort": "Sportgelände Geigant, Platz 1,Kellerweg 35,93449 Geigant",
+      "text": "Herren · Kreisliga · Auswärtsspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 21,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf II – FC Furth im Wald II",
+      "start": "2026-09-06T13:30",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · B Klasse · Heimspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 22,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf – FC Stamsried",
+      "start": "2026-09-06T15:15",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · Kreisliga · Heimspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 23,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "(SG) Pemfling/Katzbach – (SG) Mitterdorf/Mitterkreith",
+      "start": "2026-09-10T18:00",
+      "ort": "Sportgelände Katzbach, Platz 1,Loiblinger Str. 12,93413 Cham",
+      "text": "C-Junioren · Freundschaftsspiele · Auswärtsspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 24,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Eschlkam II – SpVgg Mitterdorf II",
+      "start": "2026-09-13T13:30",
+      "ort": "Chambtal-Arena Eschlkam, Platz 1,Jahnweg 10,93458 Eschlkam",
+      "text": "Herren · B Klasse · Auswärtsspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 25,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Eschlkam – SpVgg Mitterdorf",
+      "start": "2026-09-13T15:15",
+      "ort": "Chambtal-Arena Eschlkam, Platz 1,Jahnweg 10,93458 Eschlkam",
+      "text": "Herren · Kreisliga · Auswärtsspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 26,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf II – (SG) Chammünster II /Chamerau II",
+      "start": "2026-09-20T13:30",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · B Klasse · Heimspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 27,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf – (SG )Chamerau-Chammünster",
+      "start": "2026-09-20T15:15",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · Kreisliga · Heimspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 28,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf II – DJK Arnschwang II",
+      "start": "2026-09-26T15:15",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · B Klasse · Heimspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 29,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf – DJK Arnschwang",
+      "start": "2026-09-26T17:00",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · Kreisliga · Heimspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 30,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "(SG1) Zandt I/Vilzing III – SpVgg Mitterdorf II",
+      "start": "2026-10-04T13:15",
+      "ort": "",
+      "text": "Herren · B Klasse · Auswärtsspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 31,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "DJK Vilzing II – SpVgg Mitterdorf",
+      "start": "2026-10-04T15:00",
+      "ort": "Waldsportplatz Zandt, Platz 1,Sportplatzstr. 15,93499 Zandt",
+      "text": "Herren · Kreisliga · Auswärtsspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 32,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf II – (SG2) Michelsdorf II / Cham III",
+      "start": "2026-10-10T15:15",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · B Klasse · Heimspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 33,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf – (SG1) Michelsdorf / Cham II",
+      "start": "2026-10-10T17:00",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · Kreisliga · Heimspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 34,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf II – FC Untertraubenbach II",
+      "start": "2026-10-17T15:15",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · B Klasse · Heimspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 35,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf – FC Untertraubenbach",
+      "start": "2026-10-17T17:00",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · Kreisliga · Heimspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 36,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SG Schönthal-Premeischl II – SpVgg Mitterdorf II",
+      "start": "2026-10-25T12:30",
+      "ort": "Sportgelände Schönthal, Platz 1,Im Winkerl,93488 Schönthal",
+      "text": "Herren · B Klasse · Auswärtsspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 37,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SG Schönthal-Premeischl – SpVgg Mitterdorf",
+      "start": "2026-10-25T14:15",
+      "ort": "Sportgelände Schönthal, Platz 1,Im Winkerl,93488 Schönthal",
+      "text": "Herren · Kreisliga · Auswärtsspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 38,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf II – SG Schloßberg 09 II",
+      "start": "2026-10-31T14:45",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · B Klasse · Heimspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 39,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf – SG Schloßberg",
+      "start": "2026-10-31T16:30",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · Kreisliga · Heimspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 40,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "(SG) Chambtal II / SV Gleißenberg-Lixenried II – SpVgg Mitterdorf II",
+      "start": "2026-11-08T12:30",
+      "ort": "Sportplatz Dalking,Ränkamer Str.,93495 Weiding",
+      "text": "Herren · B Klasse · Auswärtsspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 41,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SG Chambtal – SpVgg Mitterdorf",
+      "start": "2026-11-08T14:15",
+      "ort": "Sportplatz Dalking,Ränkamer Str.,93495 Weiding",
+      "text": "Herren · Kreisliga · Auswärtsspiel",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 42,
+      "titel": "Straßenfest Ziehring",
+      "verein": "ffmitterdorf",
+      "start": "2026-08-08T18:30",
+      "ort": "Gerätehaus Mitterdorf",
+      "text": "Wir besuchen am Samstag, 08.08. das Straßenfest der FFW Ziehring. Treffpunkt in Vereinskleidung zur gemeinsamen Abfahrt um 18.30 Uhr am Feuerwehrhaus",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 43,
+      "titel": "Altburschentreffen",
+      "verein": "bvmitterdorf",
+      "start": "2026-08-08T18:00",
+      "ort": "Gasthaus Hecht",
+      "text": "",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 44,
+      "titel": "Kameradschaftsabend",
+      "verein": "ffmitterdorf",
+      "start": "2026-08-14T19:00",
+      "ort": "Gerätehaus Mitterdorf",
+      "text": "Am Freitag, 14.08. findet unserer Kameradschaftsabend um 19 Uhr im Feuerwehrhaus statt.\nEingeladen sind alle aktiven Mitglieder, Helfer und Unterstützer der Feuerwehr.",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 45,
+      "titel": "Busfahrt Gäubodenfest",
+      "verein": "bvmitterdorf",
+      "start": "2026-08-16T10:00",
+      "ort": "Gasthof Hecht",
+      "text": "Servus Burschen,\nam Sonntag den 16.08 gehts dann midn Bus zum Gäubodenfest.☝🏻\nAbfahrt is dann um 10:00 Uhr vom Hecht\nRückfahrt is um 18:00 Uhr😁\n\nMir dadn wieda an kleinen Betrag vo 15€ verlanga, dass se da Bus a wengl trägt🍻",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 46,
+      "titel": "Schlachtfest",
+      "verein": "waldeslustschuetzen",
+      "start": "2027-05-01T10:00",
+      "ort": "Oberkreith",
+      "text": "",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 47,
+      "titel": "Gerätepflege",
+      "verein": "ffmitterdorf",
+      "start": "2026-09-01T18:30",
+      "ortsteil": "mitterdorf",
+      "ort": "Gerätehaus Mitterdorf",
+      "text": "",
+      "wiederholung": {
+        "art": "monat-wochentag",
+        "wochentag": 2,
+        "position": 1
+      }
+    },
+    {
+      "id": 48,
+      "titel": "Stammtisch",
+      "verein": "ffmitterdorf",
+      "start": "2026-08-14T19:30",
+      "ortsteil": "mitterdorf",
+      "ort": "Gerätehaus Mitterdorf",
+      "text": "",
+      "wiederholung": {
+        "art": "monat-wochentag",
+        "wochentag": 5,
+        "position": 2
+      }
+    },
+    {
+      "id": 49,
+      "titel": "Herbstwanderung 2026",
+      "verein": "abteilungradsp",
+      "start": "2026-09-26T08:45",
+      "ortsteil": "mitterdorf",
+      "ort": "Grundschule Mitterdorf",
+      "text": "Liebe Radler,\nam Samstag, den 26.09.2026 findet unsere traditionelle Herbstwanderung statt. Andreas Heeb und Markus Kittsteiner haben wieder eine großartige Tour geplant und führen uns durch das schöne Waldnaabtal in der Nördlichen Oberpfalz. Bei entsprechender Beteiligung möchten wir wieder gemeinsam per Bus anreisen (Kosten pro Erwachsener 10,00 €, Kinder sind frei).\nAblauf:\n08:40 Uhr Treffpunkt Grundschule Mitterdorf\n08:45 Uhr Abfahrt\n10:15 Uhr Ankunft Falkenberg\n16:30 Uhr Rückfahrt\n18:00 Uhr Ankunft Grundschule Mitterdorf\nDie leichte Wanderung auf guten Feld- und Waldwegen ist ca. 12km lang und ist auch für Kinder (ab 6 Jahren) geeignet. Normales Schuhwerk ist ausreichend. Bei Schlechtwetterprognose behalten wir uns vor,\ndie Wanderung kurzfristig abzusagen.\nEs würde uns sehr freuen, wenn möglichst viele Mitglieder das Angebot annehmen.\nWir bitten um verbindliche Anmeldung bis zum 11.09.2026 bei Martin Feldbauer unter Tel.: 0151/44066116.\nGerne könnt Ihr die Einladung auch an weitere Interessierte weiterleiten.\nViele Grüße von der Vorstandschaft"
+    }
   ],
   "meldungen": [
-    { "id": 1, "art": "sperrung", "wichtig": true, "titel": "Brücke ab Montag halbseitig gesperrt", "datum": "2026-08-07", "text": "Wegen Geländerarbeiten ist die Brücke von Montag, 10. August, bis voraussichtlich Freitag, 14. August, nur einspurig befahrbar. Eine Ampel regelt den Verkehr. Fußgänger kommen jederzeit durch.", "ortsteil": "mitterdorf" },
-    { "id": 2, "art": "versorgung", "wichtig": false, "titel": "Wasserabschaltung im Bereich Dorfstraße", "datum": "2026-08-05", "text": "Am Mittwoch, 12. August, ist zwischen 8 und 12 Uhr das Wasser abgestellt. Betroffen sind die Hausnummern 1 bis 24. Bitte vorher Wasser abfüllen.", "ortsteil": "mitterdorf" }
+    {
+      "id": 1,
+      "art": "sperrung",
+      "wichtig": true,
+      "titel": "Brücke ab Montag halbseitig gesperrt",
+      "datum": "2026-08-07",
+      "text": "Wegen Geländerarbeiten ist die Brücke von Montag, 10. August, bis voraussichtlich Freitag, 14. August, nur einspurig befahrbar. Eine Ampel regelt den Verkehr. Fußgänger kommen jederzeit durch.",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 2,
+      "art": "versorgung",
+      "wichtig": false,
+      "titel": "Wasserabschaltung im Bereich Dorfstraße",
+      "datum": "2026-08-05",
+      "text": "Am Mittwoch, 12. August, ist zwischen 8 und 12 Uhr das Wasser abgestellt. Betroffen sind die Hausnummern 1 bis 24. Bitte vorher Wasser abfüllen.",
+      "ortsteil": "mitterdorf"
+    }
   ],
   "service": [
-    { "id": 1, "gruppe": "Notfall", "typ": "tel", "titel": "Notruf", "wert": "112", "text": "Feuerwehr und Rettungsdienst", "ortsteil": "alle" },
-    { "id": 2, "gruppe": "Notfall", "typ": "tel", "titel": "Polizei", "wert": "110", "text": "", "ortsteil": "alle" },
-    { "id": 3, "gruppe": "Notfall", "typ": "tel", "titel": "Ärztlicher Bereitschaftsdienst", "wert": "116117", "text": "Außerhalb der Sprechzeiten, rund um die Uhr", "ortsteil": "alle" },
-    { "id": 4, "gruppe": "Notfall", "typ": "tel", "titel": "Apotheken-Notdienst", "wert": "0800 00 22833", "text": "Kostenlos aus dem Festnetz, mobil 22833", "ortsteil": "alle" },
-    { "id": 5, "gruppe": "Notfall", "typ": "link", "titel": "Notdienst-Apotheke in der Nähe suchen", "wert": "https://www.aponet.de/apotheke/notdienstsuche", "text": "Mit Postleitzahl, tagesaktuell", "ortsteil": "alle" },
-    { "id": 6, "gruppe": "Notfall", "typ": "tel", "titel": "Giftnotruf München", "wert": "089 19240", "text": "Rund um die Uhr", "ortsteil": "alle" },
-    { "id": 7, "gruppe": "Versorgung", "typ": "tel", "titel": "Wasserversorgung Mitterdorfer Gruppe", "wert": "09461 911797", "text": "Zweckverband, Pfarrheideweg 6", "ortsteil": "mitterdorf" },
-    { "id": 8, "gruppe": "Versorgung", "typ": "tel", "titel": "Städtische Betriebe Roding", "wert": "09461 9418-961", "text": "Wasser und Abwasser", "ortsteil": "alle" },
-    { "id": 9, "gruppe": "Versorgung", "typ": "tel", "titel": "Störung Strom", "wert": "0941 28003366", "text": "Bayernwerk, rund um die Uhr", "ortsteil": "alle" },
-    { "id": 10, "gruppe": "Versorgung", "typ": "tel", "titel": "Störung Gas", "wert": "0941 28003355", "text": "Bayernwerk, rund um die Uhr", "ortsteil": "alle" },
-    { "id": 11, "gruppe": "Rathaus & Stadt", "typ": "tel", "titel": "Rathaus Roding", "wert": "09461 94180", "text": "Schulstraße 15, 93426 Roding", "ortsteil": "alle" },
-    { "id": 12, "gruppe": "Rathaus & Stadt", "typ": "text", "titel": "Öffnungszeiten Rathaus", "wert": "", "text": "Mo und Di 7:30–12 und 13–16 Uhr · Mi 7:30–12:30 Uhr · Do 7:30–12 und 13–18 Uhr · Fr 7:30–12:30 Uhr", "ortsteil": "alle" },
-    { "id": 13, "gruppe": "Rathaus & Stadt", "typ": "link", "titel": "Digitales Rathaus", "wert": "https://buergerservice.roding.de/", "text": "Anträge online erledigen", "ortsteil": "alle" },
-    { "id": 14, "gruppe": "Rathaus & Stadt", "typ": "link", "titel": "Anliegen ans Rathaus melden", "wert": "https://www.roding.de/rathaus/verwaltung/heisser-draht-ins-rathaus", "text": "Wunsch, Idee, Mangel oder Beschwerde", "ortsteil": "alle" },
-    { "id": 15, "gruppe": "Rathaus & Stadt", "typ": "text", "titel": "Stadtbauhof", "wert": "Am Richterholz 2", "text": "Mo bis Do 7–12 und 12:30–16 Uhr · Fr 7–12 Uhr", "ortsteil": "alle" },
-    { "id": 16, "gruppe": "Rathaus & Stadt", "typ": "tel", "titel": "Stadtbibliothek", "wert": "09461 9418-955", "text": "Schubertstraße 2", "ortsteil": "alle" },
-    { "id": 17, "gruppe": "Abfall", "typ": "link", "titel": "Abfuhrtermine für meine Adresse", "wert": "https://pwa.entsorgung-cham.de/termine", "text": "Kreiswerke Cham, nach Straße und Hausnummer", "ortsteil": "alle" },
-    { "id": 18, "gruppe": "Abfall", "typ": "text", "titel": "Wertstoffhof Roding", "wert": "Am Richterholz 2", "text": "Di 9–12 Uhr · Mi 13–16 Uhr · Fr 12–16 Uhr · Sa 9–12 Uhr", "ortsteil": "alle" },
-    { "id": 19, "gruppe": "Abfall", "typ": "text", "titel": "Grüngut am Stadtbauhof", "wert": "Am Richterholz 2", "text": "Holziger Baum- und Strauchschnitt, Rasenschnitt und Laub · Mo bis Sa ganztägig", "ortsteil": "alle" },
-    { "id": 20, "gruppe": "Abfall", "typ": "link", "titel": "Abfall-ABC", "wert": "https://pwa.entsorgung-cham.de/abfall-abc", "text": "Wohin gehört was?", "ortsteil": "alle" }
+    {
+      "id": 1,
+      "gruppe": "Notfall",
+      "typ": "tel",
+      "titel": "Notruf",
+      "wert": "112",
+      "text": "Feuerwehr und Rettungsdienst",
+      "ortsteil": "alle"
+    },
+    {
+      "id": 2,
+      "gruppe": "Notfall",
+      "typ": "tel",
+      "titel": "Polizei",
+      "wert": "110",
+      "text": "",
+      "ortsteil": "alle"
+    },
+    {
+      "id": 3,
+      "gruppe": "Notfall",
+      "typ": "tel",
+      "titel": "Ärztlicher Bereitschaftsdienst",
+      "wert": "116117",
+      "text": "Außerhalb der Sprechzeiten, rund um die Uhr",
+      "ortsteil": "alle"
+    },
+    {
+      "id": 4,
+      "gruppe": "Notfall",
+      "typ": "tel",
+      "titel": "Apotheken-Notdienst",
+      "wert": "0800 00 22833",
+      "text": "Kostenlos aus dem Festnetz, mobil 22833",
+      "ortsteil": "alle"
+    },
+    {
+      "id": 5,
+      "gruppe": "Notfall",
+      "typ": "link",
+      "titel": "Notdienst-Apotheke in der Nähe suchen",
+      "wert": "https://www.aponet.de/apotheke/notdienstsuche",
+      "text": "Mit Postleitzahl, tagesaktuell",
+      "ortsteil": "alle"
+    },
+    {
+      "id": 6,
+      "gruppe": "Notfall",
+      "typ": "tel",
+      "titel": "Giftnotruf München",
+      "wert": "089 19240",
+      "text": "Rund um die Uhr",
+      "ortsteil": "alle"
+    },
+    {
+      "id": 7,
+      "gruppe": "Versorgung",
+      "typ": "tel",
+      "titel": "Wasserversorgung Mitterdorfer Gruppe",
+      "wert": "09461 911797",
+      "text": "Zweckverband, Pfarrheideweg 6",
+      "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 8,
+      "gruppe": "Versorgung",
+      "typ": "tel",
+      "titel": "Städtische Betriebe Roding",
+      "wert": "09461 9418-961",
+      "text": "Wasser und Abwasser",
+      "ortsteil": "alle"
+    },
+    {
+      "id": 9,
+      "gruppe": "Versorgung",
+      "typ": "tel",
+      "titel": "Störung Strom",
+      "wert": "0941 28003366",
+      "text": "Bayernwerk, rund um die Uhr",
+      "ortsteil": "alle"
+    },
+    {
+      "id": 10,
+      "gruppe": "Versorgung",
+      "typ": "tel",
+      "titel": "Störung Gas",
+      "wert": "0941 28003355",
+      "text": "Bayernwerk, rund um die Uhr",
+      "ortsteil": "alle"
+    },
+    {
+      "id": 11,
+      "gruppe": "Rathaus & Stadt",
+      "typ": "tel",
+      "titel": "Rathaus Roding",
+      "wert": "09461 94180",
+      "text": "Schulstraße 15, 93426 Roding",
+      "ortsteil": "alle"
+    },
+    {
+      "id": 12,
+      "gruppe": "Rathaus & Stadt",
+      "typ": "text",
+      "titel": "Öffnungszeiten Rathaus",
+      "wert": "",
+      "text": "Mo und Di 7:30–12 und 13–16 Uhr · Mi 7:30–12:30 Uhr · Do 7:30–12 und 13–18 Uhr · Fr 7:30–12:30 Uhr",
+      "ortsteil": "alle"
+    },
+    {
+      "id": 13,
+      "gruppe": "Rathaus & Stadt",
+      "typ": "link",
+      "titel": "Digitales Rathaus",
+      "wert": "https://buergerservice.roding.de/",
+      "text": "Anträge online erledigen",
+      "ortsteil": "alle"
+    },
+    {
+      "id": 14,
+      "gruppe": "Rathaus & Stadt",
+      "typ": "link",
+      "titel": "Anliegen ans Rathaus melden",
+      "wert": "https://www.roding.de/rathaus/verwaltung/heisser-draht-ins-rathaus",
+      "text": "Wunsch, Idee, Mangel oder Beschwerde",
+      "ortsteil": "alle"
+    },
+    {
+      "id": 15,
+      "gruppe": "Rathaus & Stadt",
+      "typ": "text",
+      "titel": "Stadtbauhof",
+      "wert": "Am Richterholz 2",
+      "text": "Mo bis Do 7–12 und 12:30–16 Uhr · Fr 7–12 Uhr",
+      "ortsteil": "alle"
+    },
+    {
+      "id": 16,
+      "gruppe": "Rathaus & Stadt",
+      "typ": "tel",
+      "titel": "Stadtbibliothek",
+      "wert": "09461 9418-955",
+      "text": "Schubertstraße 2",
+      "ortsteil": "alle"
+    },
+    {
+      "id": 17,
+      "gruppe": "Abfall",
+      "typ": "link",
+      "titel": "Abfuhrtermine für meine Adresse",
+      "wert": "https://pwa.entsorgung-cham.de/termine",
+      "text": "Kreiswerke Cham, nach Straße und Hausnummer",
+      "ortsteil": "alle"
+    },
+    {
+      "id": 18,
+      "gruppe": "Abfall",
+      "typ": "text",
+      "titel": "Wertstoffhof Roding",
+      "wert": "Am Richterholz 2",
+      "text": "Di 9–12 Uhr · Mi 13–16 Uhr · Fr 12–16 Uhr · Sa 9–12 Uhr",
+      "ortsteil": "alle"
+    },
+    {
+      "id": 19,
+      "gruppe": "Abfall",
+      "typ": "text",
+      "titel": "Grüngut am Stadtbauhof",
+      "wert": "Am Richterholz 2",
+      "text": "Holziger Baum- und Strauchschnitt, Rasenschnitt und Laub · Mo bis Sa ganztägig",
+      "ortsteil": "alle"
+    },
+    {
+      "id": 20,
+      "gruppe": "Abfall",
+      "typ": "link",
+      "titel": "Abfall-ABC",
+      "wert": "https://pwa.entsorgung-cham.de/abfall-abc",
+      "text": "Wohin gehört was?",
+      "ortsteil": "alle"
+    }
   ],
   "ortsteile": [
-    { "id": "mitterdorf", "name": "Mitterdorf" },
-    { "id": "obertruebenbach", "name": "Obertrübenbach" },
-    { "id": "rodingstadt", "name": "Roding Stadt" },
-    { "id": "wetterfeld", "name": "Wetterfeld" }
+    {
+      "id": "mitterdorf",
+      "name": "Mitterdorf"
+    },
+    {
+      "id": "obertruebenbach",
+      "name": "Obertrübenbach"
+    },
+    {
+      "id": "rodingstadt",
+      "name": "Roding Stadt"
+    },
+    {
+      "id": "wetterfeld",
+      "name": "Wetterfeld"
+    }
   ],
   "kontakt": {
     "email": "maxbauer@online.de",
