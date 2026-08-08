@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1B4670">
+<meta name="description" content="Termine, Meldungen und Abfuhrtermine für Mitterdorf">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Mitterdorf">
+<title>Mitterdorf</title>
+<style>
+:root{
+  --tiefblau:#1B4670;
+  --blau:#2A5E8F;
+  --blau-hell:#E8EEF4;
+  --ziegel:#C4703A;
+  --ziegel-hell:#F7EAE0;
+  --papier:#FBF9F5;
+  --karte:#FFFFFF;
+  --tinte:#16212B;
+  --grau:#6E7B85;
+  --linie:#E2E6EA;
+  --warn:#B23B2E;
+  --gruen:#4A7C4E;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:ui-sans-serif,system-ui,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  background:var(--papier);color:var(--tinte);line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+.rahmen{max-width:480px;margin:0 auto;min-height:100vh;background:var(--papier);
+  box-shadow:0 0 60px rgba(27,70,112,.10);display:flex;flex-direction:column}
+
+header{background:var(--tiefblau);color:#fff;padding:calc(16px + env(safe-area-inset-top)) 20px 0;position:relative}
+.ort{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#9FC0DC;margin-bottom:2px}
+.wappen{font-size:26px;font-weight:800;letter-spacing:-.02em}
+.datum{font-size:12.5px;color:#9FC0DC;margin-top:2px;padding-bottom:14px}
+.bogen{display:block;width:100%;height:26px}
+
+main{flex:1;padding:18px 16px 96px}
+section{display:none}
+section.aktiv{display:block;animation:auf .22s ease}
+@keyframes auf{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+h2{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--grau);
+  margin:22px 0 10px;font-weight:700}
+h2:first-child{margin-top:2px}
+
+.karte{background:var(--karte);border:1px solid var(--linie);border-radius:12px;padding:14px;margin-bottom:10px}
+
+.termin{display:flex;gap:13px;align-items:flex-start}
+.tag{flex:0 0 50px;text-align:center;background:var(--blau-hell);border-radius:9px;padding:7px 0}
+.tag .zahl{font-size:21px;font-weight:800;line-height:1;color:var(--tiefblau)}
+.tag .mon{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--blau);font-weight:700}
+.tag .wtag{font-size:9.5px;color:var(--grau);margin-top:2px}
+.termin-kopf{font-weight:700;font-size:15.5px;line-height:1.3}
+.veranstalter{display:inline-block;font-size:11px;font-weight:600;color:var(--ziegel);margin-top:3px}
+.termin-meta{font-size:12.5px;color:var(--grau);margin-top:4px}
+.termin-text{font-size:13.5px;color:#41505C;margin-top:7px}
+
+.aktionen{display:flex;gap:8px;margin-top:11px}
+.mini{font:inherit;font-size:12px;font-weight:600;border:1px solid var(--linie);background:#fff;
+  color:var(--tiefblau);border-radius:7px;padding:6px 11px;cursor:pointer}
+.mini:hover{background:var(--blau-hell)}
+.mini:focus-visible{outline:2px solid var(--ziegel);outline-offset:2px}
+
+.filter{display:flex;gap:7px;overflow-x:auto;padding:2px 0 12px;scrollbar-width:none}
+.filter::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;font:inherit;font-size:12.5px;border:1px solid var(--linie);background:#fff;
+  color:var(--grau);border-radius:999px;padding:6px 13px;cursor:pointer;white-space:nowrap}
+.chip[aria-pressed="true"]{background:var(--tiefblau);border-color:var(--tiefblau);color:#fff;font-weight:600}
+.chip:focus-visible{outline:2px solid var(--ziegel);outline-offset:2px}
+
+.meldung{border-left:3px solid var(--linie);padding-left:12px;margin-bottom:16px}
+.meldung.wichtig{border-left-color:var(--warn)}
+.marke{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  padding:3px 7px;border-radius:5px;margin-bottom:5px}
+.m-sperrung{background:var(--ziegel-hell);color:#8E4A1E}
+.m-amt{background:var(--blau-hell);color:var(--tiefblau)}
+.m-versorgung{background:#EAF2EA;color:var(--gruen)}
+.m-warnung{background:#FBE9E7;color:var(--warn)}
+.meldung h3{font-size:15.5px;margin-bottom:3px}
+.meldung .wann{font-size:12px;color:var(--grau)}
+.meldung p{font-size:13.5px;color:#41505C;margin-top:6px}
+
+.naechste{background:linear-gradient(150deg,var(--tiefblau),#123252);color:#fff;
+  border-radius:14px;padding:18px;margin-bottom:14px}
+.naechste .label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#9FC0DC}
+.naechste .gross{font-size:30px;font-weight:800;line-height:1.15;margin:6px 0 2px}
+.naechste .wann2{font-size:13.5px;color:#C6DCEE}
+.tonnen{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap}
+.tonne{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.13);
+  border-radius:8px;padding:5px 10px;font-size:12.5px;font-weight:600}
+.punkt{width:11px;height:11px;border-radius:3px;flex:0 0 auto}
+
+.abfuhr-zeile{display:flex;align-items:center;gap:11px;padding:10px 2px;border-bottom:1px solid var(--linie)}
+.abfuhr-zeile:last-child{border-bottom:none}
+.abfuhr-datum{font-size:13.5px;font-weight:600;min-width:104px}
+.abfuhr-rest{font-size:12.5px;color:var(--grau);margin-left:auto}
+
+.hinweis{font-size:12.5px;color:var(--grau);background:#fff;border:1px dashed var(--linie);
+  border-radius:10px;padding:12px;margin-top:12px}
+.hinweis a{color:var(--tiefblau)}
+
+.verein-zeile{display:flex;align-items:center;gap:11px;padding:11px 2px;border-bottom:1px solid var(--linie)}
+.verein-zeile:last-child{border-bottom:none}
+.kuerzel{flex:0 0 38px;height:38px;border-radius:10px;background:var(--blau-hell);color:var(--tiefblau);
+  display:grid;place-items:center;font-weight:800;font-size:12.5px}
+.verein-name{font-size:14.5px;font-weight:600}
+.verein-zahl{font-size:12px;color:var(--grau)}
+
+nav{position:fixed;bottom:0;left:0;right:0;max-width:480px;margin:0 auto;
+  background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--linie);
+  display:grid;grid-template-columns:repeat(4,1fr);padding-bottom:env(safe-area-inset-bottom);z-index:10}
+nav button{font:inherit;background:none;border:none;cursor:pointer;padding:9px 4px 10px;color:var(--grau);
+  display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;font-weight:600}
+nav button svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.9;
+  stroke-linecap:round;stroke-linejoin:round}
+nav button[aria-current="page"]{color:var(--tiefblau)}
+nav button[aria-current="page"] svg{stroke-width:2.3}
+nav button:focus-visible{outline:2px solid var(--ziegel);outline-offset:-3px}
+
+.leer{text-align:center;color:var(--grau);font-size:13.5px;padding:34px 16px}
+.fussnote{font-size:11.5px;color:var(--grau);text-align:center;padding:18px 8px 4px;line-height:1.6}
+
+.fehler{margin:20px 16px;padding:16px;border-radius:12px;background:#FBE9E7;
+  border:1px solid #F0C4BE;color:#7E2B21;font-size:13.5px;line-height:1.6}
+.fehler b{display:block;margin-bottom:6px;font-size:15px}
+.fehler code{background:rgba(0,0,0,.07);padding:1px 5px;border-radius:4px;
+  font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px}
+
+@media (prefers-reduced-motion:reduce){section.aktiv{animation:none}}
+</style>
+</head>
+<body>
+
+<div class="rahmen">
+
+  <header>
+    <div class="ort">Gemeinde Roding · Ortsteil</div>
+    <div class="wappen" id="ortsname">Mitterdorf</div>
+    <div class="datum" id="heute"></div>
+    <svg class="bogen" viewBox="0 0 480 26" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 26 L0 20 Q120 -6 240 12 Q360 30 480 6 L480 26 Z" fill="#FBF9F5"/>
+      <path d="M0 20 Q120 -6 240 12 Q360 30 480 6" fill="none" stroke="#C4703A" stroke-width="2"/>
+    </svg>
+  </header>
+
+  <main>
+    <div id="fehlerbox"></div>
+
+    <section id="s-termine" class="aktiv">
+      <div class="filter" id="filter" role="group" aria-label="Nach Verein filtern"></div>
+      <div id="termine"></div>
+    </section>
+
+    <section id="s-aktuelles">
+      <h2>Aus dem Ort</h2>
+      <div id="meldungen"></div>
+    </section>
+
+    <section id="s-muell">
+      <div class="naechste" id="naechste"></div>
+      <h2>Nächste Termine</h2>
+      <div class="karte" id="abfuhrliste"></div>
+      <div class="hinweis">
+        Die Abfuhrtermine stammen aus dem Entsorgungskalender der Kreiswerke Cham.
+        Verbindlich ist immer der offizielle Kalender unter
+        <a href="https://www.entsorgung-cham.de" target="_blank" rel="noopener">entsorgung-cham.de</a>.
+      </div>
+    </section>
+
+    <section id="s-vereine">
+      <h2>Vereine im Ort</h2>
+      <div class="karte" id="vereine"></div>
+      <div class="hinweis">
+        Termin melden? Eine Nachricht an die Redaktion genügt – wir stellen ihn ein.
+        Kein eigener Zugang, kein Passwort.
+      </div>
+      <div class="fussnote" id="fussnote">
+        Prototyp · Impressum und Datenschutzerklärung fehlen noch
+      </div>
+    </section>
+  </main>
+
+  <nav>
+    <button data-ziel="termine" aria-current="page">
+      <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
+      Termine
+    </button>
+    <button data-ziel="aktuelles">
+      <svg viewBox="0 0 24 24"><path d="M4 5h13a2 2 0 0 1 2 2v11a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2z"/><path d="M8 9h7M8 13h7M8 17h4"/></svg>
+      Aktuelles
+    </button>
+    <button data-ziel="muell">
+      <svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"/><path d="M10 11v7M14 11v7"/></svg>
+      Müll
+    </button>
+    <button data-ziel="vereine">
+      <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M2.8 20a6.2 6.2 0 0 1 12.4 0"/><circle cx="17.5" cy="9.5" r="2.4"/><path d="M16 15.4A5.6 5.6 0 0 1 21.6 20"/></svg>
+      Vereine
+    </button>
+  </nav>
+
+</div>
+
+<script>
+(() => {
+"use strict";
+
+const TONNEN = {
+  rest:   { name:'Restmüll',    farbe:'#5B6770' },
+  bio:    { name:'Biotonne',    farbe:'#7A5A32' },
+  papier: { name:'Papiertonne', farbe:'#2A5E8F' },
+  gelb:   { name:'Gelber Sack', farbe:'#D8A93C' }
+};
+const MARKEN = {
+  sperrung:'Straßensperrung', amt:'Aus dem Rathaus',
+  versorgung:'Versorgung', warnung:'Warnung', verein:'Vereinsleben'
+};
+const MONATE = ['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
+const TAGE = ['So','Mo','Di','Mi','Do','Fr','Sa'];
+const TAGE_LANG = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
+
+const heute = new Date(); heute.setHours(0,0,0,0);
+const zz = n => String(n).padStart(2,'0');
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function tageBis(d){ const a = new Date(d); a.setHours(0,0,0,0); return Math.round((a-heute)/86400000); }
+function relativ(d){
+  const t = tageBis(d);
+  if (t===0) return 'heute'; if (t===1) return 'morgen'; if (t===2) return 'übermorgen';
+  if (t<0) return 'vorbei'; if (t<7) return `in ${t} Tagen`;
+  if (t<14) return 'nächste Woche'; return `in ${Math.round(t/7)} Wochen`;
+}
+
+let DATEN = null;
+let filterId = 'alle';
+const vereinVon = id => DATEN.vereine.find(v => v.id === id);
+
+document.getElementById('heute').textContent =
+  `${TAGE_LANG[heute.getDay()]}, ${heute.getDate()}. ${MONATE[heute.getMonth()]} ${heute.getFullYear()}`;
+
+/* ---------- Daten laden ---------- */
+async function laden(){
+  try {
+    const antwort = await fetch('daten.json?v=' + Date.now());
+    if (!antwort.ok) throw new Error('HTTP ' + antwort.status);
+    DATEN = await antwort.json();
+  } catch (e) {
+    zeigeFehler(e);
+    return;
+  }
+  starten();
+}
+
+function zeigeFehler(e){
+  const lokal = location.protocol === 'file:';
+  document.getElementById('fehlerbox').innerHTML =
+    '<div class="fehler"><b>Daten konnten nicht geladen werden</b>' +
+    (lokal
+      ? 'Die Seite wurde direkt per Doppelklick geöffnet. Browser dürfen dann aus Sicherheitsgründen keine lokalen Dateien nachladen.<br><br>' +
+        'Lösung: Ordner im Terminal öffnen und <code>python3 -m http.server</code> starten, dann ' +
+        '<code>http://localhost:8000</code> aufrufen. Auf GitHub Pages tritt das Problem nicht auf.'
+      : 'Die Datei <code>daten.json</code> wurde nicht gefunden oder enthält einen Syntaxfehler. ' +
+        'Fehlermeldung: ' + esc(e.message)) +
+    '</div>';
+  document.querySelectorAll('section').forEach(s => s.classList.remove('aktiv'));
+}
+
+/* ---------- Termine ---------- */
+function filterBauen(){
+  const box = document.getElementById('filter');
+  const aktive = DATEN.vereine.filter(v => DATEN.termine.some(t => t.verein === v.id));
+  box.innerHTML = '';
+  [{id:'alle', name:'Alle'}].concat(aktive).forEach(v => {
+    const b = document.createElement('button');
+    b.className = 'chip';
+    b.textContent = v.id === 'alle' ? 'Alle'
+      : v.name.replace('Freiwillige Feuerwehr','FFW').replace(' Mitterdorf','');
+    b.setAttribute('aria-pressed', String(v.id === filterId));
+    b.onclick = () => { filterId = v.id; filterBauen(); termineZeigen(); };
+    box.appendChild(b);
+  });
+}
+
+function icsBauen(t){
+  const s = new Date(t.start);
+  const e = new Date(s.getTime() + 2*3600*1000);
+  const f = d => d.getFullYear() + zz(d.getMonth()+1) + zz(d.getDate())
+             + 'T' + zz(d.getHours()) + zz(d.getMinutes()) + '00';
+  return ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Mitterdorf//DE','BEGIN:VEVENT',
+    'UID:' + t.id + '@mitterdorf', 'DTSTART:' + f(s), 'DTEND:' + f(e),
+    'SUMMARY:' + t.titel, 'LOCATION:' + (t.ort||''),
+    'DESCRIPTION:' + String(t.text||'').replace(/\n/g,' '),
+    'END:VEVENT','END:VCALENDAR'].join('\r\n');
+}
+
+function termineZeigen(){
+  const box = document.getElementById('termine');
+  const liste = DATEN.termine
+    .filter(t => new Date(t.start) >= heute)
+    .filter(t => filterId === 'alle' || t.verein === filterId)
+    .sort((a,b) => new Date(a.start) - new Date(b.start));
+
+  if (!liste.length){
+    box.innerHTML = '<div class="leer">Für diese Auswahl steht gerade nichts an.</div>';
+    return;
+  }
+
+  box.innerHTML = '';
+  let letzterMonat = null;
+  liste.forEach(t => {
+    const d = new Date(t.start);
+    const monat = d.getFullYear() + '-' + d.getMonth();
+    if (monat !== letzterMonat){
+      const h = document.createElement('h2');
+      h.textContent = d.toLocaleDateString('de-DE',{month:'long',year:'numeric'});
+      box.appendChild(h);
+      letzterMonat = monat;
+    }
+    const v = vereinVon(t.verein);
+    const karte = document.createElement('div');
+    karte.className = 'karte';
+    karte.innerHTML =
+      '<div class="termin">' +
+        '<div class="tag"><div class="zahl">' + d.getDate() + '</div>' +
+        '<div class="mon">' + MONATE[d.getMonth()] + '</div>' +
+        '<div class="wtag">' + TAGE[d.getDay()] + '</div></div>' +
+        '<div style="flex:1;min-width:0">' +
+          '<div class="termin-kopf">' + esc(t.titel) + '</div>' +
+          '<div class="veranstalter">' + esc(v ? v.name : '') + '</div>' +
+          '<div class="termin-meta">' + zz(d.getHours()) + ':' + zz(d.getMinutes()) + ' Uhr' +
+            (t.ort ? ' · ' + esc(t.ort) : '') + '</div>' +
+          (t.text ? '<div class="termin-text">' + esc(t.text) + '</div>' : '') +
+          '<div class="aktionen">' +
+            '<button class="mini" data-ics="' + t.id + '">In den Kalender</button>' +
+            '<button class="mini" data-teilen="' + t.id + '">Teilen</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    box.appendChild(karte);
+  });
+
+  box.querySelectorAll('[data-ics]').forEach(b => b.onclick = () => {
+    const t = DATEN.termine.find(x => String(x.id) === b.dataset.ics);
+    const blob = new Blob([icsBauen(t)], {type:'text/calendar'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = t.titel.replace(/[^\wäöüÄÖÜß ]/g,'').trim() + '.ics';
+    a.click(); URL.revokeObjectURL(a.href);
+  });
+
+  box.querySelectorAll('[data-teilen]').forEach(b => b.onclick = async () => {
+    const t = DATEN.termine.find(x => String(x.id) === b.dataset.teilen);
+    const d = new Date(t.start);
+    const text = `${t.titel}\n${d.toLocaleDateString('de-DE')} um ${zz(d.getHours())}:${zz(d.getMinutes())} Uhr\n${t.ort||''}`;
+    if (navigator.share){ try{ await navigator.share({title:t.titel, text}); }catch(e){} }
+    else { try{ await navigator.clipboard.writeText(text); b.textContent='Kopiert';
+      setTimeout(()=>b.textContent='Teilen',1600);}catch(e){} }
+  });
+}
+
+/* ---------- Meldungen ---------- */
+function meldungenZeigen(){
+  const box = document.getElementById('meldungen');
+  const liste = [...DATEN.meldungen].sort((a,b) => new Date(b.datum) - new Date(a.datum));
+  if (!liste.length){ box.innerHTML = '<div class="leer">Zurzeit nichts Neues.</div>'; return; }
+  box.innerHTML = liste.map(m => {
+    const d = new Date(m.datum);
+    return '<div class="meldung' + (m.wichtig ? ' wichtig' : '') + '">' +
+      '<span class="marke m-' + esc(m.art) + '">' + esc(MARKEN[m.art] || m.art) + '</span>' +
+      '<h3>' + esc(m.titel) + '</h3>' +
+      '<div class="wann">' + d.toLocaleDateString('de-DE',{day:'2-digit',month:'long',year:'numeric'}) + '</div>' +
+      '<p>' + esc(m.text) + '</p></div>';
+  }).join('');
+}
+
+/* ---------- Müll ---------- */
+function muellZeigen(){
+  const kommend = (DATEN.abfuhr||[])
+    .filter(a => tageBis(a.datum) >= 0)
+    .sort((a,b) => new Date(a.datum) - new Date(b.datum));
+  const kopf = document.getElementById('naechste');
+
+  if (!kommend.length){
+    kopf.innerHTML = '<div class="label">Nächste Abfuhr</div><div class="gross">Keine Termine hinterlegt</div>';
+    document.getElementById('abfuhrliste').innerHTML = '<div class="leer">Keine Daten.</div>';
+    return;
+  }
+
+  const naechstes = kommend[0].datum;
+  const amTag = kommend.filter(a => a.datum === naechstes);
+  const d = new Date(naechstes);
+
+  kopf.innerHTML =
+    '<div class="label">Nächste Abfuhr</div>' +
+    '<div class="gross">' + relativ(naechstes).replace(/^./,c=>c.toUpperCase()) + '</div>' +
+    '<div class="wann2">' + TAGE_LANG[d.getDay()] + ', ' + d.getDate() + '. ' +
+      d.toLocaleDateString('de-DE',{month:'long'}) + ' · bis 6 Uhr bereitstellen</div>' +
+    '<div class="tonnen">' + amTag.map(a => {
+      const t = TONNEN[a.art] || {name:a.art, farbe:'#888'};
+      return '<span class="tonne"><span class="punkt" style="background:' + t.farbe + '"></span>' + t.name + '</span>';
+    }).join('') + '</div>';
+
+  document.getElementById('abfuhrliste').innerHTML = kommend.slice(0,12).map(a => {
+    const x = new Date(a.datum);
+    const t = TONNEN[a.art] || {name:a.art, farbe:'#888'};
+    return '<div class="abfuhr-zeile">' +
+      '<span class="punkt" style="background:' + t.farbe + '"></span>' +
+      '<span class="abfuhr-datum">' + TAGE[x.getDay()] + ', ' + zz(x.getDate()) + '.' + zz(x.getMonth()+1) + '.</span>' +
+      '<span>' + t.name + '</span>' +
+      '<span class="abfuhr-rest">' + relativ(a.datum) + '</span></div>';
+  }).join('');
+}
+
+/* ---------- Vereine ---------- */
+function vereineZeigen(){
+  document.getElementById('vereine').innerHTML =
+    DATEN.vereine.filter(v => v.id !== 'offen').map(v => {
+      const n = DATEN.termine.filter(t => t.verein === v.id && new Date(t.start) >= heute).length;
+      return '<div class="verein-zeile"><div class="kuerzel">' + esc(v.kuerzel) + '</div>' +
+        '<div><div class="verein-name">' + esc(v.name) + '</div>' +
+        '<div class="verein-zahl">' + (n===0?'kein Termin eingetragen':n===1?'1 Termin':n+' Termine') + '</div></div></div>';
+    }).join('');
+}
+
+/* ---------- Navigation ---------- */
+document.querySelectorAll('nav button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('nav button').forEach(x => x.removeAttribute('aria-current'));
+  b.setAttribute('aria-current','page');
+  document.querySelectorAll('section').forEach(s => s.classList.remove('aktiv'));
+  document.getElementById('s-' + b.dataset.ziel).classList.add('aktiv');
+  window.scrollTo({top:0});
+});
+
+function starten(){
+  if (DATEN.ort) document.getElementById('ortsname').textContent = DATEN.ort;
+  if (DATEN.stand){
+    const s = new Date(DATEN.stand);
+    document.getElementById('fussnote').textContent =
+      'Stand der Daten: ' + s.toLocaleDateString('de-DE') + ' · Impressum und Datenschutzerklärung fehlen noch';
+  }
+  filterBauen(); termineZeigen(); meldungenZeigen(); muellZeigen(); vereineZeigen();
+}
+
+laden();
+
+if ('serviceWorker' in navigator && location.protocol !== 'file:'){
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+})();
+</script>
+</body>
+</html>

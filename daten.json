@@ -1,0 +1,128 @@
+{
+  "ort": "Mitterdorf",
+  "stand": "2026-08-08",
+
+  "vereine": [
+    { "id": "ffw",       "name": "Freiwillige Feuerwehr Mitterdorf", "kuerzel": "FFW" },
+    { "id": "spvgg",     "name": "SpVgg Mitterdorf",                 "kuerzel": "SpV" },
+    { "id": "burschen",  "name": "Burschenverein Mitterdorf",        "kuerzel": "BV"  },
+    { "id": "schuetzen", "name": "Schützenverein",                   "kuerzel": "SV"  },
+    { "id": "ski",       "name": "Ski Club Mitterdorf",              "kuerzel": "SC"  },
+    { "id": "kifw",      "name": "Kinderfeuerwehr Mitterdorf",       "kuerzel": "KFW" },
+    { "id": "offen",     "name": "Offene Runde",                     "kuerzel": "OR"  }
+  ],
+
+  "termine": [
+    {
+      "id": 1,
+      "verein": "offen",
+      "titel": "Mitterdorfer Brückenschoppen",
+      "start": "2026-08-28T18:30",
+      "ort": "Garten Ruhland, Eingang unten neben der Brücke",
+      "text": "Gemütlich zusammensitzen und ratschen. Jeder bringt eine Flasche Wein, ein Glas und gute Laune mit."
+    },
+    {
+      "id": 2,
+      "verein": "ffw",
+      "titel": "Monatsübung: Technische Hilfeleistung",
+      "start": "2026-08-14T19:00",
+      "ort": "Gerätehaus Mitterdorf",
+      "text": "Übung mit dem Rettungssatz. Einsatzkleidung mitbringen."
+    },
+    {
+      "id": 3,
+      "verein": "spvgg",
+      "titel": "Heimspiel gegen DJK Beucherling",
+      "start": "2026-08-16T15:00",
+      "ort": "Sportplatz Mitterdorf",
+      "text": "Kreisliga-Heimspiel. Vorher spielt die A-Jugend um 12:45 Uhr."
+    },
+    {
+      "id": 4,
+      "verein": "burschen",
+      "titel": "Vorbereitung Kirwabaum",
+      "start": "2026-08-21T18:00",
+      "ort": "Bauhof",
+      "text": "Alle Burschen sind gefragt. Handschuhe nicht vergessen."
+    },
+    {
+      "id": 5,
+      "verein": "schuetzen",
+      "titel": "Vereinsmeisterschaft, erster Durchgang",
+      "start": "2026-09-04T19:30",
+      "ort": "Schützenheim",
+      "text": "Anmeldung bis eine Woche vorher beim Schützenmeister."
+    },
+    {
+      "id": 6,
+      "verein": "kifw",
+      "titel": "Ferienprogramm: Löschangriff für Kinder",
+      "start": "2026-09-06T14:00",
+      "ort": "Wiese am Gerätehaus",
+      "text": "Für Kinder von 6 bis 12 Jahren. Wechselkleidung mitbringen, es wird nass."
+    },
+    {
+      "id": 7,
+      "verein": "ffw",
+      "titel": "Jahreshauptversammlung",
+      "start": "2026-09-19T19:30",
+      "ort": "Gasthaus zur Post",
+      "text": "Berichte, Neuwahlen der Kassenprüfer, Ehrungen."
+    },
+    {
+      "id": 8,
+      "verein": "ski",
+      "titel": "Saisoneröffnung mit Materialbörse",
+      "start": "2026-10-10T10:00",
+      "ort": "Vereinsheim",
+      "text": "Gebrauchte Ski und Schuhe verkaufen oder kaufen. Annahme ab 9 Uhr."
+    }
+  ],
+
+  "meldungen": [
+    {
+      "id": 1,
+      "art": "sperrung",
+      "wichtig": true,
+      "titel": "Brücke ab Montag halbseitig gesperrt",
+      "datum": "2026-08-07",
+      "text": "Wegen Geländerarbeiten ist die Brücke von Montag, 10. August, bis voraussichtlich Freitag, 14. August, nur einspurig befahrbar. Eine Ampel regelt den Verkehr. Fußgänger kommen jederzeit durch."
+    },
+    {
+      "id": 2,
+      "art": "versorgung",
+      "wichtig": false,
+      "titel": "Wasserabschaltung im Bereich Dorfstraße",
+      "datum": "2026-08-05",
+      "text": "Am Mittwoch, 12. August, ist zwischen 8 und 12 Uhr das Wasser abgestellt. Betroffen sind die Hausnummern 1 bis 24. Bitte vorher Wasser abfüllen."
+    },
+    {
+      "id": 3,
+      "art": "amt",
+      "wichtig": false,
+      "titel": "Bürgersprechstunde im Ortsteil",
+      "datum": "2026-08-02",
+      "text": "Am letzten Donnerstag im Monat ist von 18 bis 19 Uhr Sprechstunde im Vereinsheim. Ohne Anmeldung, jeder kann kommen."
+    },
+    {
+      "id": 4,
+      "art": "warnung",
+      "wichtig": false,
+      "titel": "Waldbrandgefahr erhöht",
+      "datum": "2026-07-30",
+      "text": "Wegen der Trockenheit gilt bis auf Weiteres ein absolutes Rauchverbot im Wald. Grillen nur an ausgewiesenen Stellen."
+    }
+  ],
+
+  "abfuhr": [
+    { "datum": "2026-08-11", "art": "bio" },
+    { "datum": "2026-08-13", "art": "papier" },
+    { "datum": "2026-08-18", "art": "rest" },
+    { "datum": "2026-08-25", "art": "bio" },
+    { "datum": "2026-09-01", "art": "rest" },
+    { "datum": "2026-09-08", "art": "bio" },
+    { "datum": "2026-09-10", "art": "papier" },
+    { "datum": "2026-09-15", "art": "rest" },
+    { "datum": "2026-09-22", "art": "bio" }
+  ]
+}

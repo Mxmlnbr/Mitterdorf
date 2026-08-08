@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Redaktion · Mitterdorf</title>
+<style>
+:root{
+  --tiefblau:#1B4670; --blau:#2A5E8F; --blau-hell:#E8EEF4;
+  --ziegel:#C4703A; --papier:#FBF9F5; --tinte:#16212B;
+  --grau:#6E7B85; --linie:#DDE3E8; --warn:#B23B2E; --gruen:#3E7A4A;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:ui-sans-serif,system-ui,"Segoe UI",Roboto,sans-serif;background:var(--papier);
+  color:var(--tinte);line-height:1.5;padding-bottom:88px}
+
+header{background:var(--tiefblau);color:#fff;padding:16px 20px}
+.wrap{max-width:760px;margin:0 auto}
+header h1{font-size:19px;font-weight:800}
+header p{font-size:12.5px;color:#9FC0DC;margin-top:2px}
+
+.status{background:#fff;border-bottom:1px solid var(--linie);padding:9px 20px;
+  font-size:12.5px;color:var(--grau);position:sticky;top:0;z-index:5}
+.status .punkt{display:inline-block;width:8px;height:8px;border-radius:50%;
+  background:var(--gruen);margin-right:7px;vertical-align:1px}
+.status.geaendert .punkt{background:var(--ziegel)}
+.status.geaendert{color:#8E4A1E;font-weight:600}
+
+.reiter{display:flex;gap:4px;padding:14px 20px 0;max-width:760px;margin:0 auto;flex-wrap:wrap}
+.reiter button{font:inherit;font-size:13.5px;font-weight:600;border:1px solid var(--linie);
+  background:#fff;color:var(--grau);border-radius:8px 8px 0 0;padding:9px 15px;cursor:pointer;
+  border-bottom:none}
+.reiter button[aria-selected="true"]{background:var(--tiefblau);border-color:var(--tiefblau);color:#fff}
+
+main{max-width:760px;margin:0 auto;padding:0 20px}
+.tafel{display:none;background:#fff;border:1px solid var(--linie);border-radius:0 10px 10px 10px;padding:18px}
+.tafel.aktiv{display:block}
+
+h2{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--grau);
+  margin:22px 0 10px;font-weight:700}
+h2:first-child{margin-top:0}
+
+label{display:block;font-size:12.5px;font-weight:600;color:var(--grau);margin:11px 0 4px}
+input,select,textarea{font:inherit;font-size:14px;width:100%;padding:9px 11px;
+  border:1px solid var(--linie);border-radius:8px;background:#fff;color:var(--tinte)}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--ziegel);outline-offset:-1px;border-color:var(--ziegel)}
+textarea{min-height:74px;resize:vertical;line-height:1.5}
+.reihe{display:flex;gap:11px;flex-wrap:wrap}
+.reihe > div{flex:1;min-width:150px}
+.kasten{display:flex;align-items:center;gap:8px;margin-top:12px}
+.kasten input{width:auto}
+.kasten label{margin:0;font-size:13.5px;color:var(--tinte)}
+
+button.tat{font:inherit;font-size:13.5px;font-weight:600;border-radius:8px;padding:10px 16px;
+  cursor:pointer;border:1px solid transparent}
+.primaer{background:var(--tiefblau);color:#fff}
+.primaer:hover{background:#153855}
+.sekundaer{background:#fff;border-color:var(--linie);color:var(--tinte)}
+.sekundaer:hover{background:var(--blau-hell)}
+.gefahr{background:#fff;border-color:#EBC7C2;color:var(--warn)}
+.gefahr:hover{background:#FBE9E7}
+.knopfreihe{display:flex;gap:9px;margin-top:16px;flex-wrap:wrap}
+
+.eintrag{border:1px solid var(--linie);border-radius:9px;padding:12px 13px;margin-bottom:9px;
+  display:flex;gap:12px;align-items:flex-start}
+.eintrag-text{flex:1;min-width:0}
+.eintrag-titel{font-weight:700;font-size:14.5px}
+.eintrag-meta{font-size:12.5px;color:var(--grau);margin-top:2px}
+.eintrag-knopf{display:flex;gap:6px;flex-shrink:0}
+.eintrag-knopf button{font:inherit;font-size:12px;font-weight:600;border:1px solid var(--linie);
+  background:#fff;border-radius:6px;padding:5px 9px;cursor:pointer;color:var(--tiefblau)}
+.eintrag-knopf button.weg{color:var(--warn);border-color:#EBC7C2}
+.vergangen{opacity:.5}
+
+.formular{background:#F6F8FA;border:1px solid var(--linie);border-radius:10px;padding:15px;margin-bottom:18px}
+.formular h3{font-size:14.5px;margin-bottom:2px}
+.formular .unter{font-size:12.5px;color:var(--grau)}
+
+.fuss{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.97);
+  border-top:1px solid var(--linie);padding:12px 20px;backdrop-filter:blur(8px);z-index:8}
+.fuss .wrap{display:flex;gap:11px;align-items:center;flex-wrap:wrap}
+.fuss .info{font-size:12px;color:var(--grau);flex:1;min-width:160px}
+
+.tipp{font-size:12.5px;color:var(--grau);background:#F6F8FA;border:1px dashed var(--linie);
+  border-radius:9px;padding:12px;margin-top:14px;line-height:1.6}
+.tipp code{background:rgba(0,0,0,.06);padding:1px 5px;border-radius:4px;
+  font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px}
+
+.meldebox{padding:11px 13px;border-radius:9px;font-size:13.5px;margin-bottom:14px;display:none}
+.meldebox.zeig{display:block}
+.gut{background:#EAF4EC;border:1px solid #C3DFC9;color:#2C5C36}
+.schlecht{background:#FBE9E7;border:1px solid #F0C4BE;color:#7E2B21}
+
+.leer{color:var(--grau);font-size:13.5px;padding:18px 0;text-align:center}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>Redaktion Mitterdorf</h1>
+    <p>Inhalte pflegen, danach <b>daten.json</b> herunterladen und auf GitHub ersetzen</p>
+  </div>
+</header>
+
+<div class="status" id="status"><span class="punkt"></span><span id="statustext">Lade Daten…</span></div>
+
+<div class="reiter" role="tablist">
+  <button role="tab" data-tafel="termine"   aria-selected="true">Termine</button>
+  <button role="tab" data-tafel="meldungen" aria-selected="false">Meldungen</button>
+  <button role="tab" data-tafel="abfuhr"    aria-selected="false">Müllabfuhr</button>
+  <button role="tab" data-tafel="vereine"   aria-selected="false">Vereine</button>
+</div>
+
+<main>
+  <div class="meldebox" id="meldebox"></div>
+
+  <!-- TERMINE -->
+  <div class="tafel aktiv" id="t-termine">
+    <div class="formular">
+      <h3 id="termin-modus">Neuer Termin</h3>
+      <div class="unter">Pflicht sind Titel, Verein und Zeitpunkt.</div>
+      <input type="hidden" id="termin-id">
+      <label for="termin-titel">Titel</label>
+      <input id="termin-titel" placeholder="z. B. Monatsübung">
+      <div class="reihe">
+        <div>
+          <label for="termin-verein">Verein</label>
+          <select id="termin-verein"></select>
+        </div>
+        <div>
+          <label for="termin-start">Datum und Uhrzeit</label>
+          <input type="datetime-local" id="termin-start">
+        </div>
+      </div>
+      <label for="termin-ort">Ort</label>
+      <input id="termin-ort" placeholder="z. B. Gerätehaus Mitterdorf">
+      <label for="termin-text">Beschreibung</label>
+      <textarea id="termin-text" placeholder="Was sollen die Leute wissen?"></textarea>
+      <div class="knopfreihe">
+        <button class="tat primaer" id="termin-speichern">Übernehmen</button>
+        <button class="tat sekundaer" id="termin-abbrechen" style="display:none">Abbrechen</button>
+      </div>
+    </div>
+    <h2>Eingetragene Termine</h2>
+    <div id="liste-termine"></div>
+  </div>
+
+  <!-- MELDUNGEN -->
+  <div class="tafel" id="t-meldungen">
+    <div class="formular">
+      <h3 id="meldung-modus">Neue Meldung</h3>
+      <div class="unter">Für Straßensperrungen, Abschaltungen und Amtliches.</div>
+      <input type="hidden" id="meldung-id">
+      <label for="meldung-titel">Überschrift</label>
+      <input id="meldung-titel" placeholder="z. B. Brücke halbseitig gesperrt">
+      <div class="reihe">
+        <div>
+          <label for="meldung-art">Kategorie</label>
+          <select id="meldung-art">
+            <option value="sperrung">Straßensperrung</option>
+            <option value="versorgung">Versorgung (Wasser, Strom)</option>
+            <option value="amt">Aus dem Rathaus</option>
+            <option value="warnung">Warnung</option>
+            <option value="verein">Vereinsleben</option>
+          </select>
+        </div>
+        <div>
+          <label for="meldung-datum">Datum</label>
+          <input type="date" id="meldung-datum">
+        </div>
+      </div>
+      <label for="meldung-text">Text</label>
+      <textarea id="meldung-text" placeholder="Was gilt ab wann, wer ist betroffen?"></textarea>
+      <div class="kasten">
+        <input type="checkbox" id="meldung-wichtig">
+        <label for="meldung-wichtig">Als wichtig hervorheben</label>
+      </div>
+      <div class="knopfreihe">
+        <button class="tat primaer" id="meldung-speichern">Übernehmen</button>
+        <button class="tat sekundaer" id="meldung-abbrechen" style="display:none">Abbrechen</button>
+      </div>
+    </div>
+    <h2>Veröffentlichte Meldungen</h2>
+    <div id="liste-meldungen"></div>
+  </div>
+
+  <!-- ABFUHR -->
+  <div class="tafel" id="t-abfuhr">
+    <div class="formular">
+      <h3>Termine aus dem Kalender der Kreiswerke übernehmen</h3>
+      <div class="unter">
+        Auf entsorgung-cham.de die Adresse eingeben, „Kalender als ICS-Datei herunterladen“
+        wählen und die Datei hier einlesen. Das ersetzt alle bisherigen Abfuhrtermine.
+      </div>
+      <label for="ics-datei">ICS-Datei auswählen</label>
+      <input type="file" id="ics-datei" accept=".ics,text/calendar">
+    </div>
+
+    <div class="formular">
+      <h3>Einzelnen Termin ergänzen</h3>
+      <div class="reihe">
+        <div>
+          <label for="abfuhr-datum">Datum</label>
+          <input type="date" id="abfuhr-datum">
+        </div>
+        <div>
+          <label for="abfuhr-art">Tonne</label>
+          <select id="abfuhr-art">
+            <option value="rest">Restmüll</option>
+            <option value="bio">Biotonne</option>
+            <option value="papier">Papiertonne</option>
+            <option value="gelb">Gelber Sack</option>
+          </select>
+        </div>
+      </div>
+      <div class="knopfreihe">
+        <button class="tat primaer" id="abfuhr-speichern">Hinzufügen</button>
+        <button class="tat gefahr" id="abfuhr-alt-weg">Vergangene entfernen</button>
+      </div>
+    </div>
+
+    <h2>Hinterlegte Abfuhrtermine</h2>
+    <div id="liste-abfuhr"></div>
+  </div>
+
+  <!-- VEREINE -->
+  <div class="tafel" id="t-vereine">
+    <div class="formular">
+      <h3 id="verein-modus">Neuer Verein</h3>
+      <div class="unter">Das Kürzel erscheint als Kachel in der Vereinsliste.</div>
+      <input type="hidden" id="verein-altid">
+      <div class="reihe">
+        <div>
+          <label for="verein-name">Name</label>
+          <input id="verein-name" placeholder="z. B. Obst- und Gartenbauverein">
+        </div>
+        <div>
+          <label for="verein-kuerzel">Kürzel</label>
+          <input id="verein-kuerzel" maxlength="4" placeholder="OGV">
+        </div>
+      </div>
+      <label for="verein-id">Kennung (Kleinbuchstaben, keine Leerzeichen)</label>
+      <input id="verein-id" placeholder="ogv">
+      <div class="knopfreihe">
+        <button class="tat primaer" id="verein-speichern">Übernehmen</button>
+        <button class="tat sekundaer" id="verein-abbrechen" style="display:none">Abbrechen</button>
+      </div>
+    </div>
+    <h2>Vereine</h2>
+    <div id="liste-vereine"></div>
+    <div class="tipp">
+      Ein Verein lässt sich nur löschen, wenn ihm kein Termin mehr zugeordnet ist.
+    </div>
+  </div>
+
+  <div class="tipp">
+    <b>Ablauf:</b> Änderungen hier eintragen, unten <code>daten.json</code> herunterladen,
+    die Datei im GitHub-Repository per Drag-and-drop ersetzen und den Commit bestätigen.
+    Nach etwa einer Minute ist die App aktuell. Diese Seite speichert nichts von selbst –
+    alles bleibt im Browser, bis du die Datei herunterlädst.
+  </div>
+</main>
+
+<div class="fuss">
+  <div class="wrap">
+    <span class="info" id="fussinfo"></span>
+    <button class="tat sekundaer" id="datei-laden">Andere daten.json öffnen</button>
+    <button class="tat primaer" id="herunterladen">daten.json herunterladen</button>
+    <input type="file" id="json-datei" accept=".json,application/json" hidden>
+  </div>
+</div>
+
+<script>
+(() => {
+"use strict";
+
+const TONNEN = { rest:'Restmüll', bio:'Biotonne', papier:'Papiertonne', gelb:'Gelber Sack' };
+const MARKEN = { sperrung:'Straßensperrung', versorgung:'Versorgung', amt:'Aus dem Rathaus',
+                 warnung:'Warnung', verein:'Vereinsleben' };
+
+let DATEN = null;
+let geaendert = false;
+
+const $  = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const zz = n => String(n).padStart(2,'0');
+const heute = new Date(); heute.setHours(0,0,0,0);
+
+function melde(text, gut = true){
+  const b = $('meldebox');
+  b.className = 'meldebox zeig ' + (gut ? 'gut' : 'schlecht');
+  b.textContent = text;
+  clearTimeout(melde._t);
+  melde._t = setTimeout(() => b.className = 'meldebox', 4200);
+}
+
+function markiere(){
+  geaendert = true;
+  $('status').classList.add('geaendert');
+  $('statustext').textContent = 'Ungespeicherte Änderungen – Datei unten herunterladen';
+}
+
+function neueId(liste){
+  return liste.reduce((m,x) => Math.max(m, Number(x.id) || 0), 0) + 1;
+}
+
+window.addEventListener('beforeunload', e => {
+  if (geaendert){ e.preventDefault(); e.returnValue = ''; }
+});
+
+/* ---------- Laden ---------- */
+async function laden(){
+  try {
+    const a = await fetch('daten.json?v=' + Date.now());
+    if (!a.ok) throw new Error('HTTP ' + a.status);
+    DATEN = await a.json();
+    $('statustext').textContent = 'daten.json geladen';
+    alles();
+  } catch (e) {
+    $('statustext').textContent = 'daten.json nicht gefunden – bitte unten manuell öffnen';
+    $('status').classList.add('geaendert');
+    DATEN = { ort:'Mitterdorf', stand:'', vereine:[], termine:[], meldungen:[], abfuhr:[] };
+    alles();
+  }
+}
+
+$('datei-laden').onclick = () => $('json-datei').click();
+$('json-datei').onchange = e => {
+  const f = e.target.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try {
+      DATEN = JSON.parse(r.result);
+      geaendert = false;
+      $('status').classList.remove('geaendert');
+      $('statustext').textContent = f.name + ' geladen';
+      alles();
+      melde('Datei eingelesen.');
+    } catch(err){ melde('Die Datei ist kein gültiges JSON: ' + err.message, false); }
+  };
+  r.readAsText(f);
+};
+
+/* ---------- Herunterladen ---------- */
+$('herunterladen').onclick = () => {
+  DATEN.stand = new Date().toISOString().slice(0,10);
+  const blob = new Blob([JSON.stringify(DATEN, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'daten.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+  geaendert = false;
+  $('status').classList.remove('geaendert');
+  $('statustext').textContent = 'Datei heruntergeladen – jetzt auf GitHub ersetzen';
+};
+
+/* ---------- Reiter ---------- */
+document.querySelectorAll('.reiter button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('.reiter button').forEach(x => x.setAttribute('aria-selected','false'));
+  b.setAttribute('aria-selected','true');
+  document.querySelectorAll('.tafel').forEach(t => t.classList.remove('aktiv'));
+  $('t-' + b.dataset.tafel).classList.add('aktiv');
+});
+
+/* ============ TERMINE ============ */
+function vereinsauswahl(){
+  $('termin-verein').innerHTML = DATEN.vereine
+    .map(v => '<option value="' + esc(v.id) + '">' + esc(v.name) + '</option>').join('');
+}
+
+function terminFormularLeeren(){
+  $('termin-id').value = ''; $('termin-titel').value = ''; $('termin-start').value = '';
+  $('termin-ort').value = ''; $('termin-text').value = '';
+  $('termin-modus').textContent = 'Neuer Termin';
+  $('termin-abbrechen').style.display = 'none';
+  $('termin-speichern').textContent = 'Übernehmen';
+}
+$('termin-abbrechen').onclick = terminFormularLeeren;
+
+$('termin-speichern').onclick = () => {
+  const titel = $('termin-titel').value.trim();
+  const start = $('termin-start').value;
+  const verein = $('termin-verein').value;
+  if (!titel || !start || !verein){ melde('Titel, Verein und Zeitpunkt sind Pflicht.', false); return; }
+
+  const daten = { titel, verein, start,
+    ort: $('termin-ort').value.trim(), text: $('termin-text').value.trim() };
+
+  const id = $('termin-id').value;
+  if (id){
+    const t = DATEN.termine.find(x => String(x.id) === id);
+    Object.assign(t, daten);
+    melde('Termin geändert.');
+  } else {
+    DATEN.termine.push(Object.assign({ id: neueId(DATEN.termine) }, daten));
+    melde('Termin hinzugefügt.');
+  }
+  markiere(); terminFormularLeeren(); termineListe();
+};
+
+function termineListe(){
+  const box = $('liste-termine');
+  const liste = [...DATEN.termine].sort((a,b) => new Date(a.start) - new Date(b.start));
+  if (!liste.length){ box.innerHTML = '<div class="leer">Noch kein Termin eingetragen.</div>'; return; }
+  box.innerHTML = liste.map(t => {
+    const d = new Date(t.start);
+    const v = DATEN.vereine.find(x => x.id === t.verein);
+    const alt = d < heute;
+    return '<div class="eintrag' + (alt ? ' vergangen' : '') + '"><div class="eintrag-text">' +
+      '<div class="eintrag-titel">' + esc(t.titel) + '</div>' +
+      '<div class="eintrag-meta">' + zz(d.getDate()) + '.' + zz(d.getMonth()+1) + '.' + d.getFullYear() +
+      ' um ' + zz(d.getHours()) + ':' + zz(d.getMinutes()) + ' Uhr · ' + esc(v ? v.name : '?') +
+      (alt ? ' · vergangen' : '') + '</div></div>' +
+      '<div class="eintrag-knopf"><button data-bearbeiten="' + t.id + '">Bearbeiten</button>' +
+      '<button class="weg" data-loeschen="' + t.id + '">Löschen</button></div></div>';
+  }).join('');
+
+  box.querySelectorAll('[data-bearbeiten]').forEach(b => b.onclick = () => {
+    const t = DATEN.termine.find(x => String(x.id) === b.dataset.bearbeiten);
+    $('termin-id').value = t.id; $('termin-titel').value = t.titel;
+    $('termin-verein').value = t.verein; $('termin-start').value = t.start;
+    $('termin-ort').value = t.ort || ''; $('termin-text').value = t.text || '';
+    $('termin-modus').textContent = 'Termin bearbeiten';
+    $('termin-speichern').textContent = 'Änderung übernehmen';
+    $('termin-abbrechen').style.display = '';
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  box.querySelectorAll('[data-loeschen]').forEach(b => b.onclick = () => {
+    const t = DATEN.termine.find(x => String(x.id) === b.dataset.loeschen);
+    if (!confirm('Termin „' + t.titel + '“ wirklich löschen?')) return;
+    DATEN.termine = DATEN.termine.filter(x => String(x.id) !== b.dataset.loeschen);
+    markiere(); termineListe(); melde('Termin gelöscht.');
+  });
+}
+
+/* ============ MELDUNGEN ============ */
+function meldungFormularLeeren(){
+  $('meldung-id').value = ''; $('meldung-titel').value = ''; $('meldung-text').value = '';
+  $('meldung-wichtig').checked = false;
+  $('meldung-datum').value = new Date().toISOString().slice(0,10);
+  $('meldung-modus').textContent = 'Neue Meldung';
+  $('meldung-abbrechen').style.display = 'none';
+  $('meldung-speichern').textContent = 'Übernehmen';
+}
+$('meldung-abbrechen').onclick = meldungFormularLeeren;
+
+$('meldung-speichern').onclick = () => {
+  const titel = $('meldung-titel').value.trim();
+  const text  = $('meldung-text').value.trim();
+  const datum = $('meldung-datum').value;
+  if (!titel || !datum){ melde('Überschrift und Datum sind Pflicht.', false); return; }
+
+  const daten = { titel, text, datum, art: $('meldung-art').value, wichtig: $('meldung-wichtig').checked };
+  const id = $('meldung-id').value;
+  if (id){
+    Object.assign(DATEN.meldungen.find(x => String(x.id) === id), daten);
+    melde('Meldung geändert.');
+  } else {
+    DATEN.meldungen.push(Object.assign({ id: neueId(DATEN.meldungen) }, daten));
+    melde('Meldung veröffentlicht.');
+  }
+  markiere(); meldungFormularLeeren(); meldungenListe();
+};
+
+function meldungenListe(){
+  const box = $('liste-meldungen');
+  const liste = [...DATEN.meldungen].sort((a,b) => new Date(b.datum) - new Date(a.datum));
+  if (!liste.length){ box.innerHTML = '<div class="leer">Keine Meldungen.</div>'; return; }
+  box.innerHTML = liste.map(m => {
+    const d = new Date(m.datum);
+    return '<div class="eintrag"><div class="eintrag-text">' +
+      '<div class="eintrag-titel">' + (m.wichtig ? '● ' : '') + esc(m.titel) + '</div>' +
+      '<div class="eintrag-meta">' + zz(d.getDate()) + '.' + zz(d.getMonth()+1) + '.' + d.getFullYear() +
+      ' · ' + esc(MARKEN[m.art] || m.art) + '</div></div>' +
+      '<div class="eintrag-knopf"><button data-mb="' + m.id + '">Bearbeiten</button>' +
+      '<button class="weg" data-ml="' + m.id + '">Löschen</button></div></div>';
+  }).join('');
+
+  box.querySelectorAll('[data-mb]').forEach(b => b.onclick = () => {
+    const m = DATEN.meldungen.find(x => String(x.id) === b.dataset.mb);
+    $('meldung-id').value = m.id; $('meldung-titel').value = m.titel;
+    $('meldung-art').value = m.art; $('meldung-datum').value = m.datum;
+    $('meldung-text').value = m.text || ''; $('meldung-wichtig').checked = !!m.wichtig;
+    $('meldung-modus').textContent = 'Meldung bearbeiten';
+    $('meldung-speichern').textContent = 'Änderung übernehmen';
+    $('meldung-abbrechen').style.display = '';
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  box.querySelectorAll('[data-ml]').forEach(b => b.onclick = () => {
+    if (!confirm('Meldung wirklich löschen?')) return;
+    DATEN.meldungen = DATEN.meldungen.filter(x => String(x.id) !== b.dataset.ml);
+    markiere(); meldungenListe(); melde('Meldung gelöscht.');
+  });
+}
+
+/* ============ ABFUHR ============ */
+function tonneErkennen(text){
+  const t = text.toLowerCase();
+  if (t.includes('bio'))    return 'bio';
+  if (t.includes('papier') || t.includes('pappe')) return 'papier';
+  if (t.includes('gelb') || t.includes('lvp') || t.includes('wertstoff')) return 'gelb';
+  if (t.includes('rest') || t.includes('haus'))    return 'rest';
+  return null;
+}
+
+$('ics-datei').onchange = e => {
+  const f = e.target.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try {
+      // Gefaltete Zeilen zusammenführen (Fortsetzung beginnt mit Leerzeichen)
+      const roh = String(r.result).replace(/\r\n[ \t]/g, '').replace(/\n[ \t]/g, '');
+      const zeilen = roh.split(/\r?\n/);
+      const gefunden = [];
+      let datum = null, titel = null, drin = false;
+
+      zeilen.forEach(z => {
+        if (z.startsWith('BEGIN:VEVENT')){ drin = true; datum = null; titel = null; return; }
+        if (z.startsWith('END:VEVENT')){
+          if (drin && datum && titel){
+            const art = tonneErkennen(titel);
+            if (art) gefunden.push({ datum, art });
+          }
+          drin = false; return;
+        }
+        if (!drin) return;
+        if (z.startsWith('DTSTART')){
+          const m = z.match(/(\d{4})(\d{2})(\d{2})/);
+          if (m) datum = m[1] + '-' + m[2] + '-' + m[3];
+        }
+        if (z.startsWith('SUMMARY')) titel = z.slice(z.indexOf(':') + 1).trim();
+      });
+
+      if (!gefunden.length){
+        melde('In der Datei wurden keine erkennbaren Abfuhrtermine gefunden.', false);
+        return;
+      }
+      // Doppelte entfernen und sortieren
+      const schluessel = new Set();
+      DATEN.abfuhr = gefunden.filter(a => {
+        const k = a.datum + a.art;
+        if (schluessel.has(k)) return false;
+        schluessel.add(k); return true;
+      }).sort((a,b) => a.datum.localeCompare(b.datum));
+
+      markiere(); abfuhrListe();
+      melde(gefunden.length + ' Termine eingelesen.');
+    } catch(err){ melde('Die ICS-Datei konnte nicht gelesen werden: ' + err.message, false); }
+    e.target.value = '';
+  };
+  r.readAsText(f);
+};
+
+$('abfuhr-speichern').onclick = () => {
+  const datum = $('abfuhr-datum').value;
+  if (!datum){ melde('Bitte ein Datum wählen.', false); return; }
+  DATEN.abfuhr.push({ datum, art: $('abfuhr-art').value });
+  DATEN.abfuhr.sort((a,b) => a.datum.localeCompare(b.datum));
+  $('abfuhr-datum').value = '';
+  markiere(); abfuhrListe(); melde('Termin hinzugefügt.');
+};
+
+$('abfuhr-alt-weg').onclick = () => {
+  const vorher = DATEN.abfuhr.length;
+  const grenze = new Date().toISOString().slice(0,10);
+  DATEN.abfuhr = DATEN.abfuhr.filter(a => a.datum >= grenze);
+  const weg = vorher - DATEN.abfuhr.length;
+  if (weg){ markiere(); abfuhrListe(); melde(weg + ' vergangene Termine entfernt.'); }
+  else melde('Es gab nichts zu entfernen.');
+};
+
+function abfuhrListe(){
+  const box = $('liste-abfuhr');
+  const liste = [...DATEN.abfuhr].sort((a,b) => a.datum.localeCompare(b.datum));
+  if (!liste.length){ box.innerHTML = '<div class="leer">Keine Abfuhrtermine hinterlegt.</div>'; return; }
+  const grenze = new Date().toISOString().slice(0,10);
+  box.innerHTML = liste.map((a,i) => {
+    const d = new Date(a.datum);
+    return '<div class="eintrag' + (a.datum < grenze ? ' vergangen' : '') + '"><div class="eintrag-text">' +
+      '<div class="eintrag-titel">' + esc(TONNEN[a.art] || a.art) + '</div>' +
+      '<div class="eintrag-meta">' + d.toLocaleDateString('de-DE',{weekday:'short',day:'2-digit',month:'2-digit',year:'numeric'}) + '</div></div>' +
+      '<div class="eintrag-knopf"><button class="weg" data-al="' + a.datum + '|' + a.art + '">Löschen</button></div></div>';
+  }).join('');
+
+  box.querySelectorAll('[data-al]').forEach(b => b.onclick = () => {
+    const [datum, art] = b.dataset.al.split('|');
+    const i = DATEN.abfuhr.findIndex(x => x.datum === datum && x.art === art);
+    if (i > -1) DATEN.abfuhr.splice(i,1);
+    markiere(); abfuhrListe();
+  });
+}
+
+/* ============ VEREINE ============ */
+function vereinFormularLeeren(){
+  $('verein-altid').value = ''; $('verein-name').value = '';
+  $('verein-kuerzel').value = ''; $('verein-id').value = '';
+  $('verein-id').disabled = false;
+  $('verein-modus').textContent = 'Neuer Verein';
+  $('verein-abbrechen').style.display = 'none';
+  $('verein-speichern').textContent = 'Übernehmen';
+}
+$('verein-abbrechen').onclick = vereinFormularLeeren;
+
+$('verein-name').oninput = () => {
+  if ($('verein-altid').value || $('verein-id').dataset.manuell) return;
+  $('verein-id').value = $('verein-name').value.toLowerCase()
+    .replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss')
+    .replace(/[^a-z0-9]/g,'').slice(0,14);
+};
+$('verein-id').oninput = () => { $('verein-id').dataset.manuell = '1'; };
+
+$('verein-speichern').onclick = () => {
+  const name = $('verein-name').value.trim();
+  const kuerzel = $('verein-kuerzel').value.trim();
+  const id = $('verein-id').value.trim().toLowerCase();
+  if (!name || !kuerzel || !id){ melde('Name, Kürzel und Kennung sind Pflicht.', false); return; }
+  if (!/^[a-z0-9]+$/.test(id)){ melde('Die Kennung darf nur Kleinbuchstaben und Ziffern enthalten.', false); return; }
+
+  const altid = $('verein-altid').value;
+  if (altid){
+    Object.assign(DATEN.vereine.find(v => v.id === altid), { name, kuerzel });
+    melde('Verein geändert.');
+  } else {
+    if (DATEN.vereine.some(v => v.id === id)){ melde('Diese Kennung gibt es schon.', false); return; }
+    DATEN.vereine.push({ id, name, kuerzel });
+    melde('Verein angelegt.');
+  }
+  markiere(); vereinFormularLeeren(); vereineListe(); vereinsauswahl();
+};
+
+function vereineListe(){
+  const box = $('liste-vereine');
+  if (!DATEN.vereine.length){ box.innerHTML = '<div class="leer">Noch kein Verein angelegt.</div>'; return; }
+  box.innerHTML = DATEN.vereine.map(v => {
+    const n = DATEN.termine.filter(t => t.verein === v.id).length;
+    return '<div class="eintrag"><div class="eintrag-text">' +
+      '<div class="eintrag-titel">' + esc(v.name) + '</div>' +
+      '<div class="eintrag-meta">Kürzel ' + esc(v.kuerzel) + ' · Kennung ' + esc(v.id) +
+      ' · ' + n + (n === 1 ? ' Termin' : ' Termine') + '</div></div>' +
+      '<div class="eintrag-knopf"><button data-vb="' + esc(v.id) + '">Bearbeiten</button>' +
+      '<button class="weg" data-vl="' + esc(v.id) + '">Löschen</button></div></div>';
+  }).join('');
+
+  box.querySelectorAll('[data-vb]').forEach(b => b.onclick = () => {
+    const v = DATEN.vereine.find(x => x.id === b.dataset.vb);
+    $('verein-altid').value = v.id; $('verein-name').value = v.name;
+    $('verein-kuerzel').value = v.kuerzel; $('verein-id').value = v.id;
+    $('verein-id').disabled = true;
+    $('verein-modus').textContent = 'Verein bearbeiten';
+    $('verein-speichern').textContent = 'Änderung übernehmen';
+    $('verein-abbrechen').style.display = '';
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  box.querySelectorAll('[data-vl]').forEach(b => b.onclick = () => {
+    const id = b.dataset.vl;
+    const n = DATEN.termine.filter(t => t.verein === id).length;
+    if (n){ melde('Der Verein hat noch ' + n + ' Termine. Diese zuerst löschen oder umhängen.', false); return; }
+    if (!confirm('Verein wirklich löschen?')) return;
+    DATEN.vereine = DATEN.vereine.filter(v => v.id !== id);
+    markiere(); vereineListe(); vereinsauswahl(); melde('Verein gelöscht.');
+  });
+}
+
+/* ---------- Aufbau ---------- */
+function alles(){
+  DATEN.vereine   = DATEN.vereine   || [];
+  DATEN.termine   = DATEN.termine   || [];
+  DATEN.meldungen = DATEN.meldungen || [];
+  DATEN.abfuhr    = DATEN.abfuhr    || [];
+  vereinsauswahl(); terminFormularLeeren(); meldungFormularLeeren(); vereinFormularLeeren();
+  termineListe(); meldungenListe(); abfuhrListe(); vereineListe();
+  $('fussinfo').textContent = DATEN.termine.length + ' Termine · ' +
+    DATEN.meldungen.length + ' Meldungen · ' + DATEN.abfuhr.length + ' Abfuhrtermine';
+}
+
+laden();
+})();
+</script>
+</body>
+</html>
