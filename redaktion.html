@@ -944,9 +944,7 @@ $('termin-start').onchange   = () => {
 
 /* ============ TERMINE ============ */
 function vereinsauswahl(){
-  $('termin-verein').innerHTML = DATEN.vereine
-    .map(v => '<option value="' + esc(v.id) + '">' +
-      esc(v.mutter ? '\u00a0\u00a0\u2514 ' + v.name : v.name) + '</option>').join('');
+  $('termin-verein').innerHTML = vereineGeordnet('').map(vereinOption).join('');
 
   const eigene = $('verein-altid').value;
   $('verein-mutter').innerHTML = '<option value="">Eigenständiger Verein</option>' +
@@ -1002,12 +1000,16 @@ function termineFilterAuswahl(){
     '<option value="alle">Ganze Stadt</option>' +
     (DATEN.ortsteile || []).map(x =>
       '<option value="' + esc(x.id) + '">' + esc(x.name) + '</option>').join('');
+  o.value = alterOrt;
 
-  v.innerHTML = '<option value="">Alle Vereine</option>' +
-    DATEN.vereine.map(x => '<option value="' + esc(x.id) + '">' +
-      esc(x.mutter ? '\u00a0\u00a0\u2514 ' + x.name : x.name) + '</option>').join('');
+  // Nur die Vereine des gewählten Ortsteils anbieten
+  const passende = vereineGeordnet(o.value);
+  v.innerHTML = '<option value="">' +
+    (o.value ? 'Alle Vereine in ' + esc(ortsName(o.value)) : 'Alle Vereine') + '</option>' +
+    passende.map(vereinOption).join('');
 
-  o.value = alterOrt; v.value = alterVerein;
+  // War ein Verein gewählt, der hier nicht vorkommt, wieder auf alle stellen
+  v.value = passende.some(e => e.verein.id === alterVerein) ? alterVerein : '';
 }
 
 /* Nächster Termin einer Wiederholungsregel */
@@ -1142,7 +1144,7 @@ function termineListe(){
 }
 
 $('termin-suche').oninput = () => termineListe();
-$('termin-filter-ort').onchange = () => termineListe();
+$('termin-filter-ort').onchange = () => { termineFilterAuswahl(); termineListe(); };
 $('termin-filter-verein').onchange = () => termineListe();
 
 /* ============ VORSCHLAEGE, AUFRAEUMEN, KONTAKT ============ */
@@ -1384,8 +1386,7 @@ function inTermin(s, zielId){
 function pdfZielAuswahl(){
   const w = $('pdf-ziel');
   const vorher = w.value;
-  w.innerHTML = DATEN.vereine.map(v =>
-    '<option value="' + esc(v.id) + '">' + esc(v.mutter ? '\u00a0\u00a0\u2514 ' + v.name : v.name) + '</option>').join('');
+  w.innerHTML = vereineGeordnet('').map(vereinOption).join('');
   const fussball = DATEN.vereine.find(v => /fussball|fußball/i.test(v.id + v.name));
   w.value = vorher || (fussball ? fussball.id : w.value);
 }
@@ -1527,6 +1528,35 @@ function meldungenListe(){
 }
 
 /* ============ SERVICE ============ */
+
+/* Eine Abteilung erbt den Ortsteil ihres Hauptvereins */
+function ortsteilVonVerein(id, tiefe){
+  const v = DATEN.vereine.find(x => x.id === id);
+  if (!v) return 'alle';
+  if (v.mutter && (tiefe || 0) < 5) return ortsteilVonVerein(v.mutter, (tiefe || 0) + 1);
+  return v.ortsteil || 'alle';
+}
+
+/* Hauptvereine in Reihenfolge, jede Abteilung direkt unter ihrem Verein.
+   ortId leer heißt alle Ortsteile. */
+function vereineGeordnet(ortId){
+  const raus = [];
+  DATEN.vereine
+    .filter(v => !v.mutter)
+    .filter(v => !ortId || ortsteilVonVerein(v.id) === ortId)
+    .forEach(v => {
+      raus.push({ verein: v, abteilung: false });
+      DATEN.vereine.filter(k => k.mutter === v.id)
+        .forEach(k => raus.push({ verein: k, abteilung: true }));
+    });
+  return raus;
+}
+
+function vereinOption(eintrag){
+  return '<option value="' + esc(eintrag.verein.id) + '">' +
+    esc(eintrag.abteilung ? '\u00a0\u00a0\u2514 ' + eintrag.verein.name : eintrag.verein.name) +
+    '</option>';
+}
 
 function ortsName(id){
   if (!id || id === 'alle') return 'ganze Stadt';
@@ -1721,7 +1751,8 @@ $('verein-speichern').onclick = () => {
 function vereineListe(){
   const box = $('liste-vereine');
   if (!DATEN.vereine.length){ box.innerHTML = '<div class="leer">Noch kein Verein angelegt.</div>'; return; }
-  box.innerHTML = DATEN.vereine.map(v => {
+  box.innerHTML = vereineGeordnet('').map(e => {
+    const v = e.verein;
     const n = DATEN.termine.filter(t => t.verein === v.id).length;
     return '<div class="eintrag"><div class="eintrag-text">' +
       '<div class="eintrag-titel">' + (v.mutter ? '&#8627; ' : '') + esc(v.name) + '</div>' +
