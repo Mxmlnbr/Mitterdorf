@@ -321,7 +321,8 @@
       "titel": "SG Schönthal-Premeischl II – SpVgg Mitterdorf II",
       "start": "2026-10-25T12:30",
       "ort": "Sportgelände Schönthal, Platz 1,Im Winkerl,93488 Schönthal",
-      "text": "Herren · B Klasse · Auswärtsspiel"
+      "text": "Herren · B Klasse · Auswärtsspiel",
+      "ortsteil": "mitterdorf"
     },
     {
       "id": 37,
