@@ -965,15 +965,6 @@
       "ortsteil": "alle"
     },
     {
-      "id": 4,
-      "gruppe": "Notfall",
-      "typ": "tel",
-      "titel": "Apotheken-Notdienst",
-      "wert": "0800 00 22833",
-      "text": "Kostenlos aus dem Festnetz, mobil 22833",
-      "ortsteil": "alle"
-    },
-    {
       "id": 5,
       "gruppe": "Notfall",
       "typ": "link",
