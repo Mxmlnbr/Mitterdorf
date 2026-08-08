@@ -640,7 +640,25 @@ function ladefehlerZeigen(grund){
     '<br><br>Alternativ unten <b>Andere daten.json öffnen</b> nutzen und die Datei von Hand wählen.';
 }
 
+/* Oberfläche aufbauen. Ein Fehler hier darf nicht wie eine fehlende Datei aussehen. */
+function aufbauen(){
+  try {
+    alles(); schreibschutzPruefen();
+    return true;
+  } catch (e) {
+    const b = $('meldebox');
+    b.className = 'meldebox zeig schlecht';
+    b.innerHTML = '<b>Die Inhalte wurden geladen, konnten aber nicht angezeigt werden.</b><br>' +
+      'Das ist ein Fehler im Programm, nicht in deinen Daten. Meldung: ' + esc(e.message);
+    $('statustext').textContent = 'Anzeigefehler – Daten sind geladen';
+    console.error(e);
+    return false;
+  }
+}
+
 async function laden(){
+  let grund = '';
+
   // 1. Versuch: Datei neben dieser Seite
   try {
     const a = await fetch('daten.json?v=' + Date.now());
@@ -648,10 +666,10 @@ async function laden(){
     DATEN = await a.json();
     inhalteGeladen = true;
     $('statustext').textContent = 'daten.json geladen';
-    alles(); schreibschutzPruefen();
+    aufbauen();
     return;
   } catch (e) {
-    var grund = e.message;
+    grund = e.message;
   }
 
   // 2. Versuch: über den eingerichteten GitHub-Zugang
@@ -660,7 +678,7 @@ async function laden(){
       DATEN = await ghDatenLaden();
       inhalteGeladen = true;
       $('statustext').textContent = 'Inhalte direkt von GitHub geladen';
-      alles(); schreibschutzPruefen();
+      aufbauen();
       melde('Die Datei neben dieser Seite war nicht erreichbar. Inhalte kamen über GitHub.');
       return;
     } catch (e2) {
@@ -673,7 +691,7 @@ async function laden(){
   $('status').classList.add('geaendert');
   DATEN = { ort:'Stadt Roding', stand:'', ortsteile:[], vereine:[], termine:[], meldungen:[], service:[] };
   inhalteGeladen = false;
-  alles(); schreibschutzPruefen();
+  aufbauen();
   ladefehlerZeigen(grund);
 }
 
@@ -692,13 +710,15 @@ $('json-datei').onchange = e => {
   r.onload = () => {
     try {
       DATEN = JSON.parse(r.result);
-      inhalteGeladen = true;
-      geaendert = false;
-      $('status').classList.remove('geaendert');
-      $('statustext').textContent = f.name + ' geladen';
-      alles(); schreibschutzPruefen();
-      melde('Datei eingelesen.');
-    } catch(err){ melde('Die Datei ist kein gültiges JSON: ' + err.message, false); }
+    } catch(err){
+      melde('Die Datei ist kein gültiges JSON: ' + err.message, false);
+      return;
+    }
+    inhalteGeladen = true;
+    geaendert = false;
+    $('status').classList.remove('geaendert');
+    $('statustext').textContent = f.name + ' geladen';
+    if (aufbauen()) melde('Datei eingelesen.');
   };
   r.readAsText(f);
 };
@@ -1109,6 +1129,309 @@ function termineListe(){
 $('termin-suche').oninput = () => termineListe();
 $('termin-filter-ort').onchange = () => termineListe();
 $('termin-filter-verein').onchange = () => termineListe();
+
+/* ============ VORSCHLAEGE, AUFRAEUMEN, KONTAKT ============ */
+
+/* Nachricht aus der App zerlegen. Unbekannte Zeilen werden ignoriert. */
+function vorschlagZerlegen(text){
+  const felder = {};
+  String(text).split(/\r?\n/).forEach(z => {
+    const m = z.match(/^\s*([A-Za-zÄÖÜäöüß ]+)\s*:\s*(.*)$/);
+    if (!m) return;
+    const schluessel = m[1].trim().toLowerCase();
+    const wert = m[2].trim();
+    if (wert) felder[schluessel] = wert;
+  });
+  return felder;
+}
+
+function findeVerein(name){
+  if (!name) return null;
+  const klein = name.toLowerCase();
+  let treffer = DATEN.vereine.find(v => v.name.toLowerCase() === klein);
+  if (treffer) return treffer.id;
+  treffer = DATEN.vereine.find(v => klein.includes(v.name.toLowerCase()) ||
+                                    v.name.toLowerCase().includes(klein));
+  return treffer ? treffer.id : null;
+}
+
+function findeOrtsteil(name){
+  if (!name) return null;
+  const klein = name.toLowerCase();
+  const o = (DATEN.ortsteile || []).find(x => x.name.toLowerCase() === klein);
+  return o ? o.id : null;
+}
+
+$('vorschlag-lesen').onclick = () => {
+  const f = vorschlagZerlegen($('vorschlag-text').value);
+  if (!f.titel && !f.datum){
+    melde('In dem Text steckt kein erkennbarer Vorschlag.', false); return;
+  }
+
+  terminFormularLeeren();
+  if (f.titel) $('termin-titel').value = f.titel;
+  if (f.ort)   $('termin-ort').value   = f.ort;
+  if (f.beschreibung) $('termin-text').value = f.beschreibung;
+
+  const datum = nachIso(f.datum || '');
+  if (datum) $('termin-start').value = datum + 'T' + (f.uhrzeit || '18:00');
+
+  const vid = findeVerein(f.verein);
+  if (vid) $('termin-verein').value = vid;
+
+  const oid = findeOrtsteil(f.ortsteil);
+  if (oid) $('termin-ortsteil').value = oid;
+
+  const hinweise = [];
+  if (f.verein && !vid)   hinweise.push('Verein „' + f.verein + '“ ist nicht angelegt');
+  if (f.ortsteil && !oid) hinweise.push('Ortsteil „' + f.ortsteil + '“ ist nicht angelegt');
+  if (f.datum && !datum)  hinweise.push('Datum „' + f.datum + '“ war nicht lesbar');
+
+  const box = $('vorschlag-melder');
+  const melderZeile = f['gemeldet von'];
+  const teile = [];
+  if (melderZeile) teile.push('<b>Gemeldet von:</b> ' + esc(melderZeile) +
+    ' — diese Angabe wird nicht veröffentlicht.');
+  if (hinweise.length) teile.push('<b>Bitte prüfen:</b> ' + esc(hinweise.join(' · ')));
+  box.innerHTML = teile.join('<br>');
+  box.className = teile.length ? 'melder zeig' : 'melder';
+
+  window.scrollTo({top:0, behavior:'smooth'});
+  melde('Vorschlag übertragen. Bitte prüfen und übernehmen.');
+};
+
+/* Beim Einfügen sofort auswerten, das spart einen Klick */
+$('vorschlag-text').addEventListener('paste', () => {
+  setTimeout(() => { if ($('vorschlag-text').value.trim()) $('vorschlag-lesen').click(); }, 40);
+});
+
+$('vorschlag-einfuegen').onclick = async () => {
+  try {
+    const text = await navigator.clipboard.readText();
+    if (!text || !text.trim()){ melde('Die Zwischenablage ist leer.', false); return; }
+    $('vorschlag-text').value = text;
+    $('vorschlag-lesen').click();
+  } catch(e){
+    melde('Der Browser gibt die Zwischenablage nicht frei. Bitte in das Feld einfügen.', false);
+    $('vorschlag-text').focus();
+  }
+};
+
+$('vorschlag-leeren').onclick = () => {
+  $('vorschlag-text').value = '';
+  $('vorschlag-melder').className = 'melder';
+};
+
+/* ---------- Vergangene Termine ---------- */
+function alteZaehlen(){
+  const grenze = new Date(); grenze.setHours(0,0,0,0);
+  return DATEN.termine.filter(t => !t.wiederholung && new Date(t.start) < grenze);
+}
+
+function alteInfo(){
+  const n = alteZaehlen().length;
+  $('alte-info').textContent = n
+    ? n + (n === 1 ? ' vergangener Termin liegt noch in der Datei.' : ' vergangene Termine liegen noch in der Datei.')
+    : 'Es liegen keine vergangenen Termine in der Datei.';
+  $('alte-weg').disabled = !n;
+}
+
+$('alte-weg').onclick = () => {
+  const alte = alteZaehlen();
+  if (!alte.length) return;
+  if (!confirm(alte.length + ' vergangene Termine endgültig entfernen?')) return;
+  const weg = new Set(alte.map(t => String(t.id)));
+  DATEN.termine = DATEN.termine.filter(t => !weg.has(String(t.id)));
+  markiere(); termineListe(); alteInfo(); vereineListe();
+  melde(alte.length + ' Termine entfernt.');
+};
+
+/* ---------- Kontakt ---------- */
+$('kontakt-speichern').onclick = () => {
+  DATEN.kontakt = {
+    email: $('kontakt-mail').value.trim(),
+    whatsapp: $('kontakt-whatsapp').value.replace(/[^\d]/g,'')
+  };
+  markiere();
+  melde('Kontaktangaben übernommen.');
+};
+
+/* ============ SPIELPLAN-IMPORT (BFV-PDF) ============ */
+
+const ALTERSKLASSEN = ['Herren','Frauen','Senioren',
+  'A-Junioren','B-Junioren','C-Junioren','D-Junioren','E-Junioren','F-Junioren','G-Junioren',
+  'A-Juniorinnen','B-Juniorinnen','C-Juniorinnen','D-Juniorinnen',
+  'Ü32','Ü40','Ü50'];
+
+const KOPFZEILEN = ['VEREINSSPIELPLAN','SPVGG','ALLE VEREINS','ZEITRAUM','Seite ','TYP ',
+  'Kursiv','der Spielort','wurde getauscht','ERGEBNISSE ONLINE','BAYERISCHER','FUSSBALL-VERBAND'];
+
+const SPIELZEILE = /^(ME|FS|PO|RE|TU|HR)\s+(.+?)\s+(\d{2}\.\d{2}\.\d{4})\s+(?:(\d{2}:\d{2})\s+)?(.+?)\s+-\s+(.+)$/;
+const HAT_PLZ = /\d{5}\s/;
+
+let pdfGefunden = [];
+
+/* Ligaturen und Sonderzeichen glätten, die in PDFs vorkommen */
+function saeubern(s){
+  return s.replace(/\uFB01/g,'fi').replace(/\uFB02/g,'fl')
+          .replace(/\u00AD/g,'').replace(/\s+/g,' ').trim();
+}
+
+function pdfLibLaden(){
+  if (window.pdfjsLib) return Promise.resolve(window.pdfjsLib);
+  return new Promise((fertig, schief) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+    s.onload = () => {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      fertig(window.pdfjsLib);
+    };
+    s.onerror = () => schief(new Error('Die PDF-Bibliothek konnte nicht geladen werden. Besteht eine Internetverbindung?'));
+    document.head.appendChild(s);
+  });
+}
+
+/* Textbausteine des PDF nach Zeilen gruppieren */
+async function zeilenAusPdf(datei){
+  const lib = await pdfLibLaden();
+  const puffer = await datei.arrayBuffer();
+  const dok = await lib.getDocument({ data: puffer }).promise;
+  const zeilen = [];
+
+  for (let n = 1; n <= dok.numPages; n++){
+    const seite = await dok.getPage(n);
+    const inhalt = await seite.getTextContent();
+    const nachY = new Map();
+
+    inhalt.items.forEach(it => {
+      if (!it.str || !it.str.trim()) return;
+      const y = Math.round(it.transform[5]);
+      let schluessel = y;
+      for (const k of nachY.keys()) if (Math.abs(k - y) <= 2) { schluessel = k; break; }
+      if (!nachY.has(schluessel)) nachY.set(schluessel, []);
+      nachY.get(schluessel).push({ x: it.transform[4], text: it.str });
+    });
+
+    [...nachY.entries()]
+      .sort((a,b) => b[0] - a[0])
+      .forEach(([, stuecke]) => {
+        stuecke.sort((a,b) => a.x - b.x);
+        const z = saeubern(stuecke.map(s => s.text).join(' '));
+        if (z) zeilen.push(z);
+      });
+  }
+  return zeilen;
+}
+
+function spieleAusZeilen(zeilen){
+  const spiele = [];
+  let altersklasse = 'Herren';
+  let aktuell = null;
+
+  zeilen.forEach(z => {
+    if (ALTERSKLASSEN.includes(z)) { altersklasse = z; aktuell = null; return; }
+    if (KOPFZEILEN.some(k => z.startsWith(k))) return;
+
+    const m = SPIELZEILE.exec(z);
+    if (m){
+      aktuell = { typ:m[1], klasse:m[2], datum:m[3], zeit:m[4] || '',
+                  heim:m[5].trim(), gast:m[6].trim(), altersklasse, ort:'' };
+      spiele.push(aktuell);
+      return;
+    }
+    if (!aktuell) return;
+    if (HAT_PLZ.test(z)) aktuell.ort = z;
+    else if (z.length < 60) aktuell.gast = (aktuell.gast + ' ' + z).trim();
+  });
+
+  return spiele.filter(s => s.zeit && !/SPIELFREI/i.test(s.gast));
+}
+
+function istHeimspiel(s){
+  return /Mitterdorf/i.test(s.ort) || (!s.ort && /Mitterdorf/i.test(s.heim));
+}
+
+function inTermin(s, zielId){
+  const [t,mo,j] = s.datum.split('.');
+  const zielVerein = DATEN.vereine.find(v => v.id === zielId);
+  return {
+    verein: zielId,
+    quelle: 'bfv',
+    ortsteil: (zielVerein && zielVerein.ortsteil) || 'alle',
+    titel: s.heim + ' – ' + s.gast,
+    start: j + '-' + mo + '-' + t + 'T' + s.zeit,
+    ort: s.ort,
+    text: s.altersklasse + ' · ' + s.klasse + ' · ' + (istHeimspiel(s) ? 'Heimspiel' : 'Auswärtsspiel')
+  };
+}
+
+function pdfZielAuswahl(){
+  const w = $('pdf-ziel');
+  const vorher = w.value;
+  w.innerHTML = DATEN.vereine.map(v =>
+    '<option value="' + esc(v.id) + '">' + esc(v.mutter ? '\u00a0\u00a0\u2514 ' + v.name : v.name) + '</option>').join('');
+  const fussball = DATEN.vereine.find(v => /fussball|fußball/i.test(v.id + v.name));
+  w.value = vorher || (fussball ? fussball.id : w.value);
+}
+
+function vorschauZeichnen(){
+  const box = $('pdf-vorschau');
+  const jugend = $('pdf-jugend').checked;
+  const nurHeim = $('pdf-heim').checked;
+
+  const auswahl = pdfGefunden
+    .filter(s => jugend || s.altersklasse === 'Herren' || s.altersklasse === 'Frauen')
+    .filter(s => !nurHeim || istHeimspiel(s))
+    .sort((a,b) => inTermin(a,'x').start.localeCompare(inTermin(b,'x').start));
+
+  if (!pdfGefunden.length){ box.innerHTML = ''; return; }
+
+  box.innerHTML = '<div class="vorschau"><h4>' + auswahl.length +
+    ' von ' + pdfGefunden.length + ' Spielen werden übernommen</h4><ul>' +
+    auswahl.map(s => '<li><b>' + s.datum + ' ' + s.zeit + '</b><span>' +
+      esc(s.heim) + ' – ' + esc(s.gast) +
+      (istHeimspiel(s) ? ' <span class="heim">H</span>' : '') + '</span></li>').join('') +
+    '</ul><div class="knopfreihe"><button class="tat primaer" id="pdf-uebernehmen">' +
+    auswahl.length + ' Spiele übernehmen</button></div></div>';
+
+  $('pdf-uebernehmen').onclick = () => {
+    const ziel = $('pdf-ziel').value;
+    const vorher = DATEN.termine.length;
+    DATEN.termine = DATEN.termine.filter(t => !(t.quelle === 'bfv' && t.verein === ziel));
+    const ersetzt = vorher - DATEN.termine.length;
+
+    let id = DATEN.termine.reduce((m,x) => Math.max(m, Number(x.id) || 0), 0);
+    auswahl.forEach(s => { DATEN.termine.push(Object.assign({ id: ++id }, inTermin(s, ziel))); });
+
+    markiere(); termineListe(); vereineListe(); alteInfo();
+    box.innerHTML = '';
+    $('pdf-datei').value = '';
+    pdfGefunden = [];
+    melde(auswahl.length + ' Spiele übernommen' + (ersetzt ? ', ' + ersetzt + ' frühere ersetzt' : '') + '.');
+  };
+}
+
+$('pdf-datei').onchange = async e => {
+  const f = e.target.files[0]; if (!f) return;
+  $('pdf-vorschau').innerHTML = '<div class="laedt">PDF wird gelesen…</div>';
+  try {
+    const zeilen = await zeilenAusPdf(f);
+    pdfGefunden = spieleAusZeilen(zeilen);
+    if (!pdfGefunden.length){
+      $('pdf-vorschau').innerHTML = '';
+      melde('In der Datei wurden keine Spiele gefunden. Ist es der Vereinsspielplan vom BFV?', false);
+      return;
+    }
+    vorschauZeichnen();
+  } catch(err){
+    $('pdf-vorschau').innerHTML = '';
+    melde('Die PDF konnte nicht gelesen werden: ' + err.message, false);
+  }
+};
+
+$('pdf-heim').onchange = vorschauZeichnen;
+$('pdf-jugend').onchange = vorschauZeichnen;
 
 /* ============ MELDUNGEN ============ */
 function meldungFormularLeeren(){
