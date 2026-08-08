@@ -71,6 +71,9 @@ h2:first-child{margin-top:2px}
 .tag .wtag{font-size:9.5px;color:var(--grau);margin-top:2px}
 .termin-kopf{font-weight:700;font-size:15.5px;line-height:1.3}
 .veranstalter{display:inline-block;font-size:11px;font-weight:600;color:var(--ziegel);margin-top:3px}
+.ortsmarke{display:inline-block;margin-left:7px;padding:1px 7px;border-radius:999px;
+  background:var(--blau-hell);color:var(--blau);font-size:10.5px;font-weight:700;
+  letter-spacing:.02em;vertical-align:1px}
 .termin-meta{font-size:12.5px;color:var(--grau);margin-top:4px}
 .termin-text{font-size:13.5px;color:#41505C;margin-top:7px}
 
@@ -223,8 +226,8 @@ nav button:focus-visible{outline:2px solid var(--ziegel);outline-offset:-3px}
     </section>
 
     <section id="s-vereine">
-      <h2>Vereine im Ort</h2>
-      <div class="karte" id="vereine"></div>
+      <h2 id="vereine-titel">Vereine im Ort</h2>
+      <div id="vereine"></div>
       <div class="hinweis">
         Termin melden? Eine Nachricht an die Redaktion genügt – wir stellen ihn ein.
         Kein eigener Zugang, kein Passwort.
@@ -351,37 +354,64 @@ function zeigeFehler(e){
 
 /* ---------- Termine ---------- */
 function filterBauen(){
-  const box = document.getElementById('filter');
-  const kurz = v => v.name.replace('Freiwillige Feuerwehr','FFW').replace(' Mitterdorf','');
+  const box   = document.getElementById('filter');
+  const unter = document.getElementById('filter-unter');
+  box.innerHTML = ''; unter.innerHTML = '';
 
-  // Nur Vereine ohne Mutterverein in die obere Leiste
-  const oben = DATEN.vereine.filter(v => !v.mutter).filter(imOrt).filter(v =>
-    DATEN.termine.filter(imOrt).some(t => t.verein === v.id || wurzelVon(t.verein) === v.id));
-
-  box.innerHTML = '';
-  [{id:'alle', name:'Alle'}].concat(oben).forEach(v => {
+  const chip = (text, aktiv, klick) => {
     const b = document.createElement('button');
     b.className = 'chip';
-    b.textContent = v.id === 'alle' ? 'Alle' : kurz(v);
-    b.setAttribute('aria-pressed', String(v.id === filterId));
-    b.onclick = () => { filterId = v.id; unterId = 'alle'; filterBauen(); termineZeigen(); };
-    box.appendChild(b);
-  });
+    b.textContent = text;
+    b.setAttribute('aria-pressed', String(aktiv));
+    b.onclick = klick;
+    return b;
+  };
 
-  // Zweite Leiste nur, wenn der gewählte Verein Abteilungen hat
-  const unter = document.getElementById('filter-unter');
+  const kommend = DATEN.termine.filter(t => new Date(t.start) >= heute);
+
+  /* Gesamtansicht: nach Ortsteil filtern statt nach Verein.
+     Bei vielen Ortsteilen wäre eine Vereinsliste sonst unlesbar. */
+  if (aktiverOrt === 'alle'){
+    const orte = (DATEN.ortsteile || []).filter(o => kommend.some(t => t.ortsteil === o.id));
+    if (orte.length < 2) return;
+
+    box.appendChild(chip('Alle Orte', true, () => {}));
+    orte.forEach(o => box.appendChild(chip(o.name, false, () => {
+      aktiverOrt = o.id;
+      ortMerken(aktiverOrt);
+      const w = document.getElementById('ortsteil');
+      if (w) w.value = o.id;
+      filterId = 'alle'; unterId = 'alle';
+      filterBauen(); termineZeigen(); meldungenZeigen(); serviceZeigen(); vereineZeigen();
+      window.scrollTo({top:0});
+    })));
+    return;
+  }
+
+  /* Innerhalb eines Ortsteils: nach Verein filtern */
+  const kurz = v => v.name.replace('Freiwillige Feuerwehr','FFW').replace(' Mitterdorf','');
+  const oben = DATEN.vereine.filter(v => !v.mutter).filter(imOrt).filter(v =>
+    kommend.filter(imOrt).some(t => t.verein === v.id || wurzelVon(t.verein) === v.id));
+
+  if (!oben.length) return;
+
+  box.appendChild(chip('Alle', filterId === 'alle', () => {
+    filterId = 'alle'; unterId = 'alle'; filterBauen(); termineZeigen();
+  }));
+  oben.forEach(v => box.appendChild(chip(kurz(v), filterId === v.id, () => {
+    filterId = v.id; unterId = 'alle'; filterBauen(); termineZeigen();
+  })));
+
+  /* Zweite Leiste für Abteilungen */
   const kinder = DATEN.vereine.filter(v => v.mutter === filterId);
-  unter.innerHTML = '';
   if (filterId === 'alle' || !kinder.length) return;
 
-  [{id:'alle', name:'Alle Abteilungen'}].concat(kinder).forEach(v => {
-    const b = document.createElement('button');
-    b.className = 'chip';
-    b.textContent = v.id === 'alle' ? 'Alle Abteilungen' : v.name.replace('Abteilung ','');
-    b.setAttribute('aria-pressed', String(v.id === unterId));
-    b.onclick = () => { unterId = v.id; filterBauen(); termineZeigen(); };
-    unter.appendChild(b);
-  });
+  unter.appendChild(chip('Alle Abteilungen', unterId === 'alle', () => {
+    unterId = 'alle'; filterBauen(); termineZeigen();
+  }));
+  kinder.forEach(v => unter.appendChild(chip(v.name.replace('Abteilung ',''), unterId === v.id, () => {
+    unterId = v.id; filterBauen(); termineZeigen();
+  })));
 }
 
 function passt(t){
@@ -437,7 +467,9 @@ function termineZeigen(){
         '<div class="wtag">' + TAGE[d.getDay()] + '</div></div>' +
         '<div style="flex:1;min-width:0">' +
           '<div class="termin-kopf">' + esc(t.titel) + '</div>' +
-          '<div class="veranstalter">' + esc(anzeigeName(t.verein)) + '</div>' +
+          '<div class="veranstalter">' + esc(anzeigeName(t.verein)) +
+            (aktiverOrt === 'alle' && t.ortsteil && t.ortsteil !== 'alle'
+              ? '<span class="ortsmarke">' + esc(ortsteilName(t.ortsteil)) + '</span>' : '') + '</div>' +
           '<div class="termin-meta">' + zz(d.getHours()) + ':' + zz(d.getMinutes()) + ' Uhr' +
             (t.ort ? ' · ' + esc(t.ort) : '') + '</div>' +
           (t.text ? '<div class="termin-text">' + esc(t.text) + '</div>' : '') +
@@ -484,7 +516,9 @@ function meldungenZeigen(){
     return '<div class="meldung' + (m.wichtig ? ' wichtig' : '') + '">' +
       '<span class="marke m-' + esc(m.art) + '">' + esc(MARKEN[m.art] || m.art) + '</span>' +
       '<h3>' + esc(m.titel) + '</h3>' +
-      '<div class="wann">' + d.toLocaleDateString('de-DE',{day:'2-digit',month:'long',year:'numeric'}) + '</div>' +
+      '<div class="wann">' + d.toLocaleDateString('de-DE',{day:'2-digit',month:'long',year:'numeric'}) +
+      (aktiverOrt === 'alle' && m.ortsteil && m.ortsteil !== 'alle'
+        ? ' · ' + esc(ortsteilName(m.ortsteil)) : '') + '</div>' +
       '<p>' + esc(m.text) + '</p></div>';
   }).join('');
 }
@@ -553,13 +587,38 @@ function vereineZeigen(){
       '</div></div></div>';
   };
 
-  let html = '';
-  DATEN.vereine.filter(v => !v.mutter && v.id !== 'offen').filter(imOrt).forEach(v => {
-    html += zeile(v, false);
-    DATEN.vereine.filter(k => k.mutter === v.id).forEach(k => { html += zeile(k, true); });
-  });
-  document.getElementById('vereine').innerHTML = html ||
-    '<div class="leer">Für ' + esc(ortsteilName(aktiverOrt)) + ' ist noch kein Verein hinterlegt.</div>';
+  // Hauptvereine eines Ortsteils mit ihren Abteilungen darunter
+  const bloecke = ortId => {
+    const passend = DATEN.vereine.filter(v => !v.mutter && v.id !== 'offen')
+      .filter(v => ortId === null || (v.ortsteil || 'alle') === ortId);
+    return passend.map(v => zeile(v, false) +
+      DATEN.vereine.filter(k => k.mutter === v.id).map(k => zeile(k, true)).join('')).join('');
+  };
+
+  const box   = document.getElementById('vereine');
+  const titel = document.getElementById('vereine-titel');
+
+  if (aktiverOrt === 'alle'){
+    titel.textContent = 'Vereine in der Stadt Roding';
+    const orte = (DATEN.ortsteile || []).filter(o =>
+      DATEN.vereine.some(v => !v.mutter && v.id !== 'offen' && v.ortsteil === o.id));
+
+    if (!orte.length){
+      box.innerHTML = '<div class="leer">Noch kein Verein hinterlegt.</div>';
+      return;
+    }
+
+    box.innerHTML = orte.map(o =>
+      '<div class="service-gruppe">' + esc(o.name) + '</div>' +
+      '<div class="karte">' + bloecke(o.id) + '</div>').join('');
+    return;
+  }
+
+  titel.textContent = 'Vereine in ' + ortsteilName(aktiverOrt);
+  const inhalt = bloecke(aktiverOrt);
+  box.innerHTML = inhalt
+    ? '<div class="karte">' + inhalt + '</div>'
+    : '<div class="leer">Für ' + esc(ortsteilName(aktiverOrt)) + ' ist noch kein Verein hinterlegt.</div>';
 }
 
 /* ---------- Navigation ---------- */
