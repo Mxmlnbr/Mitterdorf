@@ -122,7 +122,8 @@
       "titel": "(SG2) Geigant II/Waldmünchen I – SpVgg Mitterdorf II",
       "start": "2026-08-19T19:00",
       "ort": "Sportgelände Geigant, Platz 1,Kellerweg 35,93449 Geigant",
-      "text": "Herren · B Klasse · Auswärtsspiel"
+      "text": "Herren · B Klasse · Auswärtsspiel",
+      "ortsteil": "mitterdorf"
     },
     {
       "id": 15,
