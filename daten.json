@@ -312,7 +312,8 @@
       "titel": "SpVgg Mitterdorf – FC Untertraubenbach",
       "start": "2026-10-17T17:00",
       "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
-      "text": "Herren · Kreisliga · Heimspiel"
+      "text": "Herren · Kreisliga · Heimspiel",
+      "ortsteil": "mitterdorf"
     },
     {
       "id": 36,
