@@ -33,16 +33,6 @@
       "id": "schuetzen",
       "name": "Schützenverein",
       "kuerzel": "SV"
-    },
-    {
-      "id": "kifw",
-      "name": "Kinderfeuerwehr Mitterdorf",
-      "kuerzel": "KFW"
-    },
-    {
-      "id": "offen",
-      "name": "Offene Runde",
-      "kuerzel": "OR"
     }
   ],
   "termine": [
