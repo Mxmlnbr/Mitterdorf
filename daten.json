@@ -5,7 +5,8 @@
     {
       "id": "ffw",
       "name": "Freiwillige Feuerwehr Mitterdorf",
-      "kuerzel": "FFW"
+      "kuerzel": "FFW",
+      "ortsteil": "mitterdorf"
     },
     {
       "id": "spvgg",
