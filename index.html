@@ -97,34 +97,27 @@ h2:first-child{margin-top:2px}
 .meldung .wann{font-size:12px;color:var(--grau)}
 .meldung p{font-size:13.5px;color:#41505C;margin-top:6px}
 
-.naechste{background:linear-gradient(150deg,var(--tiefblau),#123252);color:#fff;
-  border-radius:14px;padding:18px;margin-bottom:14px}
-.naechste .label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#9FC0DC}
-.naechste .gross{font-size:30px;font-weight:800;line-height:1.15;margin:6px 0 2px}
-.naechste .wann2{font-size:13.5px;color:#C6DCEE}
-.tonnen{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap}
-.tonne{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.13);
-  border-radius:8px;padding:5px 10px;font-size:12.5px;font-weight:600}
-.punkt{width:11px;height:11px;border-radius:3px;flex:0 0 auto}
+.service-gruppe{font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--grau);margin:22px 0 8px;font-weight:700}
+.service-gruppe:first-child{margin-top:2px}
 
-.abfuhr-zeile{display:flex;align-items:center;gap:11px;padding:10px 2px;border-bottom:1px solid var(--linie)}
-.abfuhr-zeile:last-child{border-bottom:none}
-.abfuhr-datum{font-size:13.5px;font-weight:600;min-width:104px}
-.abfuhr-rest{font-size:12.5px;color:var(--grau);margin-left:auto}
+.service-karte{background:var(--karte);border:1px solid var(--linie);border-radius:12px;
+  overflow:hidden;margin-bottom:4px}
 
-.monatstrenner{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--grau);font-weight:700;padding:14px 2px 5px;border-bottom:1px solid var(--linie)}
-.monatstrenner:first-child{padding-top:2px}
+.service-zeile{display:flex;align-items:center;gap:12px;padding:13px 14px;
+  border-bottom:1px solid var(--linie);color:var(--tinte);text-decoration:none}
+.service-zeile:last-child{border-bottom:none}
+a.service-zeile:hover{background:var(--blau-hell)}
+a.service-zeile:focus-visible{outline:2px solid var(--ziegel);outline-offset:-2px}
 
-.mehr{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;
-  font:inherit;font-size:13px;font-weight:600;color:var(--tiefblau);
-  background:#fff;border:1px solid var(--linie);border-radius:10px;
-  padding:11px;cursor:pointer;margin-top:-2px}
-.mehr:hover{background:var(--blau-hell)}
-.mehr:focus-visible{outline:2px solid var(--ziegel);outline-offset:2px}
-.mehr svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2;
-  stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
-.mehr[aria-expanded="true"] svg{transform:rotate(180deg)}
+.service-text{flex:1;min-width:0}
+.service-titel{font-size:14.5px;font-weight:600;line-height:1.3}
+.service-unter{font-size:12.5px;color:var(--grau);margin-top:1px}
+.service-wert{font-size:14px;font-weight:700;color:var(--tiefblau);white-space:nowrap}
+.service-pfeil{width:15px;height:15px;stroke:var(--grau);fill:none;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+
+.service-zeile.notfall .service-wert{color:var(--warn);font-size:17px}
 
 .hinweis{font-size:12.5px;color:var(--grau);background:#fff;border:1px dashed var(--linie);
   border-radius:10px;padding:12px;margin-top:12px}
@@ -200,45 +193,11 @@ nav button:focus-visible{outline:2px solid var(--ziegel);outline-offset:-3px}
       <div id="meldungen"></div>
     </section>
 
-    <section id="s-muell">
-      <div class="naechste" id="naechste"></div>
-      <h2>Nächste Termine</h2>
-      <div class="karte" id="abfuhrliste"></div>
-      <div id="mehr-box"></div>
-      <h2>Beim Landkreis nachschlagen</h2>
-      <div class="verweise">
-        <a class="verweis" href="https://pwa.entsorgung-cham.de/termine" target="_blank" rel="noopener">
-          <span class="titel">Abfuhrkalender
-            <svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>
-          </span>
-          <span class="unter">Termine für die eigene Adresse, mit Erinnerung</span>
-        </a>
-        <a class="verweis" href="https://pwa.entsorgung-cham.de/wertstoffhof" target="_blank" rel="noopener">
-          <span class="titel">Wertstoffhof
-            <svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>
-          </span>
-          <span class="unter">Standorte und Öffnungszeiten</span>
-        </a>
-        <a class="verweis" href="https://pwa.entsorgung-cham.de/gruengut" target="_blank" rel="noopener">
-          <span class="titel">Grüngut
-            <svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>
-          </span>
-          <span class="unter">Sammelstellen für Baum- und Strauchschnitt</span>
-        </a>
-        <a class="verweis" href="https://pwa.entsorgung-cham.de/abfall-abc" target="_blank" rel="noopener">
-          <span class="titel">Abfall-ABC
-            <svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>
-          </span>
-          <span class="unter">Wohin gehört was?</span>
-        </a>
-      </div>
-      <div class="quelle">Die Verweise führen zum Angebot der Kreiswerke Cham.</div>
-
-      <div class="hinweis">
-        Die hier angezeigten Termine stammen aus dem Entsorgungskalender der Kreiswerke Cham
-        und gelten für den Ortsteil. Verbindlich ist immer der offizielle Kalender unter
-        <a href="https://pwa.entsorgung-cham.de/termine" target="_blank" rel="noopener">pwa.entsorgung-cham.de</a>,
-        weil dort nach Hausnummer unterschieden wird.
+    <section id="s-service">
+      <div id="service"></div>
+      <div class="hinweis" id="service-leer" style="display:none">
+        Hier ist noch nichts hinterlegt. In der Redaktion lassen sich Nummern,
+        Links und Öffnungszeiten eintragen.
       </div>
     </section>
 
@@ -264,9 +223,9 @@ nav button:focus-visible{outline:2px solid var(--ziegel);outline-offset:-3px}
       <svg viewBox="0 0 24 24"><path d="M4 5h13a2 2 0 0 1 2 2v11a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2z"/><path d="M8 9h7M8 13h7M8 17h4"/></svg>
       Aktuelles
     </button>
-    <button data-ziel="muell">
-      <svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"/><path d="M10 11v7M14 11v7"/></svg>
-      Müll
+    <button data-ziel="service">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8.4v.2"/></svg>
+      Service
     </button>
     <button data-ziel="vereine">
       <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M2.8 20a6.2 6.2 0 0 1 12.4 0"/><circle cx="17.5" cy="9.5" r="2.4"/><path d="M16 15.4A5.6 5.6 0 0 1 21.6 20"/></svg>
@@ -280,12 +239,6 @@ nav button:focus-visible{outline:2px solid var(--ziegel);outline-offset:-3px}
 (() => {
 "use strict";
 
-const TONNEN = {
-  rest:   { name:'Restmüll',    farbe:'#5B6770' },
-  bio:    { name:'Biotonne',    farbe:'#7A5A32' },
-  papier: { name:'Papiertonne', farbe:'#2A5E8F' },
-  gelb:   { name:'Gelber Sack', farbe:'#D8A93C' }
-};
 const MARKEN = {
   sperrung:'Straßensperrung', amt:'Aus dem Rathaus',
   versorgung:'Versorgung', warnung:'Warnung', verein:'Vereinsleben'
@@ -297,14 +250,6 @@ const TAGE_LANG = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freita
 const heute = new Date(); heute.setHours(0,0,0,0);
 const zz = n => String(n).padStart(2,'0');
 const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-
-function tageBis(d){ const a = new Date(d); a.setHours(0,0,0,0); return Math.round((a-heute)/86400000); }
-function relativ(d){
-  const t = tageBis(d);
-  if (t===0) return 'heute'; if (t===1) return 'morgen'; if (t===2) return 'übermorgen';
-  if (t<0) return 'vorbei'; if (t<7) return `in ${t} Tagen`;
-  if (t<14) return 'nächste Woche'; return `in ${Math.round(t/7)} Wochen`;
-}
 
 let DATEN = null;
 let filterId = 'alle';
@@ -488,80 +433,47 @@ function meldungenZeigen(){
   }).join('');
 }
 
-/* ---------- Müll ---------- */
-function muellZeigen(){
-  const kommend = (DATEN.abfuhr||[])
-    .filter(a => tageBis(a.datum) >= 0)
-    .sort((a,b) => new Date(a.datum) - new Date(b.datum));
-  const kopf = document.getElementById('naechste');
+/* ---------- Service ---------- */
+function serviceZeigen(){
+  const box  = document.getElementById('service');
+  const leer = document.getElementById('service-leer');
+  const liste = DATEN.service || [];
 
-  if (!kommend.length){
-    kopf.innerHTML = '<div class="label">Nächste Abfuhr</div><div class="gross">Keine Termine hinterlegt</div>';
-    document.getElementById('abfuhrliste').innerHTML = '<div class="leer">Keine Daten.</div>';
-    return;
-  }
+  if (!liste.length){ box.innerHTML = ''; leer.style.display = ''; return; }
+  leer.style.display = 'none';
 
-  const naechstes = kommend[0].datum;
-  const amTag = kommend.filter(a => a.datum === naechstes);
-  const d = new Date(naechstes);
+  const pfeil = '<svg class="service-pfeil" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>';
 
-  kopf.innerHTML =
-    '<div class="label">Nächste Abfuhr</div>' +
-    '<div class="gross">' + relativ(naechstes).replace(/^./,c=>c.toUpperCase()) + '</div>' +
-    '<div class="wann2">' + TAGE_LANG[d.getDay()] + ', ' + d.getDate() + '. ' +
-      d.toLocaleDateString('de-DE',{month:'long'}) + ' · bis 6 Uhr bereitstellen</div>' +
-    '<div class="tonnen">' + amTag.map(a => {
-      const t = TONNEN[a.art] || {name:a.art, farbe:'#888'};
-      return '<span class="tonne"><span class="punkt" style="background:' + t.farbe + '"></span>' + t.name + '</span>';
-    }).join('') + '</div>';
+  // Gruppen in der Reihenfolge ihres ersten Auftretens
+  const gruppen = [];
+  liste.forEach(e => { const g = e.gruppe || 'Weiteres'; if (!gruppen.includes(g)) gruppen.push(g); });
 
-  abfuhrListeZeichnen(kommend);
-}
+  box.innerHTML = gruppen.map(g => {
+    const zeilen = liste.filter(e => (e.gruppe || 'Weiteres') === g).map(e => {
+      const innen =
+        '<div class="service-text">' +
+          '<div class="service-titel">' + esc(e.titel) + '</div>' +
+          (e.text ? '<div class="service-unter">' + esc(e.text) + '</div>' : '') +
+        '</div>' +
+        (e.typ === 'tel'  ? '<span class="service-wert">' + esc(e.wert) + '</span>' + pfeil :
+         e.typ === 'link' ? pfeil :
+         e.typ === 'mail' ? pfeil :
+         e.wert ? '<span class="service-wert">' + esc(e.wert) + '</span>' : '');
 
-/* Standardmäßig nur die nächsten Termine, auf Wunsch das ganze Jahr */
-const ABFUHR_KURZ = 6;
-let abfuhrOffen = false;
+      const klasse = 'service-zeile' + (/notruf|110|112/i.test(e.titel + ' ' + e.wert) ? ' notfall' : '');
 
-function abfuhrListeZeichnen(kommend){
-  const sichtbar = abfuhrOffen ? kommend : kommend.slice(0, ABFUHR_KURZ);
+      if (e.typ === 'tel')
+        return '<a class="' + klasse + '" href="tel:' + esc(String(e.wert).replace(/[^+\d]/g,'')) + '">' + innen + '</a>';
+      if (e.typ === 'link')
+        return '<a class="' + klasse + '" href="' + esc(e.wert) + '" target="_blank" rel="noopener">' + innen + '</a>';
+      if (e.typ === 'mail')
+        return '<a class="' + klasse + '" href="mailto:' + esc(e.wert) + '">' + innen + '</a>';
+      return '<div class="' + klasse + '">' + innen + '</div>';
+    }).join('');
 
-  let letzterMonat = null;
-  document.getElementById('abfuhrliste').innerHTML = sichtbar.map(a => {
-    const x = new Date(a.datum);
-    const t = TONNEN[a.art] || {name:a.art, farbe:'#888'};
-    let vorspann = '';
-    if (abfuhrOffen){
-      const monat = x.getFullYear() + '-' + x.getMonth();
-      if (monat !== letzterMonat){
-        vorspann = '<div class="monatstrenner">' +
-          x.toLocaleDateString('de-DE',{month:'long', year:'numeric'}) + '</div>';
-        letzterMonat = monat;
-      }
-    }
-    return vorspann + '<div class="abfuhr-zeile">' +
-      '<span class="punkt" style="background:' + t.farbe + '"></span>' +
-      '<span class="abfuhr-datum">' + TAGE[x.getDay()] + ', ' + zz(x.getDate()) + '.' + zz(x.getMonth()+1) + '.</span>' +
-      '<span>' + t.name + '</span>' +
-      '<span class="abfuhr-rest">' + relativ(a.datum) + '</span></div>';
+    return '<div class="service-gruppe">' + esc(g) + '</div>' +
+           '<div class="service-karte">' + zeilen + '</div>';
   }).join('');
-
-  const box = document.getElementById('mehr-box');
-  if (kommend.length <= ABFUHR_KURZ){ box.innerHTML = ''; return; }
-
-  const letztes = new Date(kommend[kommend.length-1].datum);
-  box.innerHTML =
-    '<button class="mehr" id="mehr-knopf" aria-expanded="' + abfuhrOffen + '" aria-controls="abfuhrliste">' +
-      (abfuhrOffen
-        ? 'Weniger anzeigen'
-        : 'Alle ' + kommend.length + ' Termine bis ' + letztes.toLocaleDateString('de-DE',{month:'long', year:'numeric'}) + ' anzeigen') +
-      '<svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>' +
-    '</button>';
-
-  document.getElementById('mehr-knopf').onclick = () => {
-    abfuhrOffen = !abfuhrOffen;
-    abfuhrListeZeichnen(kommend);
-    if (!abfuhrOffen) document.getElementById('abfuhrliste').scrollIntoView({block:'nearest', behavior:'smooth'});
-  };
 }
 
 /* ---------- Vereine ---------- */
@@ -602,7 +514,7 @@ function starten(){
     document.getElementById('fussnote').textContent =
       'Stand der Daten: ' + s.toLocaleDateString('de-DE') + ' · Impressum und Datenschutzerklärung fehlen noch';
   }
-  filterBauen(); termineZeigen(); meldungenZeigen(); muellZeigen(); vereineZeigen();
+  filterBauen(); termineZeigen(); meldungenZeigen(); serviceZeigen(); vereineZeigen();
 }
 
 laden();

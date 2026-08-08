@@ -119,7 +119,7 @@ button.tat{font:inherit;font-size:13.5px;font-weight:600;border-radius:8px;paddi
 <div class="reiter" role="tablist">
   <button role="tab" data-tafel="termine"   aria-selected="true">Termine</button>
   <button role="tab" data-tafel="meldungen" aria-selected="false">Meldungen</button>
-  <button role="tab" data-tafel="abfuhr"    aria-selected="false">Müllabfuhr</button>
+  <button role="tab" data-tafel="service"   aria-selected="false">Service</button>
   <button role="tab" data-tafel="vereine"   aria-selected="false">Vereine</button>
   <button role="tab" data-tafel="github"    aria-selected="false">Veröffentlichen</button>
 </div>
@@ -226,43 +226,61 @@ button.tat{font:inherit;font-size:13.5px;font-weight:600;border-radius:8px;paddi
     <div id="liste-meldungen"></div>
   </div>
 
-  <!-- ABFUHR -->
-  <div class="tafel" id="t-abfuhr">
+  <!-- SERVICE -->
+  <div class="tafel" id="t-service">
     <div class="formular">
-      <h3>Termine aus dem Kalender der Kreiswerke übernehmen</h3>
+      <h3 id="service-modus">Neuer Service-Eintrag</h3>
       <div class="unter">
-        Auf entsorgung-cham.de die Adresse eingeben, „Kalender als ICS-Datei herunterladen“
-        wählen und die Datei hier einlesen. Das ersetzt alle bisherigen Abfuhrtermine.
+        Nummern, Links und Öffnungszeiten, die man im Ort immer wieder braucht.
+        Gleiche Gruppennamen werden in der App zusammengefasst.
       </div>
-      <label for="ics-datei">ICS-Datei auswählen</label>
-      <input type="file" id="ics-datei" accept=".ics,text/calendar">
-    </div>
+      <input type="hidden" id="service-id">
 
-    <div class="formular">
-      <h3>Einzelnen Termin ergänzen</h3>
       <div class="reihe">
         <div>
-          <label for="abfuhr-datum">Datum</label>
-          <input type="date" id="abfuhr-datum">
+          <label for="service-gruppe">Gruppe</label>
+          <input id="service-gruppe" list="gruppen-liste" placeholder="z. B. Notfall">
+          <datalist id="gruppen-liste"></datalist>
         </div>
         <div>
-          <label for="abfuhr-art">Tonne</label>
-          <select id="abfuhr-art">
-            <option value="rest">Restmüll</option>
-            <option value="bio">Biotonne</option>
-            <option value="papier">Papiertonne</option>
-            <option value="gelb">Gelber Sack</option>
+          <label for="service-typ">Art</label>
+          <select id="service-typ">
+            <option value="tel">Telefonnummer</option>
+            <option value="link">Internetseite</option>
+            <option value="mail">E-Mail</option>
+            <option value="text">Nur Text</option>
           </select>
         </div>
       </div>
+
+      <label for="service-titel">Bezeichnung</label>
+      <input id="service-titel" placeholder="z. B. Ärztlicher Bereitschaftsdienst">
+
+      <label for="service-wert">Nummer, Adresse oder Link</label>
+      <input id="service-wert" placeholder="116117">
+
+      <label for="service-text">Zusatz (optional)</label>
+      <input id="service-text" placeholder="z. B. außerhalb der Sprechzeiten">
+
       <div class="knopfreihe">
-        <button class="tat primaer" id="abfuhr-speichern">Hinzufügen</button>
-        <button class="tat gefahr" id="abfuhr-alt-weg">Vergangene entfernen</button>
+        <button class="tat primaer" id="service-speichern">Übernehmen</button>
+        <button class="tat sekundaer" id="service-abbrechen" style="display:none">Abbrechen</button>
       </div>
     </div>
 
-    <h2>Hinterlegte Abfuhrtermine</h2>
-    <div id="liste-abfuhr"></div>
+    <div class="formular">
+      <h3>Schnellstart</h3>
+      <div class="unter">
+        Fügt die wichtigsten allgemeinen Nummern und Links ein. Örtliche Angaben
+        wie Rathaus oder Bereitschaftsdienste musst du selbst ergänzen.
+      </div>
+      <div class="knopfreihe">
+        <button class="tat sekundaer" id="service-vorschlaege">Standardeinträge einfügen</button>
+      </div>
+    </div>
+
+    <h2>Einträge</h2>
+    <div id="liste-service"></div>
   </div>
 
   <!-- VEREINE -->
@@ -373,7 +391,6 @@ button.tat{font:inherit;font-size:13.5px;font-weight:600;border-radius:8px;paddi
 (() => {
 "use strict";
 
-const TONNEN = { rest:'Restmüll', bio:'Biotonne', papier:'Papiertonne', gelb:'Gelber Sack' };
 const MARKEN = { sperrung:'Straßensperrung', versorgung:'Versorgung', amt:'Aus dem Rathaus',
                  warnung:'Warnung', verein:'Vereinsleben' };
 
@@ -418,7 +435,7 @@ async function laden(){
   } catch (e) {
     $('statustext').textContent = 'daten.json nicht gefunden – bitte unten manuell öffnen';
     $('status').classList.add('geaendert');
-    DATEN = { ort:'Mitterdorf', stand:'', vereine:[], termine:[], meldungen:[], abfuhr:[] };
+    DATEN = { ort:'Mitterdorf', stand:'', vereine:[], termine:[], meldungen:[], service:[] };
     alles();
   }
 }
@@ -776,100 +793,117 @@ function meldungenListe(){
   });
 }
 
-/* ============ ABFUHR ============ */
-function tonneErkennen(text){
-  const t = text.toLowerCase();
-  if (t.includes('bio'))    return 'bio';
-  if (t.includes('papier') || t.includes('pappe')) return 'papier';
-  if (t.includes('gelb') || t.includes('lvp') || t.includes('wertstoff')) return 'gelb';
-  if (t.includes('rest') || t.includes('haus'))    return 'rest';
-  return null;
+/* ============ SERVICE ============ */
+
+const SERVICE_ARTEN = { tel:'Telefon', link:'Internetseite', mail:'E-Mail', text:'Text' };
+
+function serviceFormularLeeren(){
+  $('service-id').value = ''; $('service-titel').value = '';
+  $('service-wert').value = ''; $('service-text').value = '';
+  $('service-modus').textContent = 'Neuer Service-Eintrag';
+  $('service-abbrechen').style.display = 'none';
+  $('service-speichern').textContent = 'Übernehmen';
+}
+$('service-abbrechen').onclick = serviceFormularLeeren;
+
+function gruppenVorschlaege(){
+  const gruppen = [...new Set((DATEN.service || []).map(e => e.gruppe).filter(Boolean))];
+  $('gruppen-liste').innerHTML = gruppen.map(g => '<option value="' + esc(g) + '">').join('');
 }
 
-$('ics-datei').onchange = e => {
-  const f = e.target.files[0]; if (!f) return;
-  const r = new FileReader();
-  r.onload = () => {
-    try {
-      // Gefaltete Zeilen zusammenführen (Fortsetzung beginnt mit Leerzeichen)
-      const roh = String(r.result).replace(/\r\n[ \t]/g, '').replace(/\n[ \t]/g, '');
-      const zeilen = roh.split(/\r?\n/);
-      const gefunden = [];
-      let datum = null, titel = null, drin = false;
+$('service-speichern').onclick = () => {
+  const titel  = $('service-titel').value.trim();
+  const gruppe = $('service-gruppe').value.trim() || 'Weiteres';
+  const typ    = $('service-typ').value;
+  const wert   = $('service-wert').value.trim();
 
-      zeilen.forEach(z => {
-        if (z.startsWith('BEGIN:VEVENT')){ drin = true; datum = null; titel = null; return; }
-        if (z.startsWith('END:VEVENT')){
-          if (drin && datum && titel){
-            const art = tonneErkennen(titel);
-            if (art) gefunden.push({ datum, art });
-          }
-          drin = false; return;
-        }
-        if (!drin) return;
-        if (z.startsWith('DTSTART')){
-          const m = z.match(/(\d{4})(\d{2})(\d{2})/);
-          if (m) datum = m[1] + '-' + m[2] + '-' + m[3];
-        }
-        if (z.startsWith('SUMMARY')) titel = z.slice(z.indexOf(':') + 1).trim();
-      });
+  if (!titel){ melde('Eine Bezeichnung wird benötigt.', false); return; }
+  if (typ !== 'text' && !wert){ melde('Für diese Art wird ein Wert benötigt.', false); return; }
+  if (typ === 'link' && !/^https?:\/\//i.test(wert)){
+    melde('Ein Link muss mit http:// oder https:// beginnen.', false); return;
+  }
 
-      if (!gefunden.length){
-        melde('In der Datei wurden keine erkennbaren Abfuhrtermine gefunden.', false);
-        return;
-      }
-      // Doppelte entfernen und sortieren
-      const schluessel = new Set();
-      DATEN.abfuhr = gefunden.filter(a => {
-        const k = a.datum + a.art;
-        if (schluessel.has(k)) return false;
-        schluessel.add(k); return true;
-      }).sort((a,b) => a.datum.localeCompare(b.datum));
+  const daten = { gruppe, typ, titel, wert, text: $('service-text').value.trim() };
+  const id = $('service-id').value;
 
-      markiere(); abfuhrListe();
-      melde(gefunden.length + ' Termine eingelesen.');
-    } catch(err){ melde('Die ICS-Datei konnte nicht gelesen werden: ' + err.message, false); }
-    e.target.value = '';
-  };
-  r.readAsText(f);
+  if (id){
+    Object.assign(DATEN.service.find(x => String(x.id) === id), daten);
+    melde('Eintrag geändert.');
+  } else {
+    DATEN.service.push(Object.assign({ id: neueId(DATEN.service) }, daten));
+    melde('Eintrag hinzugefügt.');
+  }
+  markiere(); serviceFormularLeeren(); serviceListe(); gruppenVorschlaege();
 };
 
-$('abfuhr-speichern').onclick = () => {
-  const datum = $('abfuhr-datum').value;
-  if (!datum){ melde('Bitte ein Datum wählen.', false); return; }
-  DATEN.abfuhr.push({ datum, art: $('abfuhr-art').value });
-  DATEN.abfuhr.sort((a,b) => a.datum.localeCompare(b.datum));
-  $('abfuhr-datum').value = '';
-  markiere(); abfuhrListe(); melde('Termin hinzugefügt.');
+$('service-vorschlaege').onclick = () => {
+  const vorlage = [
+    { gruppe:'Notfall', typ:'tel',  titel:'Notruf',                        wert:'112',          text:'Feuerwehr und Rettungsdienst' },
+    { gruppe:'Notfall', typ:'tel',  titel:'Polizei',                       wert:'110',          text:'' },
+    { gruppe:'Notfall', typ:'tel',  titel:'Ärztlicher Bereitschaftsdienst', wert:'116117',      text:'Außerhalb der Sprechzeiten' },
+    { gruppe:'Notfall', typ:'tel',  titel:'Giftnotruf München',            wert:'089 19240',    text:'' },
+    { gruppe:'Abfall',  typ:'link', titel:'Abfuhrtermine für meine Adresse', wert:'https://pwa.entsorgung-cham.de/termine', text:'Kreiswerke Cham' },
+    { gruppe:'Abfall',  typ:'link', titel:'Wertstoffhof',                  wert:'https://pwa.entsorgung-cham.de/wertstoffhof', text:'Standorte und Öffnungszeiten' },
+    { gruppe:'Abfall',  typ:'link', titel:'Grüngut-Sammelstellen',         wert:'https://pwa.entsorgung-cham.de/gruengut', text:'' },
+    { gruppe:'Abfall',  typ:'link', titel:'Abfall-ABC',                    wert:'https://pwa.entsorgung-cham.de/abfall-abc', text:'Wohin gehört was?' }
+  ];
+
+  let zahl = 0;
+  vorlage.forEach(v => {
+    if (DATEN.service.some(e => e.titel === v.titel)) return;
+    DATEN.service.push(Object.assign({ id: neueId(DATEN.service) }, v));
+    zahl++;
+  });
+
+  if (!zahl){ melde('Diese Einträge sind bereits vorhanden.'); return; }
+  markiere(); serviceListe(); gruppenVorschlaege();
+  melde(zahl + ' Einträge eingefügt. Jetzt noch Rathaus, Bereitschaftsdienste und Vereinsheime ergänzen.');
 };
 
-$('abfuhr-alt-weg').onclick = () => {
-  const vorher = DATEN.abfuhr.length;
-  const grenze = new Date().toISOString().slice(0,10);
-  DATEN.abfuhr = DATEN.abfuhr.filter(a => a.datum >= grenze);
-  const weg = vorher - DATEN.abfuhr.length;
-  if (weg){ markiere(); abfuhrListe(); melde(weg + ' vergangene Termine entfernt.'); }
-  else melde('Es gab nichts zu entfernen.');
-};
+function serviceVerschieben(id, richtung){
+  const i = DATEN.service.findIndex(x => String(x.id) === String(id));
+  const j = i + richtung;
+  if (i < 0 || j < 0 || j >= DATEN.service.length) return;
+  const [weg] = DATEN.service.splice(i,1);
+  DATEN.service.splice(j,0,weg);
+  markiere(); serviceListe();
+}
 
-function abfuhrListe(){
-  const box = $('liste-abfuhr');
-  const liste = [...DATEN.abfuhr].sort((a,b) => a.datum.localeCompare(b.datum));
-  if (!liste.length){ box.innerHTML = '<div class="leer">Keine Abfuhrtermine hinterlegt.</div>'; return; }
-  const grenze = new Date().toISOString().slice(0,10);
-  box.innerHTML = liste.map((a,i) => {
-    const d = new Date(a.datum);
-    return '<div class="eintrag' + (a.datum < grenze ? ' vergangen' : '') + '"><div class="eintrag-text">' +
-      '<div class="eintrag-titel">' + esc(TONNEN[a.art] || a.art) + '</div>' +
-      '<div class="eintrag-meta">' + d.toLocaleDateString('de-DE',{weekday:'short',day:'2-digit',month:'2-digit',year:'numeric'}) + '</div></div>' +
-      '<div class="eintrag-knopf"><button class="weg" data-al="' + a.datum + '|' + a.art + '">Löschen</button></div></div>';
-  }).join('');
+function serviceListe(){
+  const box = $('liste-service');
+  const liste = DATEN.service || [];
+  if (!liste.length){ box.innerHTML = '<div class="leer">Noch kein Eintrag vorhanden.</div>'; return; }
 
-  box.querySelectorAll('[data-al]').forEach(b => b.onclick = () => {
-    const [datum, art] = b.dataset.al.split('|');
-    const i = DATEN.abfuhr.findIndex(x => x.datum === datum && x.art === art);
-    if (i > -1) DATEN.abfuhr.splice(i,1);
-    markiere(); abfuhrListe();
+  box.innerHTML = liste.map((e,i) =>
+    '<div class="eintrag"><div class="eintrag-text">' +
+      '<div class="eintrag-titel">' + esc(e.titel) + '</div>' +
+      '<div class="eintrag-meta">' + esc(e.gruppe || 'Weiteres') + ' · ' +
+      esc(SERVICE_ARTEN[e.typ] || e.typ) + (e.wert ? ' · ' + esc(e.wert) : '') + '</div></div>' +
+      '<div class="eintrag-knopf">' +
+        '<button data-hoch="' + e.id + '"' + (i === 0 ? ' disabled' : '') + ' title="nach oben">↑</button>' +
+        '<button data-runter="' + e.id + '"' + (i === liste.length-1 ? ' disabled' : '') + ' title="nach unten">↓</button>' +
+        '<button data-sb="' + e.id + '">Bearbeiten</button>' +
+        '<button class="weg" data-sl="' + e.id + '">Löschen</button>' +
+      '</div></div>').join('');
+
+  box.querySelectorAll('[data-hoch]').forEach(b => b.onclick = () => serviceVerschieben(b.dataset.hoch, -1));
+  box.querySelectorAll('[data-runter]').forEach(b => b.onclick = () => serviceVerschieben(b.dataset.runter, 1));
+
+  box.querySelectorAll('[data-sb]').forEach(b => b.onclick = () => {
+    const e = DATEN.service.find(x => String(x.id) === b.dataset.sb);
+    $('service-id').value = e.id; $('service-gruppe').value = e.gruppe || '';
+    $('service-typ').value = e.typ; $('service-titel').value = e.titel;
+    $('service-wert').value = e.wert || ''; $('service-text').value = e.text || '';
+    $('service-modus').textContent = 'Eintrag bearbeiten';
+    $('service-speichern').textContent = 'Änderung übernehmen';
+    $('service-abbrechen').style.display = '';
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  box.querySelectorAll('[data-sl]').forEach(b => b.onclick = () => {
+    if (!confirm('Eintrag wirklich löschen?')) return;
+    DATEN.service = DATEN.service.filter(x => String(x.id) !== b.dataset.sl);
+    markiere(); serviceListe(); gruppenVorschlaege(); melde('Eintrag gelöscht.');
   });
 }
 
@@ -1121,13 +1155,15 @@ function alles(){
   DATEN.vereine   = DATEN.vereine   || [];
   DATEN.termine   = DATEN.termine   || [];
   DATEN.meldungen = DATEN.meldungen || [];
-  DATEN.abfuhr    = DATEN.abfuhr    || [];
+  DATEN.service   = DATEN.service   || [];
   vereinsauswahl(); pdfZielAuswahl();
-  terminFormularLeeren(); meldungFormularLeeren(); vereinFormularLeeren();
-  termineListe(); meldungenListe(); abfuhrListe(); vereineListe();
+  terminFormularLeeren(); meldungFormularLeeren();
+  serviceFormularLeeren(); vereinFormularLeeren();
+  termineListe(); meldungenListe(); serviceListe(); vereineListe();
+  gruppenVorschlaege();
   ghFelderFuellen();
   $('fussinfo').textContent = DATEN.termine.length + ' Termine · ' +
-    DATEN.meldungen.length + ' Meldungen · ' + DATEN.abfuhr.length + ' Abfuhrtermine';
+    DATEN.meldungen.length + ' Meldungen · ' + DATEN.service.length + ' Service-Einträge';
 }
 
 laden();
