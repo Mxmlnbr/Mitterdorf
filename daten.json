@@ -109,6 +109,303 @@
       "start": "2026-10-10T10:00",
       "ort": "Vereinsheim",
       "text": "Gebrauchte Ski und Schuhe verkaufen oder kaufen. Annahme ab 9 Uhr."
+    },
+    {
+      "id": 9,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "(SG) Mitterdorf/Mitterkreith 2 (9) – (SG) Wetterfeld/Pösing/Stamsried",
+      "start": "2026-08-09T10:30",
+      "ort": "Sportgelände Mitterkeith, Platz 2,Weiherhausweg 48,93426 Roding",
+      "text": "C-Junioren · Freundschaftsspiele · Auswärtsspiel"
+    },
+    {
+      "id": 10,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf II – (SG) Chambtal II / SV Gleißenberg-Lixenried II",
+      "start": "2026-08-09T13:30",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · B Klasse · Heimspiel"
+    },
+    {
+      "id": 11,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf – SG Chambtal",
+      "start": "2026-08-09T15:15",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · Kreisliga · Heimspiel"
+    },
+    {
+      "id": 12,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Willmering-Waff. II – SpVgg Mitterdorf II",
+      "start": "2026-08-16T13:30",
+      "ort": "Sportgelände Willmering, Platz 1,Am Sportplatz 2,93497 Willmering",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 13,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Willmering-Waffenbrunn – SpVgg Mitterdorf",
+      "start": "2026-08-16T15:15",
+      "ort": "Sportgelände Willmering, Platz 1,Am Sportplatz 2,93497 Willmering",
+      "text": "Herren · Kreisliga · Auswärtsspiel"
+    },
+    {
+      "id": 14,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "(SG2) Geigant II/Waldmünchen I – SpVgg Mitterdorf II",
+      "start": "2026-08-19T19:00",
+      "ort": "Sportgelände Geigant, Platz 1,Kellerweg 35,93449 Geigant",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 15,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf – 1. FC Miltach",
+      "start": "2026-08-23T15:15",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · Kreisliga · Heimspiel"
+    },
+    {
+      "id": 16,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "(SG) SV Wiesenfelden – (SG) Mitterdorf/Mitterkreith",
+      "start": "2026-08-25T18:00",
+      "ort": "Leopold-Bartl-Sportgelände Wiesenfelden, Platz 1,Falkensteiner Str. 31,94344 Wiesenfelden",
+      "text": "C-Junioren · Freundschaftsspiele · Auswärtsspiel"
+    },
+    {
+      "id": 17,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "(SG2) Geigant II/Waldmünchen I – SpVgg Mitterdorf II",
+      "start": "2026-08-28T19:00",
+      "ort": "",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 18,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "(SG) SpVgg Willmering-Waffenbrunn – (SG) Mitterkreith/Mitterdorf",
+      "start": "2026-08-29T16:00",
+      "ort": "Sportgelände Willmering, Platz 2,Am Sportplatz 2,93497 Willmering",
+      "text": "B-Junioren · Freundschaftsspiele · Auswärtsspiel"
+    },
+    {
+      "id": 19,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "TSV Nittenau 2 – (SG) Mitterdorf/Mitterkreith",
+      "start": "2026-08-30T10:30",
+      "ort": "Sportgelände Nittenau, Platz 1,Fischbacher Str. 52,93149 Nittenau",
+      "text": "D-Junioren · Freundschaftsspiele · Auswärtsspiel"
+    },
+    {
+      "id": 20,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "TV Waldmünchen – SpVgg Mitterdorf",
+      "start": "2026-08-30T15:15",
+      "ort": "Sportgelände Geigant, Platz 1,Kellerweg 35,93449 Geigant",
+      "text": "Herren · Kreisliga · Auswärtsspiel"
+    },
+    {
+      "id": 21,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf II – FC Furth im Wald II",
+      "start": "2026-09-06T13:30",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · B Klasse · Heimspiel"
+    },
+    {
+      "id": 22,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf – FC Stamsried",
+      "start": "2026-09-06T15:15",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · Kreisliga · Heimspiel"
+    },
+    {
+      "id": 23,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "(SG) Pemfling/Katzbach – (SG) Mitterdorf/Mitterkreith",
+      "start": "2026-09-10T18:00",
+      "ort": "Sportgelände Katzbach, Platz 1,Loiblinger Str. 12,93413 Cham",
+      "text": "C-Junioren · Freundschaftsspiele · Auswärtsspiel"
+    },
+    {
+      "id": 24,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Eschlkam II – SpVgg Mitterdorf II",
+      "start": "2026-09-13T13:30",
+      "ort": "Chambtal-Arena Eschlkam, Platz 1,Jahnweg 10,93458 Eschlkam",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 25,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Eschlkam – SpVgg Mitterdorf",
+      "start": "2026-09-13T15:15",
+      "ort": "Chambtal-Arena Eschlkam, Platz 1,Jahnweg 10,93458 Eschlkam",
+      "text": "Herren · Kreisliga · Auswärtsspiel"
+    },
+    {
+      "id": 26,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf II – (SG) Chammünster II /Chamerau II",
+      "start": "2026-09-20T13:30",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · B Klasse · Heimspiel"
+    },
+    {
+      "id": 27,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf – (SG )Chamerau-Chammünster",
+      "start": "2026-09-20T15:15",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · Kreisliga · Heimspiel"
+    },
+    {
+      "id": 28,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf II – DJK Arnschwang II",
+      "start": "2026-09-26T15:15",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · B Klasse · Heimspiel"
+    },
+    {
+      "id": 29,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf – DJK Arnschwang",
+      "start": "2026-09-26T17:00",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · Kreisliga · Heimspiel"
+    },
+    {
+      "id": 30,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "(SG1) Zandt I/Vilzing III – SpVgg Mitterdorf II",
+      "start": "2026-10-04T13:15",
+      "ort": "",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 31,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "DJK Vilzing II – SpVgg Mitterdorf",
+      "start": "2026-10-04T15:00",
+      "ort": "Waldsportplatz Zandt, Platz 1,Sportplatzstr. 15,93499 Zandt",
+      "text": "Herren · Kreisliga · Auswärtsspiel"
+    },
+    {
+      "id": 32,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf II – (SG2) Michelsdorf II / Cham III",
+      "start": "2026-10-10T15:15",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · B Klasse · Heimspiel"
+    },
+    {
+      "id": 33,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf – (SG1) Michelsdorf / Cham II",
+      "start": "2026-10-10T17:00",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · Kreisliga · Heimspiel"
+    },
+    {
+      "id": 34,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf II – FC Untertraubenbach II",
+      "start": "2026-10-17T15:15",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · B Klasse · Heimspiel"
+    },
+    {
+      "id": 35,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf – FC Untertraubenbach",
+      "start": "2026-10-17T17:00",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · Kreisliga · Heimspiel"
+    },
+    {
+      "id": 36,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SG Schönthal-Premeischl II – SpVgg Mitterdorf II",
+      "start": "2026-10-25T12:30",
+      "ort": "Sportgelände Schönthal, Platz 1,Im Winkerl,93488 Schönthal",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 37,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SG Schönthal-Premeischl – SpVgg Mitterdorf",
+      "start": "2026-10-25T14:15",
+      "ort": "Sportgelände Schönthal, Platz 1,Im Winkerl,93488 Schönthal",
+      "text": "Herren · Kreisliga · Auswärtsspiel"
+    },
+    {
+      "id": 38,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf II – SG Schloßberg 09 II",
+      "start": "2026-10-31T14:45",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · B Klasse · Heimspiel"
+    },
+    {
+      "id": 39,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SpVgg Mitterdorf – SG Schloßberg",
+      "start": "2026-10-31T16:30",
+      "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "Herren · Kreisliga · Heimspiel"
+    },
+    {
+      "id": 40,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "(SG) Chambtal II / SV – SpVgg Mitterdorf II Gleißenberg-Lixenried II",
+      "start": "2026-11-08T12:30",
+      "ort": "Sportplatz Dalking,Ränkamer Str.,93495 Weiding",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 41,
+      "verein": "spvgg-fussball",
+      "quelle": "bfv",
+      "titel": "SG Chambtal – SpVgg Mitterdorf",
+      "start": "2026-11-08T14:15",
+      "ort": "Sportplatz Dalking,Ränkamer Str.,93495 Weiding",
+      "text": "Herren · Kreisliga · Auswärtsspiel"
     }
   ],
   "meldungen": [
