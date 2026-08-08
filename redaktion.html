@@ -99,6 +99,39 @@ button.tat{font:inherit;font-size:13.5px;font-weight:600;border-radius:8px;paddi
 
 .leer{color:var(--grau);font-size:13.5px;padding:18px 0;text-align:center}
 
+@media (min-width:1000px){
+  body{background:#EFEBE4;padding-bottom:96px}
+  .wrap,.reiter,main{max-width:960px}
+  header{padding:20px 28px}
+  .status,.schreibschutz{padding-left:28px;padding-right:28px}
+  .reiter{padding-left:28px;padding-right:28px}
+  main{padding-left:28px;padding-right:28px}
+  .tafel{padding:24px}
+  .formular{padding:18px 20px}
+  .reihe > div{min-width:190px}
+  .fuss .wrap{max-width:960px}
+}
+
+@media (min-width:1280px){
+  .wrap,.reiter,main,.fuss .wrap{max-width:1120px}
+  /* Formular links, Liste rechts */
+  #t-termine,#t-meldungen,#t-service,#t-vereine{
+    display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);
+    gap:0 26px;align-items:start;
+  }
+  #t-termine > .formular:first-child,
+  #t-meldungen > .formular:first-child,
+  #t-service > .formular:first-child,
+  #t-vereine > .formular:first-child{grid-row:1;grid-column:1}
+  #t-termine > h2,#t-meldungen > h2,#t-service > h2,#t-vereine > h2{grid-column:2;margin-top:0}
+  #t-termine > .listen-leiste{grid-column:2}
+  #t-termine > #liste-termine,#t-meldungen > #liste-meldungen,
+  #t-service > #liste-service,#t-vereine > #liste-vereine{grid-column:2}
+  #t-termine > .formular:not(:first-child),
+  #t-service > .formular:not(:first-child),
+  #t-termine > .tipp,#t-vereine > .tipp{grid-column:1}
+}
+
 .listen-leiste{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
 .listen-leiste input{flex:2 1 200px}
 .listen-leiste select{flex:1 1 130px}
