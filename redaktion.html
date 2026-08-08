@@ -121,23 +121,9 @@ button.tat{font:inherit;font-size:13.5px;font-weight:600;border-radius:8px;paddi
 }
 
 @media (min-width:1280px){
-  .wrap,.reiter,main,.fuss .wrap{max-width:1120px}
-  /* Formular links, Liste rechts */
-  #t-termine,#t-meldungen,#t-service,#t-vereine{
-    display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);
-    gap:0 26px;align-items:start;
-  }
-  #t-termine > .formular:first-child,
-  #t-meldungen > .formular:first-child,
-  #t-service > .formular:first-child,
-  #t-vereine > .formular:first-child{grid-row:1;grid-column:1}
-  #t-termine > h2,#t-meldungen > h2,#t-service > h2,#t-vereine > h2{grid-column:2;margin-top:0}
-  #t-termine > .listen-leiste{grid-column:2}
-  #t-termine > #liste-termine,#t-meldungen > #liste-meldungen,
-  #t-service > #liste-service,#t-vereine > #liste-vereine{grid-column:2}
-  #t-termine > .formular:not(:first-child),
-  #t-service > .formular:not(:first-child),
-  #t-termine > .tipp,#t-vereine > .tipp{grid-column:1}
+  .wrap,.reiter,main,.fuss .wrap{max-width:1000px}
+  .tafel{padding:28px}
+  .formular{padding:20px 22px}
 }
 
 .listen-leiste{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
@@ -1030,7 +1016,7 @@ $('termin-speichern').onclick = () => {
   markiere(); terminFormularLeeren(); termineListe(); alteInfo();
 };
 
-let vergangenOffen = false;
+let offeneGruppen = null;   // null heißt: beim nächsten Aufbau neu festlegen
 
 function termineFilterAuswahl(){
   const o = $('termin-filter-ort');
@@ -1043,13 +1029,10 @@ function termineFilterAuswahl(){
       '<option value="' + esc(x.id) + '">' + esc(x.name) + '</option>').join('');
   o.value = alterOrt;
 
-  // Nur die Vereine des gewählten Ortsteils anbieten
   const passende = vereineGeordnet(o.value);
   v.innerHTML = '<option value="">' +
     (o.value ? 'Alle Vereine in ' + esc(ortsName(o.value)) : 'Alle Vereine') + '</option>' +
     passende.map(vereinOption).join('');
-
-  // War ein Verein gewählt, der hier nicht vorkommt, wieder auf alle stellen
   v.value = passende.some(e => e.verein.id === alterVerein) ? alterVerein : '';
 }
 
@@ -1060,7 +1043,9 @@ function naechsterTermin(t){
   return treffer.length ? new Date(treffer[0].start) : null;
 }
 
-function termineListe(){
+function termineListe(zustandBehalten){
+  if (!zustandBehalten) offeneGruppen = null;
+
   const box = $('liste-termine');
   const heuteTag = new Date(); heuteTag.setHours(0,0,0,0);
 
@@ -1092,14 +1077,39 @@ function termineListe(){
   const vergangen = einzeln.filter(t => new Date(t.start) < heuteTag)
                            .sort((a,b) => new Date(b.start) - new Date(a.start));
 
-  const pfeil = '<svg class="pfeil" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>';
+  /* Gruppen in Anzeigereihenfolge aufbauen */
+  const gruppen = [];
+  if (regeln.length)
+    gruppen.push({ schluessel:'regeln', name:'Wiederkehrend', art:'regel', termine:regeln });
 
-  const kopf = (name, zahl, klickbar, offen, marke) =>
-    '<' + (klickbar ? 'button' : 'div') + ' class="liste-gruppe' + (klickbar ? ' klickbar' : '') + '"' +
-    (klickbar ? ' data-auf="' + marke + '" aria-expanded="' + offen + '"' : '') + '>' +
-    '<span class="name">' + esc(name) + '</span><span class="zahl">' + zahl + '</span>' +
-    '<span class="strich"></span>' + (klickbar ? pfeil : '') +
-    '</' + (klickbar ? 'button' : 'div') + '>';
+  const nachMonat = new Map();
+  kommend.forEach(t => {
+    const d = new Date(t.start);
+    const s = 'm-' + d.getFullYear() + '-' + zz(d.getMonth()+1);
+    if (!nachMonat.has(s)){
+      const g = { schluessel:s, name:d.toLocaleDateString('de-DE',{month:'long',year:'numeric'}),
+                  art:'kommend', termine:[] };
+      nachMonat.set(s, g); gruppen.push(g);
+    }
+    nachMonat.get(s).termine.push(t);
+  });
+
+  if (vergangen.length)
+    gruppen.push({ schluessel:'alt', name:'Vergangen', art:'alt', termine:vergangen });
+
+  /* Welche Gruppen sind offen? Bei einer Suche alle, sonst nur die vordersten */
+  if (offeneGruppen === null){
+    offeneGruppen = new Set();
+    if (suche || fOrt || fVerein){
+      gruppen.forEach(g => offeneGruppen.add(g.schluessel));
+    } else {
+      const ersterMonat = gruppen.find(g => g.art === 'kommend');
+      if (regeln.length) offeneGruppen.add('regeln');
+      if (ersterMonat) offeneGruppen.add(ersterMonat.schluessel);
+    }
+  }
+
+  const pfeil = '<svg class="pfeil" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>';
 
   const zeile = (t, art) => {
     const v = DATEN.vereine.find(x => x.id === t.verein);
@@ -1125,37 +1135,23 @@ function termineListe(){
       '</div></div>';
   };
 
-  let html = '';
-
-  if (regeln.length)
-    html += kopf('Wiederkehrend', regeln.length, false) + regeln.map(t => zeile(t,'regel')).join('');
-
-  if (kommend.length){
-    let letzterMonat = null;
-    kommend.forEach(t => {
-      const d = new Date(t.start);
-      const s = d.getFullYear() + '-' + zz(d.getMonth()+1);
-      if (s !== letzterMonat){
-        const anzahl = kommend.filter(x => {
-          const y = new Date(x.start);
-          return y.getFullYear() + '-' + zz(y.getMonth()+1) === s;
-        }).length;
-        html += kopf(d.toLocaleDateString('de-DE',{month:'long',year:'numeric'}), anzahl, false);
-        letzterMonat = s;
-      }
-      html += zeile(t,'kommend');
-    });
-  }
-
-  if (vergangen.length){
-    html += kopf('Vergangen', vergangen.length, true, vergangenOffen, 'alt');
-    if (vergangenOffen) html += vergangen.map(t => zeile(t,'alt')).join('');
-  }
-
-  box.innerHTML = html;
+  box.innerHTML = gruppen.map(g => {
+    const offen = offeneGruppen.has(g.schluessel);
+    return '<button class="liste-gruppe klickbar" data-auf="' + g.schluessel + '" ' +
+             'aria-expanded="' + offen + '">' +
+             '<span class="name">' + esc(g.name) + '</span>' +
+             '<span class="zahl">' + g.termine.length + '</span>' +
+             '<span class="strich"></span>' + pfeil +
+           '</button>' +
+           (offen ? g.termine.map(t => zeile(t, g.art)).join('') : '');
+  }).join('');
 
   box.querySelectorAll('[data-auf]').forEach(b => b.onclick = () => {
-    vergangenOffen = !vergangenOffen; termineListe();
+    const s = b.dataset.auf;
+    if (offeneGruppen.has(s)) offeneGruppen.delete(s); else offeneGruppen.add(s);
+    termineListe(true);
+    const neu = box.querySelector('[data-auf="' + s + '"]');
+    if (neu) neu.scrollIntoView({block:'nearest'});
   });
 
   box.querySelectorAll('[data-bearbeiten]').forEach(b => b.onclick = () => {
@@ -1180,7 +1176,7 @@ function termineListe(){
     const t = DATEN.termine.find(x => String(x.id) === b.dataset.loeschen);
     if (!confirm('Termin „' + t.titel + '“ wirklich löschen?')) return;
     DATEN.termine = DATEN.termine.filter(x => String(x.id) !== b.dataset.loeschen);
-    markiere(); termineListe(); alteInfo(); melde('Termin gelöscht.');
+    markiere(); termineListe(true); alteInfo(); melde('Termin gelöscht.');
   });
 }
 
