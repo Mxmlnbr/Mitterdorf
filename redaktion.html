@@ -88,7 +88,9 @@ button.tat{font:inherit;font-size:13.5px;font-weight:600;border-radius:8px;paddi
   font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px}
 
 .meldebox{padding:11px 13px;border-radius:9px;font-size:13.5px;margin-bottom:14px;display:none}
-.meldebox.zeig{display:block}
+.meldebox.zeig{display:block;line-height:1.6}
+.meldebox code{background:rgba(0,0,0,.07);padding:1px 5px;border-radius:4px;
+  font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px}
 .gut{background:#EAF4EC;border:1px solid #C3DFC9;color:#2C5C36}
 .schlecht{background:#FBE9E7;border:1px solid #F0C4BE;color:#7E2B21}
 
@@ -561,6 +563,7 @@ button.tat{font:inherit;font-size:13.5px;font-weight:600;border-radius:8px;paddi
 <div class="fuss">
   <div class="wrap">
     <span class="info" id="fussinfo"></span>
+    <button class="tat sekundaer" id="neu-laden">Neu laden</button>
     <button class="tat sekundaer" id="datei-laden">Andere daten.json öffnen</button>
     <button class="tat sekundaer" id="herunterladen">Herunterladen</button>
     <button class="tat primaer" id="veroeffentlichen" style="display:none">Veröffentlichen</button>
@@ -587,6 +590,7 @@ function melde(text, gut = true){
   const b = $('meldebox');
   b.className = 'meldebox zeig ' + (gut ? 'gut' : 'schlecht');
   b.textContent = text;
+  b.dataset.fluechtig = '1';
   clearTimeout(melde._t);
   melde._t = setTimeout(() => b.className = 'meldebox', 4200);
 }
@@ -606,20 +610,69 @@ window.addEventListener('beforeunload', e => {
 });
 
 /* ---------- Laden ---------- */
+/* Inhalte über die GitHub-Schnittstelle holen, wenn ein Zugang eingerichtet ist */
+async function ghDatenLaden(){
+  const stand = await ghDateiStand();
+  if (!stand || !stand.content) throw new Error('Die Datei liegt nicht im Repository.');
+  const roh = atob(String(stand.content).replace(/\s/g, ''));
+  const bytes = Uint8Array.from(roh, z => z.charCodeAt(0));
+  return JSON.parse(new TextDecoder('utf-8').decode(bytes));
+}
+
+function ladefehlerZeigen(grund){
+  const lokal = location.protocol === 'file:' || location.protocol === 'blob:';
+  const b = $('meldebox');
+  b.className = 'meldebox zeig schlecht';
+  b.innerHTML = '<b>Die Inhalte konnten nicht geladen werden.</b><br>' + (lokal
+    ? 'Diese Seite wurde als lokale Datei geöffnet. Browser dürfen dann keine Nachbardateien ' +
+      'nachladen. Öffne die Redaktion stattdessen über deine Internetadresse, also ' +
+      '<code>…/redaktion.html</code> auf GitHub Pages.'
+    : 'Neben dieser Seite liegt keine <code>daten.json</code>, oder sie enthält einen Fehler. ' +
+      'Meldung: ' + esc(grund)) +
+    '<br><br>Alternativ unten <b>Andere daten.json öffnen</b> nutzen und die Datei von Hand wählen.';
+}
+
 async function laden(){
+  // 1. Versuch: Datei neben dieser Seite
   try {
     const a = await fetch('daten.json?v=' + Date.now());
     if (!a.ok) throw new Error('HTTP ' + a.status);
     DATEN = await a.json();
     $('statustext').textContent = 'daten.json geladen';
     alles();
+    return;
   } catch (e) {
-    $('statustext').textContent = 'daten.json nicht gefunden – bitte unten manuell öffnen';
-    $('status').classList.add('geaendert');
-    DATEN = { ort:'Stadt Roding', stand:'', ortsteile:[], vereine:[], termine:[], meldungen:[], service:[] };
-    alles();
+    var grund = e.message;
   }
+
+  // 2. Versuch: über den eingerichteten GitHub-Zugang
+  if (ghBereit()){
+    try {
+      DATEN = await ghDatenLaden();
+      $('statustext').textContent = 'Inhalte direkt von GitHub geladen';
+      alles();
+      melde('Die Datei neben dieser Seite war nicht erreichbar. Inhalte kamen über GitHub.');
+      return;
+    } catch (e2) {
+      grund = e2.message;
+    }
+  }
+
+  // 3. Leer starten und erklären, was zu tun ist
+  $('statustext').textContent = 'Keine Inhalte geladen – siehe Hinweis oben';
+  $('status').classList.add('geaendert');
+  DATEN = { ort:'Stadt Roding', stand:'', ortsteile:[], vereine:[], termine:[], meldungen:[], service:[] };
+  alles();
+  ladefehlerZeigen(grund);
 }
+
+$('neu-laden').onclick = () => {
+  if (geaendert && !confirm('Es gibt ungespeicherte Änderungen. Wirklich neu laden?')) return;
+  geaendert = false;
+  $('status').classList.remove('geaendert');
+  $('meldebox').className = 'meldebox';
+  laden();
+};
 
 $('datei-laden').onclick = () => $('json-datei').click();
 $('json-datei').onchange = e => {
