@@ -632,5 +632,11 @@
       "wert": "https://pwa.entsorgung-cham.de/abfall-abc",
       "text": "Wohin gehört was?"
     }
+  ],
+  "ortsteile": [
+    {
+      "id": "mitterdorf",
+      "name": "Mitterdorf"
+    }
   ]
 }
