@@ -243,6 +243,8 @@ button.tat{font:inherit;font-size:13.5px;font-weight:600;border-radius:8px;paddi
       </div>
       <label for="verein-id">Kennung (Kleinbuchstaben, keine Leerzeichen)</label>
       <input id="verein-id" placeholder="ogv">
+      <label for="verein-mutter">Gehört zu</label>
+      <select id="verein-mutter"></select>
       <div class="knopfreihe">
         <button class="tat primaer" id="verein-speichern">Übernehmen</button>
         <button class="tat sekundaer" id="verein-abbrechen" style="display:none">Abbrechen</button>
@@ -368,7 +370,13 @@ document.querySelectorAll('.reiter button').forEach(b => b.onclick = () => {
 /* ============ TERMINE ============ */
 function vereinsauswahl(){
   $('termin-verein').innerHTML = DATEN.vereine
-    .map(v => '<option value="' + esc(v.id) + '">' + esc(v.name) + '</option>').join('');
+    .map(v => '<option value="' + esc(v.id) + '">' +
+      esc(v.mutter ? '\u00a0\u00a0\u2514 ' + v.name : v.name) + '</option>').join('');
+
+  const eigene = $('verein-altid').value;
+  $('verein-mutter').innerHTML = '<option value="">Eigenständiger Verein</option>' +
+    DATEN.vereine.filter(v => !v.mutter && v.id !== eigene)
+      .map(v => '<option value="' + esc(v.id) + '">' + esc(v.name) + '</option>').join('');
 }
 
 function terminFormularLeeren(){
@@ -600,6 +608,7 @@ function vereinFormularLeeren(){
   $('verein-altid').value = ''; $('verein-name').value = '';
   $('verein-kuerzel').value = ''; $('verein-id').value = '';
   $('verein-id').disabled = false;
+  $('verein-mutter').value = '';
   $('verein-modus').textContent = 'Neuer Verein';
   $('verein-abbrechen').style.display = 'none';
   $('verein-speichern').textContent = 'Übernehmen';
@@ -621,13 +630,21 @@ $('verein-speichern').onclick = () => {
   if (!name || !kuerzel || !id){ melde('Name, Kürzel und Kennung sind Pflicht.', false); return; }
   if (!/^[a-z0-9]+$/.test(id)){ melde('Die Kennung darf nur Kleinbuchstaben und Ziffern enthalten.', false); return; }
 
+  const mutter = $('verein-mutter').value;
   const altid = $('verein-altid').value;
   if (altid){
-    Object.assign(DATEN.vereine.find(v => v.id === altid), { name, kuerzel });
+    if (mutter && DATEN.vereine.some(v => v.mutter === altid)){
+      melde('Dieser Verein hat selbst Abteilungen und kann keiner anderen zugeordnet werden.', false); return;
+    }
+    const v = DATEN.vereine.find(x => x.id === altid);
+    v.name = name; v.kuerzel = kuerzel;
+    if (mutter) v.mutter = mutter; else delete v.mutter;
     melde('Verein geändert.');
   } else {
     if (DATEN.vereine.some(v => v.id === id)){ melde('Diese Kennung gibt es schon.', false); return; }
-    DATEN.vereine.push({ id, name, kuerzel });
+    const neuerV = { id, name, kuerzel };
+    if (mutter) neuerV.mutter = mutter;
+    DATEN.vereine.push(neuerV);
     melde('Verein angelegt.');
   }
   markiere(); vereinFormularLeeren(); vereineListe(); vereinsauswahl();
@@ -639,7 +656,7 @@ function vereineListe(){
   box.innerHTML = DATEN.vereine.map(v => {
     const n = DATEN.termine.filter(t => t.verein === v.id).length;
     return '<div class="eintrag"><div class="eintrag-text">' +
-      '<div class="eintrag-titel">' + esc(v.name) + '</div>' +
+      '<div class="eintrag-titel">' + (v.mutter ? '&#8627; ' : '') + esc(v.name) + '</div>' +
       '<div class="eintrag-meta">Kürzel ' + esc(v.kuerzel) + ' · Kennung ' + esc(v.id) +
       ' · ' + n + (n === 1 ? ' Termin' : ' Termine') + '</div></div>' +
       '<div class="eintrag-knopf"><button data-vb="' + esc(v.id) + '">Bearbeiten</button>' +
@@ -651,6 +668,8 @@ function vereineListe(){
     $('verein-altid').value = v.id; $('verein-name').value = v.name;
     $('verein-kuerzel').value = v.kuerzel; $('verein-id').value = v.id;
     $('verein-id').disabled = true;
+    vereinsauswahl();
+    $('verein-mutter').value = v.mutter || '';
     $('verein-modus').textContent = 'Verein bearbeiten';
     $('verein-speichern').textContent = 'Änderung übernehmen';
     $('verein-abbrechen').style.display = '';
@@ -661,6 +680,8 @@ function vereineListe(){
     const id = b.dataset.vl;
     const n = DATEN.termine.filter(t => t.verein === id).length;
     if (n){ melde('Der Verein hat noch ' + n + ' Termine. Diese zuerst löschen oder umhängen.', false); return; }
+    const k = DATEN.vereine.filter(v => v.mutter === id).length;
+    if (k){ melde('Der Verein hat noch ' + k + ' Abteilungen. Diese zuerst entfernen.', false); return; }
     if (!confirm('Verein wirklich löschen?')) return;
     DATEN.vereine = DATEN.vereine.filter(v => v.id !== id);
     markiere(); vereineListe(); vereinsauswahl(); melde('Verein gelöscht.');

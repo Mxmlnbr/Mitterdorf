@@ -13,6 +13,18 @@
       "kuerzel": "SpV"
     },
     {
+      "id": "spvgg-fussball",
+      "name": "Abteilung Fußball",
+      "kuerzel": "FB",
+      "mutter": "spvgg"
+    },
+    {
+      "id": "spvgg-ski",
+      "name": "Abteilung Ski",
+      "kuerzel": "SKI",
+      "mutter": "spvgg"
+    },
+    {
       "id": "burschen",
       "name": "Burschenverein Mitterdorf",
       "kuerzel": "BV"
@@ -21,11 +33,6 @@
       "id": "schuetzen",
       "name": "Schützenverein",
       "kuerzel": "SV"
-    },
-    {
-      "id": "ski",
-      "name": "Ski Club Mitterdorf",
-      "kuerzel": "SC"
     },
     {
       "id": "kifw",
@@ -57,7 +64,7 @@
     },
     {
       "id": 3,
-      "verein": "spvgg",
+      "verein": "spvgg-fussball",
       "titel": "Heimspiel gegen DJK Beucherling",
       "start": "2026-08-16T15:00",
       "ort": "Sportplatz Mitterdorf",
@@ -97,7 +104,7 @@
     },
     {
       "id": 8,
-      "verein": "ski",
+      "verein": "spvgg-ski",
       "titel": "Saisoneröffnung mit Materialbörse",
       "start": "2026-10-10T10:00",
       "ort": "Vereinsheim",
@@ -140,248 +147,40 @@
   ],
   "abfuhr": [
     {
-      "datum": "2026-01-07",
+      "datum": "2026-08-11",
       "art": "bio"
     },
     {
-      "datum": "2026-01-09",
-      "art": "rest"
-    },
-    {
-      "datum": "2026-01-14",
-      "art": "papier"
-    },
-    {
-      "datum": "2026-01-20",
-      "art": "bio"
-    },
-    {
-      "datum": "2026-01-22",
-      "art": "rest"
-    },
-    {
-      "datum": "2026-02-03",
-      "art": "bio"
-    },
-    {
-      "datum": "2026-02-05",
-      "art": "rest"
-    },
-    {
-      "datum": "2026-02-17",
-      "art": "bio"
-    },
-    {
-      "datum": "2026-02-19",
-      "art": "rest"
-    },
-    {
-      "datum": "2026-02-25",
-      "art": "papier"
-    },
-    {
-      "datum": "2026-03-03",
-      "art": "bio"
-    },
-    {
-      "datum": "2026-03-05",
-      "art": "rest"
-    },
-    {
-      "datum": "2026-03-17",
-      "art": "bio"
-    },
-    {
-      "datum": "2026-03-19",
-      "art": "rest"
-    },
-    {
-      "datum": "2026-03-31",
-      "art": "bio"
-    },
-    {
-      "datum": "2026-04-02",
-      "art": "rest"
-    },
-    {
-      "datum": "2026-04-09",
-      "art": "papier"
-    },
-    {
-      "datum": "2026-04-14",
-      "art": "bio"
-    },
-    {
-      "datum": "2026-04-16",
-      "art": "rest"
-    },
-    {
-      "datum": "2026-04-28",
-      "art": "bio"
-    },
-    {
-      "datum": "2026-04-30",
-      "art": "rest"
-    },
-    {
-      "datum": "2026-05-12",
-      "art": "bio"
-    },
-    {
-      "datum": "2026-05-15",
-      "art": "rest"
-    },
-    {
-      "datum": "2026-05-20",
-      "art": "papier"
-    },
-    {
-      "datum": "2026-05-27",
-      "art": "bio"
-    },
-    {
-      "datum": "2026-05-29",
-      "art": "rest"
-    },
-    {
-      "datum": "2026-06-09",
-      "art": "bio"
-    },
-    {
-      "datum": "2026-06-11",
-      "art": "rest"
-    },
-    {
-      "datum": "2026-06-23",
-      "art": "bio"
-    },
-    {
-      "datum": "2026-06-25",
-      "art": "rest"
-    },
-    {
-      "datum": "2026-07-01",
-      "art": "papier"
-    },
-    {
-      "datum": "2026-07-07",
-      "art": "bio"
-    },
-    {
-      "datum": "2026-07-09",
-      "art": "rest"
-    },
-    {
-      "datum": "2026-07-21",
-      "art": "bio"
-    },
-    {
-      "datum": "2026-07-23",
-      "art": "rest"
-    },
-    {
-      "datum": "2026-08-04",
-      "art": "bio"
-    },
-    {
-      "datum": "2026-08-06",
-      "art": "rest"
-    },
-    {
-      "datum": "2026-08-12",
+      "datum": "2026-08-13",
       "art": "papier"
     },
     {
       "datum": "2026-08-18",
-      "art": "bio"
+      "art": "rest"
     },
     {
-      "datum": "2026-08-20",
-      "art": "rest"
+      "datum": "2026-08-25",
+      "art": "bio"
     },
     {
       "datum": "2026-09-01",
+      "art": "rest"
+    },
+    {
+      "datum": "2026-09-08",
       "art": "bio"
     },
     {
-      "datum": "2026-09-03",
-      "art": "rest"
+      "datum": "2026-09-10",
+      "art": "papier"
     },
     {
       "datum": "2026-09-15",
-      "art": "bio"
-    },
-    {
-      "datum": "2026-09-17",
       "art": "rest"
     },
     {
-      "datum": "2026-09-23",
-      "art": "papier"
-    },
-    {
-      "datum": "2026-09-29",
+      "datum": "2026-09-22",
       "art": "bio"
-    },
-    {
-      "datum": "2026-10-01",
-      "art": "rest"
-    },
-    {
-      "datum": "2026-10-13",
-      "art": "bio"
-    },
-    {
-      "datum": "2026-10-15",
-      "art": "rest"
-    },
-    {
-      "datum": "2026-10-27",
-      "art": "bio"
-    },
-    {
-      "datum": "2026-10-29",
-      "art": "rest"
-    },
-    {
-      "datum": "2026-11-04",
-      "art": "papier"
-    },
-    {
-      "datum": "2026-11-10",
-      "art": "bio"
-    },
-    {
-      "datum": "2026-11-12",
-      "art": "rest"
-    },
-    {
-      "datum": "2026-11-24",
-      "art": "bio"
-    },
-    {
-      "datum": "2026-11-26",
-      "art": "rest"
-    },
-    {
-      "datum": "2026-12-08",
-      "art": "bio"
-    },
-    {
-      "datum": "2026-12-10",
-      "art": "rest"
-    },
-    {
-      "datum": "2026-12-16",
-      "art": "papier"
-    },
-    {
-      "datum": "2026-12-22",
-      "art": "bio"
-    },
-    {
-      "datum": "2026-12-24",
-      "art": "rest"
     }
   ]
 }

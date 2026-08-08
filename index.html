@@ -75,6 +75,16 @@ h2:first-child{margin-top:2px}
 .chip[aria-pressed="true"]{background:var(--tiefblau);border-color:var(--tiefblau);color:#fff;font-weight:600}
 .chip:focus-visible{outline:2px solid var(--ziegel);outline-offset:2px}
 
+.unterfilter{padding-top:0;margin-top:-6px}
+.unterfilter:empty{display:none}
+.unterfilter .chip{font-size:11.5px;padding:5px 11px;border-style:dashed}
+.unterfilter .chip[aria-pressed="true"]{background:var(--ziegel);border-color:var(--ziegel);border-style:solid}
+
+.abteilung{padding-left:22px;position:relative}
+.abteilung::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:1px;background:var(--linie)}
+.abteilung .kuerzel{flex:0 0 30px;height:30px;font-size:11px;background:var(--ziegel-hell);color:#8E4A1E}
+.abteilung .verein-name{font-size:13.5px}
+
 .meldung{border-left:3px solid var(--linie);padding-left:12px;margin-bottom:16px}
 .meldung.wichtig{border-left-color:var(--warn)}
 .marke{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
@@ -181,6 +191,7 @@ nav button:focus-visible{outline:2px solid var(--ziegel);outline-offset:-3px}
 
     <section id="s-termine" class="aktiv">
       <div class="filter" id="filter" role="group" aria-label="Nach Verein filtern"></div>
+      <div class="filter unterfilter" id="filter-unter" role="group" aria-label="Nach Abteilung filtern"></div>
       <div id="termine"></div>
     </section>
 
@@ -297,7 +308,23 @@ function relativ(d){
 
 let DATEN = null;
 let filterId = 'alle';
+let unterId  = 'alle';
 const vereinVon = id => DATEN.vereine.find(v => v.id === id);
+
+/* Bei einer Abteilung den Hauptverein liefern, sonst den Verein selbst */
+function wurzelVon(id){
+  const v = vereinVon(id);
+  return v ? (v.mutter || v.id) : id;
+}
+
+/* Anzeigename: bei Abteilungen mit Hauptverein davor */
+function anzeigeName(id){
+  const v = vereinVon(id);
+  if (!v) return '';
+  if (!v.mutter) return v.name;
+  const m = vereinVon(v.mutter);
+  return (m ? m.name + ' · ' : '') + v.name;
+}
 
 document.getElementById('heute').textContent =
   `${TAGE_LANG[heute.getDay()]}, ${heute.getDate()}. ${MONATE[heute.getMonth()]} ${heute.getFullYear()}`;
@@ -332,17 +359,42 @@ function zeigeFehler(e){
 /* ---------- Termine ---------- */
 function filterBauen(){
   const box = document.getElementById('filter');
-  const aktive = DATEN.vereine.filter(v => DATEN.termine.some(t => t.verein === v.id));
+  const kurz = v => v.name.replace('Freiwillige Feuerwehr','FFW').replace(' Mitterdorf','');
+
+  // Nur Vereine ohne Mutterverein in die obere Leiste
+  const oben = DATEN.vereine.filter(v => !v.mutter).filter(v =>
+    DATEN.termine.some(t => t.verein === v.id || wurzelVon(t.verein) === v.id));
+
   box.innerHTML = '';
-  [{id:'alle', name:'Alle'}].concat(aktive).forEach(v => {
+  [{id:'alle', name:'Alle'}].concat(oben).forEach(v => {
     const b = document.createElement('button');
     b.className = 'chip';
-    b.textContent = v.id === 'alle' ? 'Alle'
-      : v.name.replace('Freiwillige Feuerwehr','FFW').replace(' Mitterdorf','');
+    b.textContent = v.id === 'alle' ? 'Alle' : kurz(v);
     b.setAttribute('aria-pressed', String(v.id === filterId));
-    b.onclick = () => { filterId = v.id; filterBauen(); termineZeigen(); };
+    b.onclick = () => { filterId = v.id; unterId = 'alle'; filterBauen(); termineZeigen(); };
     box.appendChild(b);
   });
+
+  // Zweite Leiste nur, wenn der gewählte Verein Abteilungen hat
+  const unter = document.getElementById('filter-unter');
+  const kinder = DATEN.vereine.filter(v => v.mutter === filterId);
+  unter.innerHTML = '';
+  if (filterId === 'alle' || !kinder.length) return;
+
+  [{id:'alle', name:'Alle Abteilungen'}].concat(kinder).forEach(v => {
+    const b = document.createElement('button');
+    b.className = 'chip';
+    b.textContent = v.id === 'alle' ? 'Alle Abteilungen' : v.name.replace('Abteilung ','');
+    b.setAttribute('aria-pressed', String(v.id === unterId));
+    b.onclick = () => { unterId = v.id; filterBauen(); termineZeigen(); };
+    unter.appendChild(b);
+  });
+}
+
+function passt(t){
+  if (filterId === 'alle') return true;
+  if (wurzelVon(t.verein) !== filterId) return false;
+  return unterId === 'alle' || t.verein === unterId;
 }
 
 function icsBauen(t){
@@ -361,7 +413,7 @@ function termineZeigen(){
   const box = document.getElementById('termine');
   const liste = DATEN.termine
     .filter(t => new Date(t.start) >= heute)
-    .filter(t => filterId === 'alle' || t.verein === filterId)
+    .filter(passt)
     .sort((a,b) => new Date(a.start) - new Date(b.start));
 
   if (!liste.length){
@@ -380,7 +432,6 @@ function termineZeigen(){
       box.appendChild(h);
       letzterMonat = monat;
     }
-    const v = vereinVon(t.verein);
     const karte = document.createElement('div');
     karte.className = 'karte';
     karte.innerHTML =
@@ -390,7 +441,7 @@ function termineZeigen(){
         '<div class="wtag">' + TAGE[d.getDay()] + '</div></div>' +
         '<div style="flex:1;min-width:0">' +
           '<div class="termin-kopf">' + esc(t.titel) + '</div>' +
-          '<div class="veranstalter">' + esc(v ? v.name : '') + '</div>' +
+          '<div class="veranstalter">' + esc(anzeigeName(t.verein)) + '</div>' +
           '<div class="termin-meta">' + zz(d.getHours()) + ':' + zz(d.getMinutes()) + ' Uhr' +
             (t.ort ? ' · ' + esc(t.ort) : '') + '</div>' +
           (t.text ? '<div class="termin-text">' + esc(t.text) + '</div>' : '') +
@@ -515,13 +566,24 @@ function abfuhrListeZeichnen(kommend){
 
 /* ---------- Vereine ---------- */
 function vereineZeigen(){
-  document.getElementById('vereine').innerHTML =
-    DATEN.vereine.filter(v => v.id !== 'offen').map(v => {
-      const n = DATEN.termine.filter(t => t.verein === v.id && new Date(t.start) >= heute).length;
-      return '<div class="verein-zeile"><div class="kuerzel">' + esc(v.kuerzel) + '</div>' +
-        '<div><div class="verein-name">' + esc(v.name) + '</div>' +
-        '<div class="verein-zahl">' + (n===0?'kein Termin eingetragen':n===1?'1 Termin':n+' Termine') + '</div></div></div>';
-    }).join('');
+  const zaehle = id => DATEN.termine.filter(t =>
+    (t.verein === id || wurzelVon(t.verein) === id) && new Date(t.start) >= heute).length;
+
+  const zeile = (v, istAbteilung) => {
+    const n = zaehle(v.id);
+    return '<div class="verein-zeile' + (istAbteilung ? ' abteilung' : '') + '">' +
+      '<div class="kuerzel">' + esc(v.kuerzel) + '</div><div>' +
+      '<div class="verein-name">' + esc(v.name) + '</div>' +
+      '<div class="verein-zahl">' + (n === 0 ? 'kein Termin eingetragen' : n === 1 ? '1 Termin' : n + ' Termine') +
+      '</div></div></div>';
+  };
+
+  let html = '';
+  DATEN.vereine.filter(v => !v.mutter && v.id !== 'offen').forEach(v => {
+    html += zeile(v, false);
+    DATEN.vereine.filter(k => k.mutter === v.id).forEach(k => { html += zeile(k, true); });
+  });
+  document.getElementById('vereine').innerHTML = html;
 }
 
 /* ---------- Navigation ---------- */
