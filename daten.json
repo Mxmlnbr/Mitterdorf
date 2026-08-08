@@ -114,7 +114,8 @@
       "titel": "SpVgg Willmering-Waffenbrunn – SpVgg Mitterdorf",
       "start": "2026-08-16T15:15",
       "ort": "Sportgelände Willmering, Platz 1,Am Sportplatz 2,93497 Willmering",
-      "text": "Herren · Kreisliga · Auswärtsspiel"
+      "text": "Herren · Kreisliga · Auswärtsspiel",
+      "ortsteil": "mitterdorf"
     },
     {
       "id": 14,
@@ -143,7 +144,8 @@
       "titel": "(SG) SV Wiesenfelden – (SG) Mitterdorf/Mitterkreith",
       "start": "2026-08-25T18:00",
       "ort": "Leopold-Bartl-Sportgelände Wiesenfelden, Platz 1,Falkensteiner Str. 31,94344 Wiesenfelden",
-      "text": "C-Junioren · Freundschaftsspiele · Auswärtsspiel"
+      "text": "C-Junioren · Freundschaftsspiele · Auswärtsspiel",
+      "ortsteil": "mitterdorf"
     },
     {
       "id": 17,
@@ -152,7 +154,8 @@
       "titel": "(SG2) Geigant II/Waldmünchen I – SpVgg Mitterdorf II",
       "start": "2026-08-28T19:00",
       "ort": "",
-      "text": "Herren · B Klasse · Auswärtsspiel"
+      "text": "Herren · B Klasse · Auswärtsspiel",
+      "ortsteil": "mitterdorf"
     },
     {
       "id": 18,
@@ -271,7 +274,8 @@
       "titel": "SpVgg Mitterdorf – DJK Arnschwang",
       "start": "2026-09-26T17:00",
       "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
-      "text": "Herren · Kreisliga · Heimspiel"
+      "text": "Herren · Kreisliga · Heimspiel",
+      "ortsteil": "mitterdorf"
     },
     {
       "id": 30,
