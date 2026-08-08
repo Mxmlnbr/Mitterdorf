@@ -298,7 +298,8 @@
       "titel": "SpVgg Mitterdorf – (SG1) Michelsdorf / Cham II",
       "start": "2026-10-10T17:00",
       "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
-      "text": "Herren · Kreisliga · Heimspiel"
+      "text": "Herren · Kreisliga · Heimspiel",
+      "ortsteil": "mitterdorf"
     },
     {
       "id": 34,
@@ -307,7 +308,8 @@
       "titel": "SpVgg Mitterdorf II – FC Untertraubenbach II",
       "start": "2026-10-17T15:15",
       "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
-      "text": "Herren · B Klasse · Heimspiel"
+      "text": "Herren · B Klasse · Heimspiel",
+      "ortsteil": "mitterdorf"
     },
     {
       "id": 35,
