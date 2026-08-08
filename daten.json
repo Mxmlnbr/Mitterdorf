@@ -459,22 +459,6 @@
       "titel": "Wasserabschaltung im Bereich Dorfstraße",
       "datum": "2026-08-05",
       "text": "Am Mittwoch, 12. August, ist zwischen 8 und 12 Uhr das Wasser abgestellt. Betroffen sind die Hausnummern 1 bis 24. Bitte vorher Wasser abfüllen."
-    },
-    {
-      "id": 3,
-      "art": "amt",
-      "wichtig": false,
-      "titel": "Bürgersprechstunde im Ortsteil",
-      "datum": "2026-08-02",
-      "text": "Am letzten Donnerstag im Monat ist von 18 bis 19 Uhr Sprechstunde im Vereinsheim. Ohne Anmeldung, jeder kann kommen."
-    },
-    {
-      "id": 4,
-      "art": "warnung",
-      "wichtig": false,
-      "titel": "Waldbrandgefahr erhöht",
-      "datum": "2026-07-30",
-      "text": "Wegen der Trockenheit gilt bis auf Weiteres ein absolutes Rauchverbot im Wald. Grillen nur an ausgewiesenen Stellen."
     }
   ],
   "abfuhr": [
