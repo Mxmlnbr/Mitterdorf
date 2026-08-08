@@ -838,14 +838,26 @@ $('service-speichern').onclick = () => {
 
 $('service-vorschlaege').onclick = () => {
   const vorlage = [
-    { gruppe:'Notfall', typ:'tel',  titel:'Notruf',                        wert:'112',          text:'Feuerwehr und Rettungsdienst' },
-    { gruppe:'Notfall', typ:'tel',  titel:'Polizei',                       wert:'110',          text:'' },
-    { gruppe:'Notfall', typ:'tel',  titel:'Ärztlicher Bereitschaftsdienst', wert:'116117',      text:'Außerhalb der Sprechzeiten' },
-    { gruppe:'Notfall', typ:'tel',  titel:'Giftnotruf München',            wert:'089 19240',    text:'' },
-    { gruppe:'Abfall',  typ:'link', titel:'Abfuhrtermine für meine Adresse', wert:'https://pwa.entsorgung-cham.de/termine', text:'Kreiswerke Cham' },
-    { gruppe:'Abfall',  typ:'link', titel:'Wertstoffhof',                  wert:'https://pwa.entsorgung-cham.de/wertstoffhof', text:'Standorte und Öffnungszeiten' },
-    { gruppe:'Abfall',  typ:'link', titel:'Grüngut-Sammelstellen',         wert:'https://pwa.entsorgung-cham.de/gruengut', text:'' },
-    { gruppe:'Abfall',  typ:'link', titel:'Abfall-ABC',                    wert:'https://pwa.entsorgung-cham.de/abfall-abc', text:'Wohin gehört was?' }
+    { gruppe:'Notfall', typ:'tel', titel:'Notruf', wert:'112', text:'Feuerwehr und Rettungsdienst' },
+    { gruppe:'Notfall', typ:'tel', titel:'Polizei', wert:'110', text:'' },
+    { gruppe:'Notfall', typ:'tel', titel:'Ärztlicher Bereitschaftsdienst', wert:'116117', text:'Außerhalb der Sprechzeiten, rund um die Uhr' },
+    { gruppe:'Notfall', typ:'tel', titel:'Apotheken-Notdienst', wert:'0800 00 22833', text:'Kostenlos aus dem Festnetz, mobil 22833' },
+    { gruppe:'Notfall', typ:'link', titel:'Notdienst-Apotheke in der Nähe suchen', wert:'https://www.aponet.de/apotheke/notdienstsuche', text:'Mit Postleitzahl, tagesaktuell' },
+    { gruppe:'Notfall', typ:'tel', titel:'Giftnotruf München', wert:'089 19240', text:'Rund um die Uhr' },
+    { gruppe:'Versorgung', typ:'tel', titel:'Wasserversorgung Mitterdorfer Gruppe', wert:'09461 911797', text:'Zweckverband, Pfarrheideweg 6' },
+    { gruppe:'Versorgung', typ:'tel', titel:'Städtische Betriebe Roding', wert:'09461 9418-961', text:'Wasser und Abwasser' },
+    { gruppe:'Versorgung', typ:'tel', titel:'Störung Strom', wert:'0941 28003366', text:'Bayernwerk, rund um die Uhr' },
+    { gruppe:'Versorgung', typ:'tel', titel:'Störung Gas', wert:'0941 28003355', text:'Bayernwerk, rund um die Uhr' },
+    { gruppe:'Rathaus & Stadt', typ:'tel', titel:'Rathaus Roding', wert:'09461 94180', text:'Schulstraße 15, 93426 Roding' },
+    { gruppe:'Rathaus & Stadt', typ:'text', titel:'Öffnungszeiten Rathaus', wert:'', text:'Mo und Di 7:30–12 und 13–16 Uhr · Mi 7:30–12:30 Uhr · Do 7:30–12 und 13–18 Uhr · Fr 7:30–12:30 Uhr' },
+    { gruppe:'Rathaus & Stadt', typ:'link', titel:'Digitales Rathaus', wert:'https://buergerservice.roding.de/', text:'Anträge online erledigen' },
+    { gruppe:'Rathaus & Stadt', typ:'link', titel:'Anliegen ans Rathaus melden', wert:'https://www.roding.de/rathaus/verwaltung/heisser-draht-ins-rathaus', text:'Wunsch, Idee, Mangel oder Beschwerde' },
+    { gruppe:'Rathaus & Stadt', typ:'text', titel:'Stadtbauhof', wert:'Am Richterholz 2', text:'Mo bis Do 7–12 und 12:30–16 Uhr · Fr 7–12 Uhr' },
+    { gruppe:'Rathaus & Stadt', typ:'tel', titel:'Stadtbibliothek', wert:'09461 9418-955', text:'Schubertstraße 2' },
+    { gruppe:'Abfall', typ:'link', titel:'Abfuhrtermine für meine Adresse', wert:'https://pwa.entsorgung-cham.de/termine', text:'Kreiswerke Cham, nach Straße und Hausnummer' },
+    { gruppe:'Abfall', typ:'text', titel:'Wertstoffhof Roding', wert:'Am Richterholz 2', text:'Di 9–12 Uhr · Mi 13–16 Uhr · Fr 12–16 Uhr · Sa 9–12 Uhr' },
+    { gruppe:'Abfall', typ:'text', titel:'Grüngut am Stadtbauhof', wert:'Am Richterholz 2', text:'Holziger Baum- und Strauchschnitt, Rasenschnitt und Laub · Mo bis Sa ganztägig' },
+    { gruppe:'Abfall', typ:'link', titel:'Abfall-ABC', wert:'https://pwa.entsorgung-cham.de/abfall-abc', text:'Wohin gehört was?' }
   ];
 
   let zahl = 0;
