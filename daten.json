@@ -39,8 +39,9 @@
     },
     {
       "id": "ogv",
-      "name": "Obst- und Gartenbauverein",
-      "kuerzel": "OGV"
+      "name": "Obst- und Gartenbauverein Mitterdorf",
+      "kuerzel": "OGVM",
+      "ortsteil": "mitterdorf"
     },
     {
       "id": "jugendfeuerwehr",
