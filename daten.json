@@ -93,7 +93,8 @@
       "titel": "SpVgg Mitterdorf – SG Chambtal",
       "start": "2026-08-09T15:15",
       "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
-      "text": "Herren · Kreisliga · Heimspiel"
+      "text": "Herren · Kreisliga · Heimspiel",
+      "ortsteil": "mitterdorf"
     },
     {
       "id": 12,
