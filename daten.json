@@ -31,13 +31,19 @@
     },
     {
       "id": "schuetzen",
-      "name": "Schützenverein",
+      "name": "Schützenverein Waldeslust Roding-Bahnhof",
       "kuerzel": "SVWB"
     },
     {
       "id": "ogv",
       "name": "Obst- und Gartenbauverein",
       "kuerzel": "OGV"
+    },
+    {
+      "id": "kinderfeuerwehr",
+      "name": "Kinderfeuerwehr",
+      "kuerzel": "KFW",
+      "mutter": "ffw"
     }
   ],
   "termine": [
