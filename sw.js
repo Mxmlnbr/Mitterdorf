@@ -2,8 +2,9 @@
    Grundsatz: Inhalte immer frisch aus dem Netz holen.
    Der Zwischenspeicher dient nur als Reserve, wenn kein Empfang da ist. */
 
-const CACHE = 'mitterdorf-v2';
-const SCHALE = ['./', './index.html', './daten.json', './manifest.json', './icon.svg'];
+const CACHE = 'mitterdorf-v3';
+const SCHALE = ['./', './index.html', './daten.json', './manifest.json', './icon.svg',
+                './impressum.html', './datenschutz.html'];
 
 self.addEventListener('install', e => {
   e.waitUntil(

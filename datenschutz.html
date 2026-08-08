@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1B4670">
+<title>Datenschutz · Mitterdorf</title>
+<style>
+:root{
+  --tiefblau:#1B4670; --blau:#2A5E8F; --blau-hell:#E8EEF4;
+  --ziegel:#C4703A; --papier:#FBF9F5; --karte:#FFFFFF;
+  --tinte:#16212B; --grau:#6E7B85; --linie:#E2E6EA;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:ui-sans-serif,system-ui,"Segoe UI",Roboto,sans-serif;
+  background:var(--papier);color:var(--tinte);line-height:1.62;-webkit-font-smoothing:antialiased}
+.rahmen{max-width:480px;margin:0 auto;min-height:100vh;background:var(--papier);
+  box-shadow:0 0 60px rgba(27,70,112,.10)}
+
+header{background:var(--tiefblau);color:#fff;padding:calc(14px + env(safe-area-inset-top)) 20px 0}
+.zurueck{display:inline-flex;align-items:center;gap:6px;color:#9FC0DC;text-decoration:none;
+  font-size:12.5px;font-weight:600;padding:4px 0}
+.zurueck svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2;
+  stroke-linecap:round;stroke-linejoin:round}
+.zurueck:hover{color:#fff}
+h1{font-size:23px;font-weight:800;letter-spacing:-.02em;margin:6px 0 14px}
+.bogen{display:block;width:100%;height:22px}
+
+main{padding:20px 18px 46px}
+h2{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--grau);
+  font-weight:700;margin:26px 0 8px}
+h2:first-child{margin-top:0}
+p{font-size:14.5px;margin-bottom:11px}
+ul{margin:0 0 11px 18px;font-size:14.5px}
+li{margin-bottom:5px}
+p.anschrift{background:var(--karte);border:1px solid var(--linie);border-radius:10px;padding:13px 15px}
+a{color:var(--tiefblau)}
+.merk{background:#EAF2EA;border:1px solid #C6DCC9;border-radius:10px;padding:13px 15px;
+  font-size:14px;margin:14px 0}
+.merk b{display:block;margin-bottom:3px}
+.klein{font-size:12.5px;color:var(--grau);margin-top:26px;text-align:center}
+</style>
+</head>
+<body>
+<div class="rahmen">
+
+  <header>
+    <a class="zurueck" href="index.html">
+      <svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg> Zurück zur App
+    </a>
+    <h1>Datenschutz</h1>
+    <svg class="bogen" viewBox="0 0 480 22" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 22 L0 17 Q120 -4 240 10 Q360 25 480 5 L480 22 Z" fill="#FBF9F5"/>
+      <path d="M0 17 Q120 -4 240 10 Q360 25 480 5" fill="none" stroke="#C4703A" stroke-width="2"/>
+    </svg>
+  </header>
+
+  <main>
+
+    <div class="merk">
+      <b>Kurz gesagt</b>
+      Diese App setzt keine Cookies, nutzt keine Analysewerkzeuge und legt kein Nutzerkonto an.
+      Es wird nicht nachverfolgt, wer welche Seite aufruft. Beim Abruf entstehen lediglich die
+      technisch unvermeidbaren Protokolldaten beim Anbieter des Webspeichers.
+    </div>
+
+    <h2>Verantwortlicher</h2>
+    <p class="anschrift">
+      Maximilian Bauer<br>
+      Bahnhofstraße 5a<br>
+      93426 Roding<br>
+      <a href="mailto:maxbauer@online.de">maxbauer@online.de</a>
+    </p>
+
+    <h2>Bereitstellung der App und Protokolldaten</h2>
+    <p>
+      Die App wird über GitHub Pages bereitgestellt, einen Dienst der GitHub Inc.,
+      88 Colin P Kelly Jr Street, San Francisco, CA 94107, USA. Beim Aufruf überträgt der Browser
+      technisch notwendige Daten an deren Server, die dort in Protokolldateien erfasst werden können:
+    </p>
+    <ul>
+      <li>IP-Adresse des anfragenden Geräts</li>
+      <li>Datum und Uhrzeit des Zugriffs</li>
+      <li>aufgerufene Datei und übertragene Datenmenge</li>
+      <li>Browsertyp, Version und Betriebssystem</li>
+    </ul>
+    <p>
+      Diese Verarbeitung ist erforderlich, damit die App überhaupt ausgeliefert werden kann.
+      Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; das berechtigte Interesse liegt in der
+      technisch fehlerfreien Bereitstellung. Auf Umfang und Dauer dieser Protokollierung habe
+      ich keinen Einfluss und erhalte selbst keinen Zugriff darauf.
+    </p>
+    <p>
+      Dabei können Daten in die USA übermittelt werden. Einzelheiten zur Verarbeitung durch
+      GitHub finden sich in deren Datenschutzerklärung:
+      <a href="https://docs.github.com/de/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub Privacy Statement</a>.
+    </p>
+
+    <h2>Keine Cookies, keine Analyse</h2>
+    <p>
+      Es werden keine Cookies gesetzt, keine Zählpixel eingebunden und keine Reichweitenmessung
+      durchgeführt. Schriftarten und Programmbestandteile der App liegen auf demselben Server und
+      werden nicht von Dritten nachgeladen. Ein Einwilligungsbanner ist deshalb nicht erforderlich.
+    </p>
+
+    <h2>Speicherung auf dem eigenen Gerät</h2>
+    <p>
+      Damit die App auch ohne Empfang lesbar bleibt, legt der Browser eine Kopie der Seiten und
+      der Inhaltsdatei im geräteeigenen Zwischenspeicher ab. Diese Daten verbleiben auf dem Gerät,
+      werden nicht übertragen und lassen sich über die Browsereinstellungen jederzeit löschen.
+      Wird die App über „Zum Startbildschirm hinzufügen“ installiert, entsteht dadurch ebenfalls
+      keine Datenübertragung an mich.
+    </p>
+
+    <h2>Verweise auf andere Angebote</h2>
+    <p>
+      Die App verlinkt auf Angebote Dritter, unter anderem die Stadt Roding, die Kreiswerke Cham,
+      den Bayerischen Fußball-Verband und die Notdienstsuche der deutschen Apotheken. Beim
+      Anklicken verlässt man diese App; ab diesem Zeitpunkt gilt die Datenschutzerklärung des
+      jeweiligen Anbieters. Inhalte dieser Anbieter werden nicht in die App eingebettet, sondern
+      erst beim Anklicken geöffnet.
+    </p>
+    <p>
+      Telefonnummern und E-Mail-Adressen sind als Verknüpfung hinterlegt. Beim Antippen öffnet
+      sich die Telefon- oder E-Mail-Anwendung des Geräts. Ein Anruf oder Versand erfolgt nur,
+      wenn er dort ausdrücklich bestätigt wird.
+    </p>
+
+    <h2>Kontaktaufnahme</h2>
+    <p>
+      Bei einer Nachricht per E-Mail werden die übermittelten Angaben zur Bearbeitung des
+      Anliegens verarbeitet. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Die Nachrichten
+      werden gelöscht, sobald sie nicht mehr benötigt werden und keine gesetzlichen
+      Aufbewahrungsfristen entgegenstehen. Eine Weitergabe an Dritte erfolgt nicht.
+    </p>
+
+    <h2>Redaktionsbereich</h2>
+    <p>
+      Die Seite <code>redaktion.html</code> dient ausschließlich der Pflege der Inhalte durch die
+      Redaktion. Sie speichert Zugangsdaten allein im Browser der bearbeitenden Person und lädt
+      für das Einlesen von PDF-Dateien eine Programmbibliothek von cdnjs.cloudflare.com nach.
+      Für die normale Nutzung der App wird diese Seite nicht aufgerufen.
+    </p>
+
+    <h2>Rechte der betroffenen Personen</h2>
+    <p>
+      Es besteht das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16), Löschung
+      (Art. 17), Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20) sowie
+      auf Widerspruch gegen die Verarbeitung (Art. 21). Zur Ausübung genügt eine Nachricht an die
+      oben genannte Adresse.
+    </p>
+    <p>
+      Unabhängig davon besteht ein Beschwerderecht bei einer Aufsichtsbehörde. Zuständig ist das
+      Bayerische Landesamt für Datenschutzaufsicht, Promenade 18, 91522 Ansbach.
+    </p>
+
+    <h2>Stand</h2>
+    <p>
+      Diese Erklärung gilt ab August 2026. Sie wird angepasst, sobald sich die Funktionen der App
+      oder die Rechtslage ändern.
+    </p>
+
+    <p class="klein">
+      <a href="impressum.html">Impressum</a> · <a href="index.html">Zurück zur App</a>
+    </p>
+
+  </main>
+</div>
+</body>
+</html>

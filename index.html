@@ -156,6 +156,13 @@ nav button:focus-visible{outline:2px solid var(--ziegel);outline-offset:-3px}
 .leer{text-align:center;color:var(--grau);font-size:13.5px;padding:34px 16px}
 .fussnote{font-size:11.5px;color:var(--grau);text-align:center;padding:18px 8px 4px;line-height:1.6}
 
+.rechtliches{padding:16px 16px 92px;text-align:center;font-size:11.5px;
+  color:var(--grau);line-height:1.7;border-top:1px solid var(--linie);margin-top:22px}
+.rechtliches a{color:var(--tiefblau);font-weight:600;text-decoration:none;padding:2px 4px}
+.rechtliches a:hover{text-decoration:underline}
+.rechtliches .trenner{opacity:.5}
+.rechtliches .privat{display:block;margin-top:6px;max-width:330px;margin-inline:auto}
+
 .fehler{margin:20px 16px;padding:16px;border-radius:12px;background:#FBE9E7;
   border:1px solid #F0C4BE;color:#7E2B21;font-size:13.5px;line-height:1.6}
 .fehler b{display:block;margin-bottom:6px;font-size:15px}
@@ -208,11 +215,15 @@ nav button:focus-visible{outline:2px solid var(--ziegel);outline-offset:-3px}
         Termin melden? Eine Nachricht an die Redaktion genügt – wir stellen ihn ein.
         Kein eigener Zugang, kein Passwort.
       </div>
-      <div class="fussnote" id="fussnote">
-        Prototyp · Impressum und Datenschutzerklärung fehlen noch
-      </div>
+      <div class="fussnote" id="fussnote"></div>
     </section>
   </main>
+
+  <div class="rechtliches">
+    <a href="impressum.html">Impressum</a><span class="trenner">·</span><a href="datenschutz.html">Datenschutz</a>
+    <span class="privat">Privates Angebot von Maximilian Bauer. Keine amtliche Bekanntmachung
+    der Stadt Roding – verbindlich sind stets die Angaben der zuständigen Stellen.</span>
+  </div>
 
   <nav>
     <button data-ziel="termine" aria-current="page">
@@ -512,7 +523,7 @@ function starten(){
   if (DATEN.stand){
     const s = new Date(DATEN.stand);
     document.getElementById('fussnote').textContent =
-      'Stand der Daten: ' + s.toLocaleDateString('de-DE') + ' · Impressum und Datenschutzerklärung fehlen noch';
+      'Stand der Daten: ' + s.toLocaleDateString('de-DE');
   }
   filterBauen(); termineZeigen(); meldungenZeigen(); serviceZeigen(); vereineZeigen();
 }
