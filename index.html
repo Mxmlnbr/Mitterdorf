@@ -94,7 +94,8 @@ h2:first-child{margin-top:2px}
 
 .abteilung{padding-left:22px;position:relative}
 .abteilung::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:1px;background:var(--linie)}
-.abteilung .kuerzel{flex:0 0 30px;height:30px;font-size:11px;background:var(--ziegel-hell);color:#8E4A1E}
+.abteilung .kuerzel{flex:0 0 36px;height:32px;font-size:10.5px;background:var(--ziegel-hell);color:#8E4A1E}
+.abteilung .kuerzel[data-lang="1"]{font-size:9px}
 .abteilung .verein-name{font-size:13.5px}
 
 .meldung{border-left:3px solid var(--linie);padding-left:12px;margin-bottom:16px}
@@ -149,8 +150,10 @@ a.service-zeile:focus-visible{outline:2px solid var(--ziegel);outline-offset:-2p
 
 .verein-zeile{display:flex;align-items:center;gap:11px;padding:11px 2px;border-bottom:1px solid var(--linie)}
 .verein-zeile:last-child{border-bottom:none}
-.kuerzel{flex:0 0 38px;height:38px;border-radius:10px;background:var(--blau-hell);color:var(--tiefblau);
-  display:grid;place-items:center;font-weight:800;font-size:12.5px}
+.kuerzel{flex:0 0 42px;height:38px;border-radius:10px;background:var(--blau-hell);color:var(--tiefblau);
+  display:grid;place-items:center;font-weight:800;font-size:12.5px;
+  padding:0 2px;text-align:center;overflow:hidden}
+.kuerzel[data-lang="1"]{font-size:10.5px;letter-spacing:-.03em}
 .verein-name{font-size:14.5px;font-weight:600}
 .verein-zahl{font-size:12px;color:var(--grau)}
 
@@ -541,7 +544,8 @@ function vereineZeigen(){
   const zeile = (v, istAbteilung) => {
     const n = zaehle(v.id);
     return '<div class="verein-zeile' + (istAbteilung ? ' abteilung' : '') + '">' +
-      '<div class="kuerzel">' + esc(v.kuerzel) + '</div><div>' +
+      '<div class="kuerzel"' + (String(v.kuerzel).length > 4 ? ' data-lang="1"' : '') + '>' +
+      esc(v.kuerzel) + '</div><div>' +
       '<div class="verein-name">' + esc(v.name) + '</div>' +
       '<div class="verein-zahl">' + (n === 0 ? 'kein Termin eingetragen' : n === 1 ? '1 Termin' : n + ' Termine') +
       '</div></div></div>';
