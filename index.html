@@ -76,14 +76,18 @@ h2:first-child{margin-top:2px}
   stroke-linecap:round;stroke-linejoin:round;transition:transform .2s;flex:0 0 auto}
 .monatskopf[aria-expanded="true"] .pfeil{transform:rotate(180deg)}
 .monatskopf:hover .name{color:var(--tiefblau)}
+.monatskopf:hover .pfeil{stroke:var(--ziegel)}
 .monatskopf:focus-visible{outline:2px solid var(--ziegel);outline-offset:2px;border-radius:8px}
 
-.mehr-monat{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;
-  font:inherit;font-size:12.5px;font-weight:600;color:var(--tiefblau);
-  background:#fff;border:1px solid var(--linie);border-radius:10px;
-  padding:10px;cursor:pointer;margin:-2px 0 10px}
-.mehr-monat:hover{background:var(--blau-hell)}
-.mehr-monat:focus-visible{outline:2px solid var(--ziegel);outline-offset:2px}
+.mehr-monat{display:flex;align-items:center;justify-content:center;gap:5px;width:100%;
+  font:inherit;font-size:11.5px;font-weight:600;letter-spacing:.01em;
+  color:var(--grau);background:none;border:none;
+  padding:3px 0 6px;cursor:pointer;margin:-4px 0 8px}
+.mehr-monat:hover{color:var(--tiefblau)}
+.mehr-monat:focus-visible{outline:2px solid var(--ziegel);outline-offset:2px;border-radius:7px}
+.mehr-monat .pfeil{width:12px;height:12px;stroke:var(--ziegel);fill:none;stroke-width:2.6;
+  stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+.mehr-monat:hover .pfeil{stroke:var(--tiefblau)}
 
 .termin{display:flex;gap:13px;align-items:flex-start}
 .tag{flex:0 0 50px;text-align:center;background:var(--blau-hell);border-radius:9px;padding:7px 0}
