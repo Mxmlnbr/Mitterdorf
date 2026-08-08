@@ -504,6 +504,416 @@
       "ortsteil": "mitterdorf",
       "ort": "Gasthaus Hecht",
       "text": "Abendmode"
+    },
+    {
+      "id": 51,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "(SG) Mitterdorf/Mitterkreith 2 (9) – (SG) Wetterfeld/Pösing/Stamsried",
+      "start": "2026-08-09T10:30",
+      "ort": "Sportgelände Mitterkeith, Platz 2,Weiherhausweg 48,93426 Roding",
+      "text": "C-Junioren · Freundschaftsspiele · Auswärtsspiel"
+    },
+    {
+      "id": 52,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "TSV Nittenau II – SV Mitterkreith II",
+      "start": "2026-08-09T13:30",
+      "ort": "Gerhard Stangl Sportgelände Nittenau,Fischbacher Str. 52,93149 Nittenau",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 53,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "TSV Nittenau – SV Mitterkreith",
+      "start": "2026-08-09T15:15",
+      "ort": "Gerhard Stangl Sportgelände Nittenau,Fischbacher Str. 52,93149 Nittenau",
+      "text": "Herren · Kreisklasse · Auswärtsspiel"
+    },
+    {
+      "id": 54,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "SV Mitterkreith II – FC Wald/Süssenbach II",
+      "start": "2026-08-16T13:30",
+      "ort": "Sportgelände Mitterkreith, Platz 1,Weiherhausweg 48,93426 Roding",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 55,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "SV Mitterkreith – FC Wald/Süssenbach",
+      "start": "2026-08-16T15:15",
+      "ort": "Sportgelände Mitterkreith, Platz 1,Weiherhausweg 48,93426 Roding",
+      "text": "Herren · Kreisklasse · Auswärtsspiel"
+    },
+    {
+      "id": 56,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "1. SG Regental II – SV Mitterkreith II",
+      "start": "2026-08-23T13:30",
+      "ort": "Sportgelände Walderbach, Platz 1,Katzenrohrbacher Str.,93194 Walderbach",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 57,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "1. SG Regental – SV Mitterkreith",
+      "start": "2026-08-23T15:15",
+      "ort": "Sportgelände Walderbach, Platz 1,Katzenrohrbacher Str.,93194 Walderbach",
+      "text": "Herren · Kreisklasse · Auswärtsspiel"
+    },
+    {
+      "id": 58,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "(SG) SV Wiesenfelden – (SG) Mitterdorf/Mitterkreith",
+      "start": "2026-08-25T18:00",
+      "ort": "Leopold-Bartl-Sportgelände Wiesenfelden, Platz 1,Falkensteiner Str. 31,94344 Wiesenfelden",
+      "text": "C-Junioren · Freundschaftsspiele · Auswärtsspiel"
+    },
+    {
+      "id": 59,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "SV Mitterkreith – FC Maxhütte-Haidhof",
+      "start": "2026-08-28T19:00",
+      "ort": "Sportgelände Mitterkreith, Platz 1,Weiherhausweg 48,93426 Roding",
+      "text": "Herren · Kreisklasse · Auswärtsspiel"
+    },
+    {
+      "id": 60,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "(SG) Mitterdorf/Mitterkreith – 1.SG Regental",
+      "start": "2026-08-29T16:00",
+      "ort": "Sportplatz 2 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "A-Junioren · Verbands-Pokal · Heimspiel"
+    },
+    {
+      "id": 61,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "(SG) SpVgg Willmering-Waffenbrunn – (SG) Mitterkreith/Mitterdorf",
+      "start": "2026-08-29T16:00",
+      "ort": "Sportgelände Willmering, Platz 2,Am Sportplatz 2,93497 Willmering",
+      "text": "B-Junioren · Freundschaftsspiele · Auswärtsspiel"
+    },
+    {
+      "id": 62,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "TSV Nittenau 2 – (SG) Mitterdorf/Mitterkreith",
+      "start": "2026-08-30T10:30",
+      "ort": "Sportgelände Nittenau, Platz 1,Fischbacher Str. 52,93149 Nittenau",
+      "text": "D-Junioren · Freundschaftsspiele · Auswärtsspiel"
+    },
+    {
+      "id": 63,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "DJK Rettenbach – SV Mitterkreith",
+      "start": "2026-09-04T18:00",
+      "ort": "Sportgelände Rettenbach, Platz 1,Langauer Str. 2,93191 Rettenbach",
+      "text": "Herren · Kreisklasse · Auswärtsspiel"
+    },
+    {
+      "id": 64,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "(SG) Mitterkreith/Mitterdorf – TSV Nittenau",
+      "start": "2026-09-05T16:00",
+      "ort": "Sportgelände Mitterkreith, Platz 1,Weiherhausweg 48,93426 Roding",
+      "text": "B-Junioren · Kreispokal · Auswärtsspiel"
+    },
+    {
+      "id": 65,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "(SG) Pemfling/Katzbach – (SG) Mitterdorf/Mitterkreith",
+      "start": "2026-09-10T18:00",
+      "ort": "Sportgelände Katzbach, Platz 1,Loiblinger Str. 12,93413 Cham",
+      "text": "C-Junioren · Freundschaftsspiele · Auswärtsspiel"
+    },
+    {
+      "id": 66,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "(SG) Wetterfeld/Pösing/Stamsried – (SG) Mitterdorf/Mitterkreith SV MITTERKREITH",
+      "start": "2026-09-12T11:30",
+      "ort": "Sportplatz VfB Wetterfeld,Sportplatzweg 1,93426 Roding",
+      "text": "C-Junioren · Verbands-Pokal · Auswärtsspiel"
+    },
+    {
+      "id": 67,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "SG DJK-SV Rettenbach 2 / SV Zinzenzell 2 – SV Mitterkreith",
+      "start": "2026-09-12T15:00",
+      "ort": "Sportgelände Rettenbach, Platz 1,Langauer Str. 2,93191 Rettenbach",
+      "text": "Frauen · Kreisliga · Auswärtsspiel"
+    },
+    {
+      "id": 68,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "(SG) Mitterdorf/Mitterkreith – JFG Drei Wappen Oberpfalz",
+      "start": "2026-09-12T16:00",
+      "ort": "Sportplatz 2 Mitterdorf,Kanalweg,93426 Roding",
+      "text": "D-Junioren · Kreispokal · Heimspiel"
+    },
+    {
+      "id": 69,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "TSV Falkenstein II – SV Mitterkreith II",
+      "start": "2026-09-13T13:30",
+      "ort": "Sportgelände Falkenstein, Platz 2,Zeller Str. 21,93167 Falkenstein",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 70,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "TSV Falkenstein – SV Mitterkreith",
+      "start": "2026-09-13T15:15",
+      "ort": "Sportgelände Falkenstein, Platz 2,Zeller Str. 21,93167 Falkenstein",
+      "text": "Herren · Kreisklasse · Auswärtsspiel"
+    },
+    {
+      "id": 71,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "SV Mitterkreith – SSV Schorndorf",
+      "start": "2026-09-20T11:00",
+      "ort": "Sportgelände Mitterkreith, Platz 1,Weiherhausweg 48,93426 Roding",
+      "text": "Frauen · Kreisliga · Auswärtsspiel"
+    },
+    {
+      "id": 72,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "SV Mitterkreith II – TSV Klardorf II",
+      "start": "2026-09-20T13:30",
+      "ort": "Sportgelände Mitterkreith, Platz 1,Weiherhausweg 48,93426 Roding",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 73,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "SV Mitterkreith – TSV Klardorf",
+      "start": "2026-09-20T15:15",
+      "ort": "Sportgelände Mitterkreith, Platz 1,Weiherhausweg 48,93426 Roding",
+      "text": "Herren · Kreisklasse · Auswärtsspiel"
+    },
+    {
+      "id": 74,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "DJK Beucherling II – SV Mitterkreith II",
+      "start": "2026-09-26T14:15",
+      "ort": "Sportgelände Beucherling Platz 1,Am Sportplatz 2,93199 Zell",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 75,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "DJK Beucherling – SV Mitterkreith",
+      "start": "2026-09-26T16:00",
+      "ort": "Sportgelände Beucherling Platz 1,Am Sportplatz 2,93199 Zell",
+      "text": "Herren · Kreisklasse · Auswärtsspiel"
+    },
+    {
+      "id": 76,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "(SG) SV Pullenried/TSV Eslarn – SV Mitterkreith",
+      "start": "2026-09-27T10:30",
+      "ort": "Sportplatz SV Pullenried,Pullenried 76,92526 Oberviechtach",
+      "text": "Frauen · Kreisliga · Auswärtsspiel"
+    },
+    {
+      "id": 77,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "SV Mitterkreith II – (SG2) Kleinwinklarn II/Neukirchen-Balbini I",
+      "start": "2026-10-04T13:30",
+      "ort": "Sportgelände Mitterkreith, Platz 1,Weiherhausweg 48,93426 Roding",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 78,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "SV Mitterkreith – (SG1) Neukirchen-Balbini/Kleinwinklarn",
+      "start": "2026-10-04T15:15",
+      "ort": "Sportgelände Mitterkreith, Platz 1,Weiherhausweg 48,93426 Roding",
+      "text": "Herren · Kreisklasse · Auswärtsspiel"
+    },
+    {
+      "id": 79,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "SV Mitterkreith – SV Lohberg",
+      "start": "2026-10-11T11:00",
+      "ort": "Sportgelände Mitterkreith, Platz 1,Weiherhausweg 48,93426 Roding",
+      "text": "Frauen · Kreisliga · Auswärtsspiel"
+    },
+    {
+      "id": 80,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "SpVgg Bruck II – SV Mitterkreith II",
+      "start": "2026-10-11T13:30",
+      "ort": "Sportgelände Bruck/Opf Platz 1,Schulstr. 7a,92436 Bruck i.d.OPf.",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 81,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "SpVgg Bruck – SV Mitterkreith SV MITTERKREITH",
+      "start": "2026-10-11T15:15",
+      "ort": "",
+      "text": "Herren · Kreisklasse · Auswärtsspiel"
+    },
+    {
+      "id": 82,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "SV Mitterkreith II – FC Maxhütte-Haidhof II",
+      "start": "2026-10-16T19:00",
+      "ort": "Sportgelände Mitterkreith, Platz 1,Weiherhausweg 48,93426 Roding",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 83,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "FC OVI-Teunz – SV Mitterkreith",
+      "start": "2026-10-17T16:00",
+      "ort": "TGW Arena Teunz, Platz 1,Ödmiesbacher Str. 56,92552 Teunz",
+      "text": "Frauen · Kreisliga · Auswärtsspiel"
+    },
+    {
+      "id": 84,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "TV Bodenwöhr II – SV Mitterkreith II",
+      "start": "2026-10-18T13:00",
+      "ort": "Schulsportplatz Bodenwöhr, Platz 1,Schulstr. 10,92439 Bodenwöhr",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 85,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "TV Bodenwöhr – SV Mitterkreith",
+      "start": "2026-10-18T15:00",
+      "ort": "Schulsportplatz Bodenwöhr, Platz 1,Schulstr. 10,92439 Bodenwöhr",
+      "text": "Herren · Kreisklasse · Auswärtsspiel"
+    },
+    {
+      "id": 86,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "SV Mitterkreith – SV Wilting 2",
+      "start": "2026-10-25T11:00",
+      "ort": "Sportgelände Mitterkreith, Platz 1,Weiherhausweg 48,93426 Roding",
+      "text": "Frauen · Kreisliga · Auswärtsspiel"
+    },
+    {
+      "id": 87,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "SV Mitterkreith II – DJK Arrach",
+      "start": "2026-10-25T13:30",
+      "ort": "",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 88,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "SV Mitterkreith – (SG1) Steinberg/Fischbach",
+      "start": "2026-10-25T14:15",
+      "ort": "Sportgelände Mitterkreith, Platz 1,Weiherhausweg 48,93426 Roding",
+      "text": "Herren · Kreisklasse · Auswärtsspiel"
+    },
+    {
+      "id": 89,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "ASV Burglengenfeld II – SV Mitterkreith",
+      "start": "2026-10-31T14:00",
+      "ort": "Stadion im Naabtalpark Burglengenfeld,Im Naabtalpark,93133 Burglengenfeld",
+      "text": "Herren · Kreisklasse · Auswärtsspiel"
+    },
+    {
+      "id": 90,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "SV Mitterkreith II – TSV Nittenau II",
+      "start": "2026-11-08T12:30",
+      "ort": "Sportgelände Mitterkreith, Platz 1,Weiherhausweg 48,93426 Roding",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 91,
+      "verein": "svmitterkreith",
+      "quelle": "bfv",
+      "ortsteil": "mitterkreith",
+      "titel": "SV Mitterkreith – TSV Nittenau",
+      "start": "2026-11-08T14:15",
+      "ort": "Sportgelände Mitterkreith, Platz 1,Weiherhausweg 48,93426 Roding",
+      "text": "Herren · Kreisklasse · Auswärtsspiel"
     }
   ],
   "meldungen": [
