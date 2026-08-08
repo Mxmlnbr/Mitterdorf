@@ -93,6 +93,16 @@ button.tat{font:inherit;font-size:13.5px;font-weight:600;border-radius:8px;paddi
 .schlecht{background:#FBE9E7;border:1px solid #F0C4BE;color:#7E2B21}
 
 .leer{color:var(--grau);font-size:13.5px;padding:18px 0;text-align:center}
+
+.vorschau{margin-top:14px;border:1px solid var(--linie);border-radius:9px;background:#fff;padding:12px}
+.vorschau h4{font-size:14px;margin-bottom:8px}
+.vorschau ul{list-style:none;max-height:210px;overflow:auto;margin:0 0 4px}
+.vorschau li{font-size:12.5px;color:#41505C;padding:4px 0;border-bottom:1px solid #F0F3F5;
+  display:flex;gap:9px}
+.vorschau li:last-child{border-bottom:none}
+.vorschau li b{font-weight:600;color:var(--tinte);min-width:88px;flex:0 0 auto}
+.vorschau .heim{color:var(--gruen);font-weight:700}
+.laedt{font-size:13px;color:var(--grau);padding:10px 0}
 </style>
 </head>
 <body>
@@ -143,6 +153,35 @@ button.tat{font:inherit;font-size:13.5px;font-weight:600;border-radius:8px;paddi
         <button class="tat sekundaer" id="termin-abbrechen" style="display:none">Abbrechen</button>
       </div>
     </div>
+    <div class="formular">
+      <h3>Spielplan aus BFV-PDF einlesen</h3>
+      <div class="unter">
+        Auf bfv.de den Vereinsspielplan als PDF herunterladen und hier auswählen.
+        Bereits importierte Spiele werden dabei ersetzt, von Hand angelegte Termine bleiben unberührt.
+      </div>
+
+      <div class="reihe">
+        <div>
+          <label for="pdf-ziel">Eintragen unter</label>
+          <select id="pdf-ziel"></select>
+        </div>
+      </div>
+
+      <div class="kasten">
+        <input type="checkbox" id="pdf-heim">
+        <label for="pdf-heim">Nur Heimspiele übernehmen</label>
+      </div>
+      <div class="kasten">
+        <input type="checkbox" id="pdf-jugend" checked>
+        <label for="pdf-jugend">Juniorenmannschaften einschließen</label>
+      </div>
+
+      <label for="pdf-datei">PDF auswählen</label>
+      <input type="file" id="pdf-datei" accept=".pdf,application/pdf">
+
+      <div id="pdf-vorschau"></div>
+    </div>
+
     <h2>Eingetragene Termine</h2>
     <div id="liste-termine"></div>
   </div>
@@ -445,6 +484,181 @@ function termineListe(){
   });
 }
 
+/* ============ SPIELPLAN-IMPORT (BFV-PDF) ============ */
+
+const ALTERSKLASSEN = ['Herren','Frauen','Senioren',
+  'A-Junioren','B-Junioren','C-Junioren','D-Junioren','E-Junioren','F-Junioren','G-Junioren',
+  'A-Juniorinnen','B-Juniorinnen','C-Juniorinnen','D-Juniorinnen',
+  'Ü32','Ü40','Ü50'];
+
+const KOPFZEILEN = ['VEREINSSPIELPLAN','SPVGG','ALLE VEREINS','ZEITRAUM','Seite ','TYP ',
+  'Kursiv','der Spielort','wurde getauscht','ERGEBNISSE ONLINE','BAYERISCHER','FUSSBALL-VERBAND'];
+
+const SPIELZEILE = /^(ME|FS|PO|RE|TU|HR)\s+(.+?)\s+(\d{2}\.\d{2}\.\d{4})\s+(?:(\d{2}:\d{2})\s+)?(.+?)\s+-\s+(.+)$/;
+const HAT_PLZ = /\d{5}\s/;
+
+let pdfGefunden = [];
+
+/* Ligaturen und Sonderzeichen glätten, die in PDFs vorkommen */
+function saeubern(s){
+  return s.replace(/\uFB01/g,'fi').replace(/\uFB02/g,'fl')
+          .replace(/\u00AD/g,'').replace(/\s+/g,' ').trim();
+}
+
+function pdfLibLaden(){
+  if (window.pdfjsLib) return Promise.resolve(window.pdfjsLib);
+  return new Promise((fertig, schief) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+    s.onload = () => {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      fertig(window.pdfjsLib);
+    };
+    s.onerror = () => schief(new Error('Die PDF-Bibliothek konnte nicht geladen werden. Besteht eine Internetverbindung?'));
+    document.head.appendChild(s);
+  });
+}
+
+/* Textbausteine des PDF nach Zeilen gruppieren */
+async function zeilenAusPdf(datei){
+  const lib = await pdfLibLaden();
+  const puffer = await datei.arrayBuffer();
+  const dok = await lib.getDocument({ data: puffer }).promise;
+  const zeilen = [];
+
+  for (let n = 1; n <= dok.numPages; n++){
+    const seite = await dok.getPage(n);
+    const inhalt = await seite.getTextContent();
+    const nachY = new Map();
+
+    inhalt.items.forEach(it => {
+      if (!it.str || !it.str.trim()) return;
+      const y = Math.round(it.transform[5]);
+      let schluessel = y;
+      for (const k of nachY.keys()) if (Math.abs(k - y) <= 2) { schluessel = k; break; }
+      if (!nachY.has(schluessel)) nachY.set(schluessel, []);
+      nachY.get(schluessel).push({ x: it.transform[4], text: it.str });
+    });
+
+    [...nachY.entries()]
+      .sort((a,b) => b[0] - a[0])
+      .forEach(([, stuecke]) => {
+        stuecke.sort((a,b) => a.x - b.x);
+        const z = saeubern(stuecke.map(s => s.text).join(' '));
+        if (z) zeilen.push(z);
+      });
+  }
+  return zeilen;
+}
+
+function spieleAusZeilen(zeilen){
+  const spiele = [];
+  let altersklasse = 'Herren';
+  let aktuell = null;
+
+  zeilen.forEach(z => {
+    if (ALTERSKLASSEN.includes(z)) { altersklasse = z; aktuell = null; return; }
+    if (KOPFZEILEN.some(k => z.startsWith(k))) return;
+
+    const m = SPIELZEILE.exec(z);
+    if (m){
+      aktuell = { typ:m[1], klasse:m[2], datum:m[3], zeit:m[4] || '',
+                  heim:m[5].trim(), gast:m[6].trim(), altersklasse, ort:'' };
+      spiele.push(aktuell);
+      return;
+    }
+    if (!aktuell) return;
+    if (HAT_PLZ.test(z)) aktuell.ort = z;
+    else if (z.length < 60) aktuell.gast = (aktuell.gast + ' ' + z).trim();
+  });
+
+  return spiele.filter(s => s.zeit && !/SPIELFREI/i.test(s.gast));
+}
+
+function istHeimspiel(s){
+  return /Mitterdorf/i.test(s.ort) || (!s.ort && /Mitterdorf/i.test(s.heim));
+}
+
+function inTermin(s, zielId){
+  const [t,mo,j] = s.datum.split('.');
+  return {
+    verein: zielId,
+    quelle: 'bfv',
+    titel: s.heim + ' – ' + s.gast,
+    start: j + '-' + mo + '-' + t + 'T' + s.zeit,
+    ort: s.ort,
+    text: s.altersklasse + ' · ' + s.klasse + ' · ' + (istHeimspiel(s) ? 'Heimspiel' : 'Auswärtsspiel')
+  };
+}
+
+function pdfZielAuswahl(){
+  const w = $('pdf-ziel');
+  const vorher = w.value;
+  w.innerHTML = DATEN.vereine.map(v =>
+    '<option value="' + esc(v.id) + '">' + esc(v.mutter ? '\u00a0\u00a0\u2514 ' + v.name : v.name) + '</option>').join('');
+  const fussball = DATEN.vereine.find(v => /fussball|fußball/i.test(v.id + v.name));
+  w.value = vorher || (fussball ? fussball.id : w.value);
+}
+
+function vorschauZeichnen(){
+  const box = $('pdf-vorschau');
+  const jugend = $('pdf-jugend').checked;
+  const nurHeim = $('pdf-heim').checked;
+
+  const auswahl = pdfGefunden
+    .filter(s => jugend || s.altersklasse === 'Herren' || s.altersklasse === 'Frauen')
+    .filter(s => !nurHeim || istHeimspiel(s))
+    .sort((a,b) => inTermin(a,'x').start.localeCompare(inTermin(b,'x').start));
+
+  if (!pdfGefunden.length){ box.innerHTML = ''; return; }
+
+  box.innerHTML = '<div class="vorschau"><h4>' + auswahl.length +
+    ' von ' + pdfGefunden.length + ' Spielen werden übernommen</h4><ul>' +
+    auswahl.map(s => '<li><b>' + s.datum + ' ' + s.zeit + '</b><span>' +
+      esc(s.heim) + ' – ' + esc(s.gast) +
+      (istHeimspiel(s) ? ' <span class="heim">H</span>' : '') + '</span></li>').join('') +
+    '</ul><div class="knopfreihe"><button class="tat primaer" id="pdf-uebernehmen">' +
+    auswahl.length + ' Spiele übernehmen</button></div></div>';
+
+  $('pdf-uebernehmen').onclick = () => {
+    const ziel = $('pdf-ziel').value;
+    const vorher = DATEN.termine.length;
+    DATEN.termine = DATEN.termine.filter(t => !(t.quelle === 'bfv' && t.verein === ziel));
+    const ersetzt = vorher - DATEN.termine.length;
+
+    let id = DATEN.termine.reduce((m,x) => Math.max(m, Number(x.id) || 0), 0);
+    auswahl.forEach(s => { DATEN.termine.push(Object.assign({ id: ++id }, inTermin(s, ziel))); });
+
+    markiere(); termineListe(); vereineListe();
+    box.innerHTML = '';
+    $('pdf-datei').value = '';
+    pdfGefunden = [];
+    melde(auswahl.length + ' Spiele übernommen' + (ersetzt ? ', ' + ersetzt + ' frühere ersetzt' : '') + '.');
+  };
+}
+
+$('pdf-datei').onchange = async e => {
+  const f = e.target.files[0]; if (!f) return;
+  $('pdf-vorschau').innerHTML = '<div class="laedt">PDF wird gelesen…</div>';
+  try {
+    const zeilen = await zeilenAusPdf(f);
+    pdfGefunden = spieleAusZeilen(zeilen);
+    if (!pdfGefunden.length){
+      $('pdf-vorschau').innerHTML = '';
+      melde('In der Datei wurden keine Spiele gefunden. Ist es der Vereinsspielplan vom BFV?', false);
+      return;
+    }
+    vorschauZeichnen();
+  } catch(err){
+    $('pdf-vorschau').innerHTML = '';
+    melde('Die PDF konnte nicht gelesen werden: ' + err.message, false);
+  }
+};
+
+$('pdf-heim').onchange = vorschauZeichnen;
+$('pdf-jugend').onchange = vorschauZeichnen;
+
 /* ============ MELDUNGEN ============ */
 function meldungFormularLeeren(){
   $('meldung-id').value = ''; $('meldung-titel').value = ''; $('meldung-text').value = '';
@@ -647,7 +861,7 @@ $('verein-speichern').onclick = () => {
     DATEN.vereine.push(neuerV);
     melde('Verein angelegt.');
   }
-  markiere(); vereinFormularLeeren(); vereineListe(); vereinsauswahl();
+  markiere(); vereinFormularLeeren(); vereineListe(); vereinsauswahl(); pdfZielAuswahl();
 };
 
 function vereineListe(){
@@ -694,7 +908,8 @@ function alles(){
   DATEN.termine   = DATEN.termine   || [];
   DATEN.meldungen = DATEN.meldungen || [];
   DATEN.abfuhr    = DATEN.abfuhr    || [];
-  vereinsauswahl(); terminFormularLeeren(); meldungFormularLeeren(); vereinFormularLeeren();
+  vereinsauswahl(); pdfZielAuswahl();
+  terminFormularLeeren(); meldungFormularLeeren(); vereinFormularLeeren();
   termineListe(); meldungenListe(); abfuhrListe(); vereineListe();
   $('fussinfo').textContent = DATEN.termine.length + ' Termine · ' +
     DATEN.meldungen.length + ' Meldungen · ' + DATEN.abfuhr.length + ' Abfuhrtermine';
