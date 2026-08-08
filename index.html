@@ -263,11 +263,14 @@ nav button:focus-visible{outline:2px solid var(--ziegel);outline-offset:-3px}
     border-right:1px solid rgba(27,70,112,.08);
   }
 
-  header{grid-area:kopf;padding:22px 34px 0;display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap}
-  header .ort{margin-bottom:0}
+  header{grid-area:kopf;padding:24px 34px 0;display:flex;align-items:baseline;
+    gap:6px 20px;flex-wrap:wrap}
+  header .ort{margin-bottom:0;align-self:center}
+  .ortswahl{margin-left:0}
   .ortswahl select{font-size:30px}
-  .datum{padding-bottom:20px;margin-left:auto}
-  .bogen{position:absolute;left:0;right:0;bottom:0;width:100%}
+  .datum{padding-bottom:0;margin-left:auto;align-self:center}
+  /* Der Bogen bricht in eine eigene Zeile um und reicht über die Ränder hinaus */
+  .bogen{flex:0 0 100%;width:calc(100% + 68px);margin:20px -34px -1px}
 
   /* Navigation als Seitenleiste */
   nav{
