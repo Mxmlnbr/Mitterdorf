@@ -61,6 +61,12 @@
       "name": "Abteilung Turnen",
       "ortsteil": "mitterdorf",
       "mutter": "spvggmitterdorf"
+    },
+    {
+      "id": "abteilungradsp",
+      "name": "Abteilung Radsport",
+      "ortsteil": "mitterdorf",
+      "mutter": "spvggmitterdorf"
     }
   ],
   "termine": [
