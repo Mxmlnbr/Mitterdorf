@@ -37,7 +37,19 @@ body{
 
 header{background:var(--tiefblau);color:#fff;padding:calc(16px + env(safe-area-inset-top)) 20px 0;position:relative}
 .ort{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#9FC0DC;margin-bottom:2px}
-.wappen{font-size:26px;font-weight:800;letter-spacing:-.02em}
+.ortswahl{position:relative;display:inline-flex;align-items:center;margin-left:-4px}
+.ortswahl select{
+  appearance:none;-webkit-appearance:none;
+  background:transparent;border:none;cursor:pointer;
+  font:inherit;font-size:26px;font-weight:800;letter-spacing:-.02em;
+  color:#fff;padding:0 26px 0 4px;margin:0;
+  border-radius:7px;
+}
+.ortswahl select:hover{background:rgba(255,255,255,.10)}
+.ortswahl select:focus-visible{outline:2px solid var(--ziegel);outline-offset:1px}
+.ortswahl select option{color:#16212B;background:#fff;font-size:16px;font-weight:500}
+.ortspfeil{position:absolute;right:6px;width:17px;height:17px;pointer-events:none;
+  stroke:#9FC0DC;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 .datum{font-size:12.5px;color:#9FC0DC;margin-top:2px;padding-bottom:14px}
 .bogen{display:block;width:100%;height:26px}
 
@@ -177,8 +189,11 @@ nav button:focus-visible{outline:2px solid var(--ziegel);outline-offset:-3px}
 <div class="rahmen">
 
   <header>
-    <div class="ort">Gemeinde Roding · Ortsteil</div>
-    <div class="wappen" id="ortsname">Mitterdorf</div>
+    <div class="ort">Stadt Roding</div>
+    <div class="ortswahl">
+      <select id="ortsteil" aria-label="Ortsteil auswählen"></select>
+      <svg class="ortspfeil" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
     <div class="datum" id="heute"></div>
     <svg class="bogen" viewBox="0 0 480 26" preserveAspectRatio="none" aria-hidden="true">
       <path d="M0 26 L0 20 Q120 -6 240 12 Q360 30 480 6 L480 26 Z" fill="#FBF9F5"/>
@@ -265,6 +280,29 @@ const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;
 let DATEN = null;
 let filterId = 'alle';
 let unterId  = 'alle';
+let aktiverOrt = 'alle';
+
+const ORT_SPEICHER = 'mitterdorf-ortsteil';
+
+function ortLesen(){
+  try { return window.localStorage.getItem(ORT_SPEICHER) || 'alle'; }
+  catch(e){ return 'alle'; }
+}
+function ortMerken(id){
+  try { window.localStorage.setItem(ORT_SPEICHER, id); } catch(e){}
+}
+
+/* Ein Eintrag ohne Ortsteil oder mit "alle" gilt für die ganze Stadt */
+function imOrt(e){
+  if (aktiverOrt === 'alle') return true;
+  const o = e && e.ortsteil;
+  return !o || o === 'alle' || o === aktiverOrt;
+}
+
+function ortsteilName(id){
+  const o = (DATEN.ortsteile || []).find(x => x.id === id);
+  return o ? o.name : id;
+}
 const vereinVon = id => DATEN.vereine.find(v => v.id === id);
 
 /* Bei einer Abteilung den Hauptverein liefern, sonst den Verein selbst */
@@ -318,8 +356,8 @@ function filterBauen(){
   const kurz = v => v.name.replace('Freiwillige Feuerwehr','FFW').replace(' Mitterdorf','');
 
   // Nur Vereine ohne Mutterverein in die obere Leiste
-  const oben = DATEN.vereine.filter(v => !v.mutter).filter(v =>
-    DATEN.termine.some(t => t.verein === v.id || wurzelVon(t.verein) === v.id));
+  const oben = DATEN.vereine.filter(v => !v.mutter).filter(imOrt).filter(v =>
+    DATEN.termine.filter(imOrt).some(t => t.verein === v.id || wurzelVon(t.verein) === v.id));
 
   box.innerHTML = '';
   [{id:'alle', name:'Alle'}].concat(oben).forEach(v => {
@@ -368,12 +406,15 @@ function icsBauen(t){
 function termineZeigen(){
   const box = document.getElementById('termine');
   const liste = DATEN.termine
+    .filter(imOrt)
     .filter(t => new Date(t.start) >= heute)
     .filter(passt)
     .sort((a,b) => new Date(a.start) - new Date(b.start));
 
   if (!liste.length){
-    box.innerHTML = '<div class="leer">Für diese Auswahl steht gerade nichts an.</div>';
+    box.innerHTML = '<div class="leer">' + (aktiverOrt === 'alle'
+      ? 'Für diese Auswahl steht gerade nichts an.'
+      : 'Für ' + esc(ortsteilName(aktiverOrt)) + ' ist noch kein Termin eingetragen.') + '</div>';
     return;
   }
 
@@ -432,8 +473,13 @@ function termineZeigen(){
 /* ---------- Meldungen ---------- */
 function meldungenZeigen(){
   const box = document.getElementById('meldungen');
-  const liste = [...DATEN.meldungen].sort((a,b) => new Date(b.datum) - new Date(a.datum));
-  if (!liste.length){ box.innerHTML = '<div class="leer">Zurzeit nichts Neues.</div>'; return; }
+  const liste = DATEN.meldungen.filter(imOrt).sort((a,b) => new Date(b.datum) - new Date(a.datum));
+  if (!liste.length){
+    box.innerHTML = '<div class="leer">' + (aktiverOrt === 'alle'
+      ? 'Zurzeit nichts Neues.'
+      : 'Für ' + esc(ortsteilName(aktiverOrt)) + ' liegt zurzeit nichts vor.') + '</div>';
+    return;
+  }
   box.innerHTML = liste.map(m => {
     const d = new Date(m.datum);
     return '<div class="meldung' + (m.wichtig ? ' wichtig' : '') + '">' +
@@ -448,7 +494,7 @@ function meldungenZeigen(){
 function serviceZeigen(){
   const box  = document.getElementById('service');
   const leer = document.getElementById('service-leer');
-  const liste = DATEN.service || [];
+  const liste = (DATEN.service || []).filter(imOrt);
 
   if (!liste.length){ box.innerHTML = ''; leer.style.display = ''; return; }
   leer.style.display = 'none';
@@ -489,7 +535,7 @@ function serviceZeigen(){
 
 /* ---------- Vereine ---------- */
 function vereineZeigen(){
-  const zaehle = id => DATEN.termine.filter(t =>
+  const zaehle = id => DATEN.termine.filter(imOrt).filter(t =>
     (t.verein === id || wurzelVon(t.verein) === id) && new Date(t.start) >= heute).length;
 
   const zeile = (v, istAbteilung) => {
@@ -502,11 +548,12 @@ function vereineZeigen(){
   };
 
   let html = '';
-  DATEN.vereine.filter(v => !v.mutter && v.id !== 'offen').forEach(v => {
+  DATEN.vereine.filter(v => !v.mutter && v.id !== 'offen').filter(imOrt).forEach(v => {
     html += zeile(v, false);
     DATEN.vereine.filter(k => k.mutter === v.id).forEach(k => { html += zeile(k, true); });
   });
-  document.getElementById('vereine').innerHTML = html;
+  document.getElementById('vereine').innerHTML = html ||
+    '<div class="leer">Für ' + esc(ortsteilName(aktiverOrt)) + ' ist noch kein Verein hinterlegt.</div>';
 }
 
 /* ---------- Navigation ---------- */
@@ -518,8 +565,27 @@ document.querySelectorAll('nav button').forEach(b => b.onclick = () => {
   window.scrollTo({top:0});
 });
 
+function ortsteilAuswahl(){
+  const w = document.getElementById('ortsteil');
+  const orte = DATEN.ortsteile || [];
+  w.innerHTML = '<option value="alle">Alle Ortsteile</option>' +
+    orte.map(o => '<option value="' + esc(o.id) + '">' + esc(o.name) + '</option>').join('');
+
+  if (aktiverOrt !== 'alle' && !orte.some(o => o.id === aktiverOrt)) aktiverOrt = 'alle';
+  w.value = aktiverOrt;
+
+  w.onchange = () => {
+    aktiverOrt = w.value;
+    ortMerken(aktiverOrt);
+    filterId = 'alle'; unterId = 'alle';
+    filterBauen(); termineZeigen(); meldungenZeigen(); serviceZeigen(); vereineZeigen();
+    window.scrollTo({top:0});
+  };
+}
+
 function starten(){
-  if (DATEN.ort) document.getElementById('ortsname').textContent = DATEN.ort;
+  aktiverOrt = ortLesen();
+  ortsteilAuswahl();
   if (DATEN.stand){
     const s = new Date(DATEN.stand);
     document.getElementById('fussnote').textContent =

@@ -94,6 +94,14 @@ button.tat{font:inherit;font-size:13.5px;font-weight:600;border-radius:8px;paddi
 
 .leer{color:var(--grau);font-size:13.5px;padding:18px 0;text-align:center}
 
+.ortsteil-wolke{display:flex;flex-wrap:wrap;gap:6px}
+.ortsteil-marke{display:inline-flex;align-items:center;gap:6px;background:#fff;
+  border:1px solid var(--linie);border-radius:999px;padding:4px 6px 4px 12px;font-size:12.5px}
+.ortsteil-marke button{font:inherit;font-size:14px;line-height:1;border:none;background:none;
+  color:var(--grau);cursor:pointer;padding:2px 5px;border-radius:50%}
+.ortsteil-marke button:hover{background:#FBE9E7;color:var(--warn)}
+.ortsteil-marke .zahl{color:var(--grau);font-size:11px}
+
 .vorschau{margin-top:14px;border:1px solid var(--linie);border-radius:9px;background:#fff;padding:12px}
 .vorschau h4{font-size:14px;margin-bottom:8px}
 .vorschau ul{list-style:none;max-height:210px;overflow:auto;margin:0 0 4px}
@@ -143,6 +151,10 @@ button.tat{font:inherit;font-size:13.5px;font-weight:600;border-radius:8px;paddi
         <div>
           <label for="termin-start">Datum und Uhrzeit</label>
           <input type="datetime-local" id="termin-start">
+        </div>
+        <div>
+          <label for="termin-ortsteil">Ortsteil</label>
+          <select id="termin-ortsteil" class="ortswahl-feld"></select>
         </div>
       </div>
       <label for="termin-ort">Ort</label>
@@ -210,6 +222,10 @@ button.tat{font:inherit;font-size:13.5px;font-weight:600;border-radius:8px;paddi
           <label for="meldung-datum">Datum</label>
           <input type="date" id="meldung-datum">
         </div>
+        <div>
+          <label for="meldung-ortsteil">Ortsteil</label>
+          <select id="meldung-ortsteil" class="ortswahl-feld"></select>
+        </div>
       </div>
       <label for="meldung-text">Text</label>
       <textarea id="meldung-text" placeholder="Was gilt ab wann, wer ist betroffen?"></textarea>
@@ -250,6 +266,10 @@ button.tat{font:inherit;font-size:13.5px;font-weight:600;border-radius:8px;paddi
             <option value="mail">E-Mail</option>
             <option value="text">Nur Text</option>
           </select>
+        </div>
+        <div>
+          <label for="service-ortsteil">Ortsteil</label>
+          <select id="service-ortsteil" class="ortswahl-feld"></select>
         </div>
       </div>
 
@@ -301,13 +321,43 @@ button.tat{font:inherit;font-size:13.5px;font-weight:600;border-radius:8px;paddi
       </div>
       <label for="verein-id">Kennung (Kleinbuchstaben, keine Leerzeichen)</label>
       <input id="verein-id" placeholder="ogv">
-      <label for="verein-mutter">Gehört zu</label>
-      <select id="verein-mutter"></select>
+      <div class="reihe">
+        <div>
+          <label for="verein-mutter">Gehört zu</label>
+          <select id="verein-mutter"></select>
+        </div>
+        <div>
+          <label for="verein-ortsteil">Ortsteil</label>
+          <select id="verein-ortsteil" class="ortswahl-feld"></select>
+        </div>
+      </div>
       <div class="knopfreihe">
         <button class="tat primaer" id="verein-speichern">Übernehmen</button>
         <button class="tat sekundaer" id="verein-abbrechen" style="display:none">Abbrechen</button>
       </div>
     </div>
+    <div class="formular">
+      <h3>Ortsteile verwalten</h3>
+      <div class="unter">
+        Diese Liste erscheint in der App im Auswahlfeld oben. Einträge ohne Ortsteil
+        oder mit „Ganze Stadt“ sind überall sichtbar.
+      </div>
+      <div class="reihe">
+        <div>
+          <label for="ortsteil-name">Name</label>
+          <input id="ortsteil-name" placeholder="z. B. Obertrübenbach">
+        </div>
+        <div>
+          <label for="ortsteil-id">Kennung</label>
+          <input id="ortsteil-id" placeholder="obertruebenbach">
+        </div>
+      </div>
+      <div class="knopfreihe">
+        <button class="tat primaer" id="ortsteil-speichern">Ortsteil hinzufügen</button>
+      </div>
+      <div id="liste-ortsteile" style="margin-top:14px"></div>
+    </div>
+
     <h2>Vereine</h2>
     <div id="liste-vereine"></div>
     <div class="tipp">
@@ -435,7 +485,7 @@ async function laden(){
   } catch (e) {
     $('statustext').textContent = 'daten.json nicht gefunden – bitte unten manuell öffnen';
     $('status').classList.add('geaendert');
-    DATEN = { ort:'Mitterdorf', stand:'', vereine:[], termine:[], meldungen:[], service:[] };
+    DATEN = { ort:'Stadt Roding', stand:'', ortsteile:[], vereine:[], termine:[], meldungen:[], service:[] };
     alles();
   }
 }
@@ -506,7 +556,7 @@ $('termin-speichern').onclick = () => {
   const verein = $('termin-verein').value;
   if (!titel || !start || !verein){ melde('Titel, Verein und Zeitpunkt sind Pflicht.', false); return; }
 
-  const daten = { titel, verein, start,
+  const daten = { titel, verein, start, ortsteil: $('termin-ortsteil').value,
     ort: $('termin-ort').value.trim(), text: $('termin-text').value.trim() };
 
   const id = $('termin-id').value;
@@ -533,7 +583,7 @@ function termineListe(){
       '<div class="eintrag-titel">' + esc(t.titel) + '</div>' +
       '<div class="eintrag-meta">' + zz(d.getDate()) + '.' + zz(d.getMonth()+1) + '.' + d.getFullYear() +
       ' um ' + zz(d.getHours()) + ':' + zz(d.getMinutes()) + ' Uhr · ' + esc(v ? v.name : '?') +
-      (alt ? ' · vergangen' : '') + '</div></div>' +
+      ' · ' + esc(ortsName(t.ortsteil)) + (alt ? ' · vergangen' : '') + '</div></div>' +
       '<div class="eintrag-knopf"><button data-bearbeiten="' + t.id + '">Bearbeiten</button>' +
       '<button class="weg" data-loeschen="' + t.id + '">Löschen</button></div></div>';
   }).join('');
@@ -543,6 +593,7 @@ function termineListe(){
     $('termin-id').value = t.id; $('termin-titel').value = t.titel;
     $('termin-verein').value = t.verein; $('termin-start').value = t.start;
     $('termin-ort').value = t.ort || ''; $('termin-text').value = t.text || '';
+    $('termin-ortsteil').value = t.ortsteil || 'alle';
     $('termin-modus').textContent = 'Termin bearbeiten';
     $('termin-speichern').textContent = 'Änderung übernehmen';
     $('termin-abbrechen').style.display = '';
@@ -655,9 +706,11 @@ function istHeimspiel(s){
 
 function inTermin(s, zielId){
   const [t,mo,j] = s.datum.split('.');
+  const zielVerein = DATEN.vereine.find(v => v.id === zielId);
   return {
     verein: zielId,
     quelle: 'bfv',
+    ortsteil: (zielVerein && zielVerein.ortsteil) || 'alle',
     titel: s.heim + ' – ' + s.gast,
     start: j + '-' + mo + '-' + t + 'T' + s.zeit,
     ort: s.ort,
@@ -749,7 +802,8 @@ $('meldung-speichern').onclick = () => {
   const datum = $('meldung-datum').value;
   if (!titel || !datum){ melde('Überschrift und Datum sind Pflicht.', false); return; }
 
-  const daten = { titel, text, datum, art: $('meldung-art').value, wichtig: $('meldung-wichtig').checked };
+  const daten = { titel, text, datum, ortsteil: $('meldung-ortsteil').value,
+    art: $('meldung-art').value, wichtig: $('meldung-wichtig').checked };
   const id = $('meldung-id').value;
   if (id){
     Object.assign(DATEN.meldungen.find(x => String(x.id) === id), daten);
@@ -770,7 +824,7 @@ function meldungenListe(){
     return '<div class="eintrag"><div class="eintrag-text">' +
       '<div class="eintrag-titel">' + (m.wichtig ? '● ' : '') + esc(m.titel) + '</div>' +
       '<div class="eintrag-meta">' + zz(d.getDate()) + '.' + zz(d.getMonth()+1) + '.' + d.getFullYear() +
-      ' · ' + esc(MARKEN[m.art] || m.art) + '</div></div>' +
+      ' · ' + esc(MARKEN[m.art] || m.art) + ' · ' + esc(ortsName(m.ortsteil)) + '</div></div>' +
       '<div class="eintrag-knopf"><button data-mb="' + m.id + '">Bearbeiten</button>' +
       '<button class="weg" data-ml="' + m.id + '">Löschen</button></div></div>';
   }).join('');
@@ -780,6 +834,7 @@ function meldungenListe(){
     $('meldung-id').value = m.id; $('meldung-titel').value = m.titel;
     $('meldung-art').value = m.art; $('meldung-datum').value = m.datum;
     $('meldung-text').value = m.text || ''; $('meldung-wichtig').checked = !!m.wichtig;
+    $('meldung-ortsteil').value = m.ortsteil || 'alle';
     $('meldung-modus').textContent = 'Meldung bearbeiten';
     $('meldung-speichern').textContent = 'Änderung übernehmen';
     $('meldung-abbrechen').style.display = '';
@@ -794,6 +849,12 @@ function meldungenListe(){
 }
 
 /* ============ SERVICE ============ */
+
+function ortsName(id){
+  if (!id || id === 'alle') return 'ganze Stadt';
+  const o = (DATEN.ortsteile || []).find(x => x.id === id);
+  return o ? o.name : id;
+}
 
 const SERVICE_ARTEN = { tel:'Telefon', link:'Internetseite', mail:'E-Mail', text:'Text' };
 
@@ -823,7 +884,8 @@ $('service-speichern').onclick = () => {
     melde('Ein Link muss mit http:// oder https:// beginnen.', false); return;
   }
 
-  const daten = { gruppe, typ, titel, wert, text: $('service-text').value.trim() };
+  const daten = { gruppe, typ, titel, wert, ortsteil: $('service-ortsteil').value,
+    text: $('service-text').value.trim() };
   const id = $('service-id').value;
 
   if (id){
@@ -890,7 +952,8 @@ function serviceListe(){
     '<div class="eintrag"><div class="eintrag-text">' +
       '<div class="eintrag-titel">' + esc(e.titel) + '</div>' +
       '<div class="eintrag-meta">' + esc(e.gruppe || 'Weiteres') + ' · ' +
-      esc(SERVICE_ARTEN[e.typ] || e.typ) + (e.wert ? ' · ' + esc(e.wert) : '') + '</div></div>' +
+      esc(SERVICE_ARTEN[e.typ] || e.typ) + ' · ' + esc(ortsName(e.ortsteil)) +
+      (e.wert ? ' · ' + esc(e.wert) : '') + '</div></div>' +
       '<div class="eintrag-knopf">' +
         '<button data-hoch="' + e.id + '"' + (i === 0 ? ' disabled' : '') + ' title="nach oben">↑</button>' +
         '<button data-runter="' + e.id + '"' + (i === liste.length-1 ? ' disabled' : '') + ' title="nach unten">↓</button>' +
@@ -906,6 +969,7 @@ function serviceListe(){
     $('service-id').value = e.id; $('service-gruppe').value = e.gruppe || '';
     $('service-typ').value = e.typ; $('service-titel').value = e.titel;
     $('service-wert').value = e.wert || ''; $('service-text').value = e.text || '';
+    $('service-ortsteil').value = e.ortsteil || 'alle';
     $('service-modus').textContent = 'Eintrag bearbeiten';
     $('service-speichern').textContent = 'Änderung übernehmen';
     $('service-abbrechen').style.display = '';
@@ -953,12 +1017,12 @@ $('verein-speichern').onclick = () => {
       melde('Dieser Verein hat selbst Abteilungen und kann keiner anderen zugeordnet werden.', false); return;
     }
     const v = DATEN.vereine.find(x => x.id === altid);
-    v.name = name; v.kuerzel = kuerzel;
+    v.name = name; v.kuerzel = kuerzel; v.ortsteil = $('verein-ortsteil').value;
     if (mutter) v.mutter = mutter; else delete v.mutter;
     melde('Verein geändert.');
   } else {
     if (DATEN.vereine.some(v => v.id === id)){ melde('Diese Kennung gibt es schon.', false); return; }
-    const neuerV = { id, name, kuerzel };
+    const neuerV = { id, name, kuerzel, ortsteil: $('verein-ortsteil').value };
     if (mutter) neuerV.mutter = mutter;
     DATEN.vereine.push(neuerV);
     melde('Verein angelegt.');
@@ -973,7 +1037,7 @@ function vereineListe(){
     const n = DATEN.termine.filter(t => t.verein === v.id).length;
     return '<div class="eintrag"><div class="eintrag-text">' +
       '<div class="eintrag-titel">' + (v.mutter ? '&#8627; ' : '') + esc(v.name) + '</div>' +
-      '<div class="eintrag-meta">Kürzel ' + esc(v.kuerzel) + ' · Kennung ' + esc(v.id) +
+      '<div class="eintrag-meta">Kürzel ' + esc(v.kuerzel) + ' · ' + esc(ortsName(v.ortsteil)) +
       ' · ' + n + (n === 1 ? ' Termin' : ' Termine') + '</div></div>' +
       '<div class="eintrag-knopf"><button data-vb="' + esc(v.id) + '">Bearbeiten</button>' +
       '<button class="weg" data-vl="' + esc(v.id) + '">Löschen</button></div></div>';
@@ -986,6 +1050,7 @@ function vereineListe(){
     $('verein-id').disabled = true;
     vereinsauswahl();
     $('verein-mutter').value = v.mutter || '';
+    $('verein-ortsteil').value = v.ortsteil || 'alle';
     $('verein-modus').textContent = 'Verein bearbeiten';
     $('verein-speichern').textContent = 'Änderung übernehmen';
     $('verein-abbrechen').style.display = '';
@@ -1001,6 +1066,73 @@ function vereineListe(){
     if (!confirm('Verein wirklich löschen?')) return;
     DATEN.vereine = DATEN.vereine.filter(v => v.id !== id);
     markiere(); vereineListe(); vereinsauswahl(); melde('Verein gelöscht.');
+  });
+}
+
+/* ============ ORTSTEILE ============ */
+
+const ORT_FELDER = ['termin-ortsteil','meldung-ortsteil','service-ortsteil','verein-ortsteil'];
+
+function ortsteilAuswahlen(){
+  const orte = DATEN.ortsteile || [];
+  const html = '<option value="alle">Ganze Stadt</option>' +
+    orte.map(o => '<option value="' + esc(o.id) + '">' + esc(o.name) + '</option>').join('');
+  ORT_FELDER.forEach(id => {
+    const w = $(id); if (!w) return;
+    const vorher = w.value;
+    w.innerHTML = html;
+    if (vorher && (vorher === 'alle' || orte.some(o => o.id === vorher))) w.value = vorher;
+  });
+}
+
+function ortsteilVerwendung(id){
+  const zaehl = a => (a || []).filter(x => x.ortsteil === id).length;
+  return zaehl(DATEN.termine) + zaehl(DATEN.meldungen) + zaehl(DATEN.service) + zaehl(DATEN.vereine);
+}
+
+$('ortsteil-name').oninput = () => {
+  if ($('ortsteil-id').dataset.manuell) return;
+  $('ortsteil-id').value = $('ortsteil-name').value.toLowerCase()
+    .replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss')
+    .replace(/[^a-z0-9]/g,'').slice(0,20);
+};
+$('ortsteil-id').oninput = () => { $('ortsteil-id').dataset.manuell = '1'; };
+
+$('ortsteil-speichern').onclick = () => {
+  const name = $('ortsteil-name').value.trim();
+  const id   = $('ortsteil-id').value.trim().toLowerCase();
+  if (!name || !id){ melde('Name und Kennung werden benötigt.', false); return; }
+  if (!/^[a-z0-9]+$/.test(id)){ melde('Die Kennung darf nur Kleinbuchstaben und Ziffern enthalten.', false); return; }
+  if (id === 'alle'){ melde('„alle“ ist als Kennung reserviert.', false); return; }
+  if (DATEN.ortsteile.some(o => o.id === id)){ melde('Diese Kennung gibt es schon.', false); return; }
+
+  DATEN.ortsteile.push({ id, name });
+  DATEN.ortsteile.sort((a,b) => a.name.localeCompare(b.name,'de'));
+  $('ortsteil-name').value = ''; $('ortsteil-id').value = '';
+  delete $('ortsteil-id').dataset.manuell;
+  markiere(); ortsteilListe(); ortsteilAuswahlen();
+  melde('Ortsteil hinzugefügt.');
+};
+
+function ortsteilListe(){
+  const box = $('liste-ortsteile');
+  const orte = DATEN.ortsteile || [];
+  if (!orte.length){ box.innerHTML = '<div class="leer">Noch kein Ortsteil angelegt.</div>'; return; }
+
+  box.innerHTML = '<div class="ortsteil-wolke">' + orte.map(o => {
+    const n = ortsteilVerwendung(o.id);
+    return '<span class="ortsteil-marke">' + esc(o.name) +
+      (n ? ' <span class="zahl">' + n + '</span>' : '') +
+      '<button data-ol="' + esc(o.id) + '" title="entfernen">&times;</button></span>';
+  }).join('') + '</div>';
+
+  box.querySelectorAll('[data-ol]').forEach(b => b.onclick = () => {
+    const id = b.dataset.ol;
+    const n = ortsteilVerwendung(id);
+    if (n){ melde('Diesem Ortsteil sind noch ' + n + ' Einträge zugeordnet. Erst umhängen.', false); return; }
+    if (!confirm('Ortsteil wirklich entfernen?')) return;
+    DATEN.ortsteile = DATEN.ortsteile.filter(o => o.id !== id);
+    markiere(); ortsteilListe(); ortsteilAuswahlen(); melde('Ortsteil entfernt.');
   });
 }
 
@@ -1168,7 +1300,8 @@ function alles(){
   DATEN.termine   = DATEN.termine   || [];
   DATEN.meldungen = DATEN.meldungen || [];
   DATEN.service   = DATEN.service   || [];
-  vereinsauswahl(); pdfZielAuswahl();
+  DATEN.ortsteile = DATEN.ortsteile || [];
+  vereinsauswahl(); pdfZielAuswahl(); ortsteilAuswahlen(); ortsteilListe();
   terminFormularLeeren(); meldungFormularLeeren();
   serviceFormularLeeren(); vereinFormularLeeren();
   termineListe(); meldungenListe(); serviceListe(); vereineListe();
