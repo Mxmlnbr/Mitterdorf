@@ -31,7 +31,7 @@
     },
     {
       "id": "schuetzen",
-      "name": "Schützenverein Waldeslust Roding-Bahnhof",
+      "name": "Schützenverein",
       "kuerzel": "SVWB"
     },
     {
@@ -40,9 +40,9 @@
       "kuerzel": "OGV"
     },
     {
-      "id": "kinderfeuerwehr",
-      "name": "Kinderfeuerwehr",
-      "kuerzel": "KFW",
+      "id": "jugendfeuerwehr",
+      "name": "Jugendfeuerwehr",
+      "kuerzel": "JFW",
       "mutter": "ffw"
     }
   ],
