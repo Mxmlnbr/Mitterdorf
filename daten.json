@@ -72,6 +72,11 @@
       "id": "svmitterkreith",
       "name": "SV Mitterkreith",
       "ortsteil": "mitterkreith"
+    },
+    {
+      "id": "svobertruebenb",
+      "name": "SV Obertrübenbach",
+      "ortsteil": "obertruebenbach"
     }
   ],
   "termine": [
@@ -913,6 +918,326 @@
       "titel": "SV Mitterkreith – TSV Nittenau",
       "start": "2026-11-08T14:15",
       "ort": "Sportgelände Mitterkreith, Platz 1,Weiherhausweg 48,93426 Roding",
+      "text": "Herren · Kreisklasse · Auswärtsspiel"
+    },
+    {
+      "id": 92,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "(SG) SC M'neukirchen/Obertrübenb – SV Wilting II",
+      "start": "2026-08-09T13:00",
+      "ort": "Schulsportplatz Michelsneukirchen,Schulstr. 14,93185 Michelsneukirchen",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 93,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "SV Ascha – (SG) Michelsneukirchen",
+      "start": "2026-08-15T16:00",
+      "ort": "Sportanlage Ascha, Platz 1,Industriestr. 22,94347 Ascha",
+      "text": "B-Junioren · Freundschaftsspiele · Auswärtsspiel"
+    },
+    {
+      "id": 94,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "SV Stachesried II – (SG) SC M'neukirchen/Obertrübenb",
+      "start": "2026-08-16T13:30",
+      "ort": "Sportplatz 1 Stachesried,Sportplatzweg 1,93458 Eschlkam",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 95,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "FC Altrandsberg – SV Obertrübenbach",
+      "start": "2026-08-16T15:15",
+      "ort": "Sportplatz Altrandsberg,Miltacher Str. 5,93468 Miltach",
+      "text": "Herren · Kreisklasse · Auswärtsspiel"
+    },
+    {
+      "id": 96,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "(SG) TSV 1873 Wörth/Donau – (SG) Michelsneukirchen",
+      "start": "2026-08-21T18:30",
+      "ort": "Sportgelände Wiesent, Platz 1,Bahnhofstr. 14,93109 Wiesent",
+      "text": "B-Junioren · Freundschaftsspiele · Auswärtsspiel"
+    },
+    {
+      "id": 97,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "(SG) SC M'neukirchen/Obertrübenb – SC Arrach-Haibühl II",
+      "start": "2026-08-23T13:00",
+      "ort": "Sportgelände Obertrübenbach, Platz 1,Trübenbachstr. 24,93426 Roding",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 98,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "SV Obertrübenbach – SV Wilting",
+      "start": "2026-08-23T15:15",
+      "ort": "Sportgelände Obertrübenbach, Platz 1,Trübenbachstr. 24,93426 Roding",
+      "text": "Herren · Kreisklasse · Auswärtsspiel"
+    },
+    {
+      "id": 99,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "(SG) Obertrüb./Michelsn./Falkens. – JFG Schwarzachtal Oberpfalz",
+      "start": "2026-08-28T18:00",
+      "ort": "Schulsportplatz Michelsneukirchen,Schulstr. 14,93185 Michelsneukirchen",
+      "text": "C-Junioren · Freundschaftsspiele · Auswärtsspiel"
+    },
+    {
+      "id": 100,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "JFG Drei Wappen Oberpfalz – (SG) Michelsneukirchen",
+      "start": "2026-08-28T19:00",
+      "ort": "Sportgelände Arnschwang Platz 1,Chamer Str. 51,93473 Arnschwang",
+      "text": "B-Junioren · Freundschaftsspiele · Auswärtsspiel"
+    },
+    {
+      "id": 101,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "FC Wald/Süssenbach – (SG) Michelsneukirchen",
+      "start": "2026-08-29T16:00",
+      "ort": "Sportanlage Wald,Reichenbacher Str. 12,93192 Wald",
+      "text": "A-Junioren · Verbands-Pokal · Auswärtsspiel"
+    },
+    {
+      "id": 102,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "(SG) SC M'neukirchen/Obertrübenb – SSV Schorndorf II",
+      "start": "2026-08-30T13:00",
+      "ort": "Schulsportplatz Michelsneukirchen,Schulstr. 14,93185 Michelsneukirchen",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 103,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "SV Stachesried – SV Obertrübenbach",
+      "start": "2026-08-30T15:15",
+      "ort": "Sportplatz 1 Stachesried,Sportplatzweg 1,93458 Eschlkam",
+      "text": "Herren · Kreisklasse · Auswärtsspiel"
+    },
+    {
+      "id": 104,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "SV Obertrübenbach – SC Michelsneukirchen",
+      "start": "2026-09-05T18:30",
+      "ort": "Sportgelände Obertrübenbach, Platz 1,Trübenbachstr. 24,93426 Roding",
+      "text": "Herren · Kreisklasse · Auswärtsspiel"
+    },
+    {
+      "id": 105,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "(SG) Rettenbach/Brennberg – (SG) Michelsneukirchen SV OBERTRÜBENBACH",
+      "start": "2026-09-06T11:00",
+      "ort": "Waldstadion Brennberg,Johannisstr.,93179 Brennberg",
+      "text": "B-Junioren · Kreispokal · Auswärtsspiel"
+    },
+    {
+      "id": 106,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "DJK Beucherling – (SG) Obertrüb./Michelsn./Falkens.",
+      "start": "2026-09-11T17:00",
+      "ort": "Sportgelände Beucherling Platz 2,Am Sportplatz 2,93199 Zell",
+      "text": "C-Junioren · Verbands-Pokal · Auswärtsspiel"
+    },
+    {
+      "id": 107,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "(SG) SC M'neukirchen/Obertrübenb – (SG 2) Wetterfeld II/Pösing II/Stamsried II",
+      "start": "2026-09-13T13:00",
+      "ort": "Schulsportplatz Michelsneukirchen,Schulstr. 14,93185 Michelsneukirchen",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 108,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "SSV Schorndorf – SV Obertrübenbach",
+      "start": "2026-09-13T15:15",
+      "ort": "Sportgelände Schorndorf, Platz 1,Nanzinger Str. 31,93489 Schorndorf",
+      "text": "Herren · Kreisklasse · Auswärtsspiel"
+    },
+    {
+      "id": 109,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "SV Thenried II – (SG) SC M'neukirchen/Obertrübenb",
+      "start": "2026-09-20T13:30",
+      "ort": "Sportplatz Thenried Platz 1,Sportplatzstr. 25,93485 Rimbach",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 110,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "SV Obertrübenbach – SC Arrach-Haibühl",
+      "start": "2026-09-20T15:15",
+      "ort": "Sportgelände Obertrübenbach, Platz 1,Trübenbachstr. 24,93426 Roding",
+      "text": "Herren · Kreisklasse · Auswärtsspiel"
+    },
+    {
+      "id": 111,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "(SG) SC M'neukirchen/Obertrübenb – SV Grafenwiesen II/1. FC Bad Kötzting III",
+      "start": "2026-09-26T14:30",
+      "ort": "Sportgelände Obertrübenbach, Platz 1,Trübenbachstr. 24,93426 Roding",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 112,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "SV Obertrübenbach – (SG1) Pösing/Wetterfeld",
+      "start": "2026-09-26T16:30",
+      "ort": "Sportgelände Obertrübenbach, Platz 1,Trübenbachstr. 24,93426 Roding",
+      "text": "Herren · Kreisklasse · Auswärtsspiel"
+    },
+    {
+      "id": 113,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "(SG 1) Katzbach II/Pemfling II – (SG) SC M'neukirchen/Obertrübenb",
+      "start": "2026-10-04T13:30",
+      "ort": "Sportgelände Katzbach, Platz 1,Loiblinger Str. 12,93413 Cham",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 114,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "SV Thenried – SV Obertrübenbach",
+      "start": "2026-10-04T15:15",
+      "ort": "Sportplatz Thenried Platz 1,Sportplatzstr. 25,93485 Rimbach",
+      "text": "Herren · Kreisklasse · Auswärtsspiel"
+    },
+    {
+      "id": 115,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "SV Obertrübenbach – SV Grafenwiesen I/1. FC Bad Kötzting II SV OBERTRÜBENBACH",
+      "start": "2026-10-10T16:30",
+      "ort": "",
+      "text": "Herren · Kreisklasse · Auswärtsspiel"
+    },
+    {
+      "id": 116,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "(SG) SC M'neukirchen/Obertrübenb – (SG1) Hohenwarth II/Rimbach II",
+      "start": "2026-10-11T13:00",
+      "ort": "Schulsportplatz Michelsneukirchen,Schulstr. 14,93185 Michelsneukirchen",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 117,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "(SG) SC M'neukirchen/Obertrübenb – FC Raindorf II",
+      "start": "2026-10-18T13:00",
+      "ort": "Sportgelände Obertrübenbach, Platz 1,Trübenbachstr. 24,93426 Roding",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 118,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "SV Obertrübenbach – (SG1) Pemfling/Katzbach",
+      "start": "2026-10-18T15:15",
+      "ort": "Sportgelände Obertrübenbach, Platz 1,Trübenbachstr. 24,93426 Roding",
+      "text": "Herren · Kreisklasse · Auswärtsspiel"
+    },
+    {
+      "id": 119,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "SV Hohenwarth – SV Obertrübenbach",
+      "start": "2026-10-25T14:15",
+      "ort": "Sportplatz Hohenwarth,Am Sportplatz,93480 Hohenwarth",
+      "text": "Herren · Kreisklasse · Auswärtsspiel"
+    },
+    {
+      "id": 120,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "(SG) SC M'neukirchen/Obertrübenb – (SG I) Altrandsberg II/Miltach II",
+      "start": "2026-10-31T12:15",
+      "ort": "Sportgelände Obertrübenbach, Platz 1,Trübenbachstr. 24,93426 Roding",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 121,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "SV Obertrübenbach – SV Gleissenberg-Lixenried",
+      "start": "2026-10-31T14:15",
+      "ort": "Sportgelände Obertrübenbach, Platz 1,Trübenbachstr. 24,93426 Roding",
+      "text": "Herren · Kreisklasse · Auswärtsspiel"
+    },
+    {
+      "id": 122,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "SV Wilting II – (SG) SC M'neukirchen/Obertrübenb",
+      "start": "2026-11-08T12:15",
+      "ort": "Sportzentrum Wilting,Am Naßfeld 3,93455 Traitsching",
+      "text": "Herren · B Klasse · Auswärtsspiel"
+    },
+    {
+      "id": 123,
+      "verein": "svobertruebenb",
+      "quelle": "bfv",
+      "ortsteil": "obertruebenbach",
+      "titel": "(SG1) Lohberg I/Lam II – SV Obertrübenbach",
+      "start": "2026-11-08T15:15",
+      "ort": "Sportplatz Lohberg, Waldstadion,Schulweg 10,93470 Lohberg",
       "text": "Herren · Kreisklasse · Auswärtsspiel"
     }
   ],
