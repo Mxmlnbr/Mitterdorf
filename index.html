@@ -192,6 +192,36 @@ nav button[aria-current="page"] svg{stroke-width:2.3}
 nav button:focus-visible{outline:2px solid var(--ziegel);outline-offset:-3px}
 
 .leer{text-align:center;color:var(--grau);font-size:13.5px;padding:34px 16px}
+
+.vorschlag-auf{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;
+  font:inherit;font-size:13.5px;font-weight:600;color:var(--tiefblau);
+  background:#fff;border:1px dashed var(--linie);border-radius:11px;
+  padding:13px;cursor:pointer;margin-top:14px}
+.vorschlag-auf:hover{background:var(--blau-hell);border-color:var(--blau)}
+.vorschlag-auf:focus-visible{outline:2px solid var(--ziegel);outline-offset:2px}
+.vorschlag-auf svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.4;
+  stroke-linecap:round;transition:transform .2s}
+.vorschlag-auf[aria-expanded="true"] svg{transform:rotate(45deg)}
+
+.vorschlag{background:var(--karte);border:1px solid var(--linie);border-radius:12px;
+  padding:16px;margin-top:10px}
+.vorschlag-hinweis{font-size:12.5px;color:var(--grau);line-height:1.55;margin-bottom:6px}
+.vorschlag label{display:block;font-size:12px;font-weight:600;color:var(--grau);margin:12px 0 4px}
+.vorschlag input,.vorschlag textarea,.vorschlag select{font:inherit;font-size:14.5px;width:100%;
+  padding:9px 11px;border:1px solid var(--linie);border-radius:9px;background:#fff;color:var(--tinte)}
+.vorschlag textarea{min-height:70px;resize:vertical;line-height:1.5}
+.vorschlag input:focus,.vorschlag textarea:focus,.vorschlag select:focus{
+  outline:2px solid var(--ziegel);outline-offset:-1px;border-color:var(--ziegel)}
+.v-reihe{display:flex;gap:10px}
+.v-reihe > div{flex:1;min-width:0}
+.v-knoepfe{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.v-knoepfe a,.v-knoepfe button{font:inherit;font-size:13.5px;font-weight:600;
+  border-radius:9px;padding:10px 15px;cursor:pointer;text-decoration:none;
+  border:1px solid var(--linie);background:#fff;color:var(--tiefblau);flex:1;text-align:center}
+.v-knoepfe .haupt{background:var(--tiefblau);border-color:var(--tiefblau);color:#fff}
+.v-knoepfe a:hover,.v-knoepfe button:hover{filter:brightness(1.06)}
+.v-status{font-size:12.5px;color:var(--gruen);margin-top:10px;min-height:16px}
+.v-status.fehler{color:var(--warn)}
 .fussnote{font-size:11.5px;color:var(--grau);text-align:center;padding:18px 8px 4px;line-height:1.6}
 
 .rechtliches{padding:16px 16px 92px;text-align:center;font-size:11.5px;
@@ -234,6 +264,56 @@ nav button:focus-visible{outline:2px solid var(--ziegel);outline-offset:-3px}
       <div class="filter" id="filter" role="group" aria-label="Nach Verein filtern"></div>
       <div class="filter unterfilter" id="filter-unter" role="group" aria-label="Nach Abteilung filtern"></div>
       <div id="termine"></div>
+
+      <button class="vorschlag-auf" id="vorschlag-auf" aria-expanded="false" aria-controls="vorschlag">
+        <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        Termin vorschlagen
+      </button>
+
+      <div class="vorschlag" id="vorschlag" hidden>
+        <p class="vorschlag-hinweis">
+          Der Vorschlag wird als fertige Nachricht geöffnet. Abschicken musst du sie selbst –
+          erst dann erfährt die Redaktion davon.
+        </p>
+
+        <label for="v-titel">Was findet statt?</label>
+        <input id="v-titel" placeholder="z. B. Sommerfest">
+
+        <div class="v-reihe">
+          <div>
+            <label for="v-datum">Datum</label>
+            <input type="date" id="v-datum">
+          </div>
+          <div>
+            <label for="v-zeit">Uhrzeit</label>
+            <input type="time" id="v-zeit">
+          </div>
+        </div>
+
+        <div class="v-reihe">
+          <div>
+            <label for="v-verein">Wer veranstaltet?</label>
+            <input id="v-verein" list="v-vereine" placeholder="Verein oder Gruppe">
+            <datalist id="v-vereine"></datalist>
+          </div>
+          <div>
+            <label for="v-ortsteil">Ortsteil</label>
+            <select id="v-ortsteil"></select>
+          </div>
+        </div>
+
+        <label for="v-ort">Wo genau?</label>
+        <input id="v-ort" placeholder="z. B. Sportheim Mitterdorf">
+
+        <label for="v-text">Kurze Beschreibung</label>
+        <textarea id="v-text" placeholder="Was sollen die Leute wissen?"></textarea>
+
+        <label for="v-melder">Dein Name und Rückrufnummer</label>
+        <input id="v-melder" placeholder="damit bei Rückfragen jemand erreichbar ist">
+
+        <div class="v-knoepfe" id="v-knoepfe"></div>
+        <div class="v-status" id="v-status"></div>
+      </div>
     </section>
 
     <section id="s-aktuelles">
@@ -661,6 +741,110 @@ function termineZeigen(zustandBehalten){
   });
 }
 
+/* ---------- Terminvorschlag ---------- */
+/* Kein Server im Spiel: Der Vorschlag wird zu einer fertigen Nachricht,
+   die der Absender selbst über WhatsApp oder E-Mail verschickt. */
+
+function vorschlagAufbauen(){
+  const listeVereine = document.getElementById('v-vereine');
+  listeVereine.innerHTML = DATEN.vereine
+    .filter(v => v.id !== 'offen')
+    .map(v => '<option value="' + esc(anzeigeName(v.id)) + '">').join('');
+
+  const wahl = document.getElementById('v-ortsteil');
+  wahl.innerHTML = (DATEN.ortsteile || [])
+    .map(o => '<option value="' + esc(o.name) + '">' + esc(o.name) + '</option>').join('');
+  if (aktiverOrt !== 'alle') wahl.value = ortsteilName(aktiverOrt);
+
+  const auf = document.getElementById('vorschlag-auf');
+  const feld = document.getElementById('vorschlag');
+  auf.onclick = () => {
+    const offen = feld.hasAttribute('hidden');
+    if (offen){ feld.removeAttribute('hidden'); auf.setAttribute('aria-expanded','true');
+                feld.scrollIntoView({block:'nearest', behavior:'smooth'}); }
+    else { feld.setAttribute('hidden',''); auf.setAttribute('aria-expanded','false'); }
+  };
+
+  knoepfeAufbauen();
+}
+
+function vorschlagText(){
+  const w = id => document.getElementById(id).value.trim();
+  const zeilen = [
+    '### Terminvorschlag',
+    'Titel: '        + w('v-titel'),
+    'Datum: '        + w('v-datum'),
+    'Uhrzeit: '      + w('v-zeit'),
+    'Verein: '       + w('v-verein'),
+    'Ortsteil: '     + w('v-ortsteil'),
+    'Ort: '          + w('v-ort'),
+    'Beschreibung: ' + w('v-text').replace(/\s*\n\s*/g, ' '),
+    'Gemeldet von: ' + w('v-melder')
+  ];
+  return zeilen.join('\n');
+}
+
+function vorschlagPruefen(){
+  const fehlt = [];
+  if (!document.getElementById('v-titel').value.trim()) fehlt.push('Titel');
+  if (!document.getElementById('v-datum').value)        fehlt.push('Datum');
+  if (!document.getElementById('v-zeit').value)         fehlt.push('Uhrzeit');
+  const status = document.getElementById('v-status');
+  if (fehlt.length){
+    status.className = 'v-status fehler';
+    status.textContent = 'Bitte noch ausfüllen: ' + fehlt.join(', ');
+    return false;
+  }
+  status.className = 'v-status'; status.textContent = '';
+  return true;
+}
+
+function knoepfeAufbauen(){
+  const box = document.getElementById('v-knoepfe');
+  const k = DATEN.kontakt || {};
+  box.innerHTML = '';
+
+  if (k.whatsapp){
+    const b = document.createElement('button');
+    b.className = 'haupt'; b.textContent = 'Per WhatsApp senden';
+    b.onclick = () => {
+      if (!vorschlagPruefen()) return;
+      const nummer = String(k.whatsapp).replace(/[^\d]/g,'');
+      window.open('https://wa.me/' + nummer + '?text=' + encodeURIComponent(vorschlagText()), '_blank');
+    };
+    box.appendChild(b);
+  }
+
+  if (k.email){
+    const b = document.createElement('button');
+    b.className = k.whatsapp ? '' : 'haupt';
+    b.textContent = 'Per E-Mail senden';
+    b.onclick = () => {
+      if (!vorschlagPruefen()) return;
+      const titel = document.getElementById('v-titel').value.trim();
+      location.href = 'mailto:' + k.email +
+        '?subject=' + encodeURIComponent('Terminvorschlag: ' + titel) +
+        '&body=' + encodeURIComponent(vorschlagText());
+    };
+    box.appendChild(b);
+  }
+
+  const kopie = document.createElement('button');
+  kopie.textContent = 'Text kopieren';
+  kopie.onclick = async () => {
+    if (!vorschlagPruefen()) return;
+    try {
+      await navigator.clipboard.writeText(vorschlagText());
+      const s = document.getElementById('v-status');
+      s.className = 'v-status'; s.textContent = 'Text kopiert – jetzt irgendwo einfügen und abschicken.';
+    } catch(e){
+      const s = document.getElementById('v-status');
+      s.className = 'v-status fehler'; s.textContent = 'Kopieren hat nicht geklappt.';
+    }
+  };
+  box.appendChild(kopie);
+}
+
 /* ---------- Meldungen ---------- */
 function meldungenZeigen(){
   const box = document.getElementById('meldungen');
@@ -818,6 +1002,7 @@ function starten(){
       'Stand der Daten: ' + s.toLocaleDateString('de-DE');
   }
   filterBauen(); termineZeigen(); meldungenZeigen(); serviceZeigen(); vereineZeigen();
+  vorschlagAufbauen();
 }
 
 laden();
