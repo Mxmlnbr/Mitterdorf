@@ -165,7 +165,7 @@ button.tat{font:inherit;font-size:13.5px;font-weight:600;border-radius:8px;paddi
 <header>
   <div class="wrap">
     <h1>Redaktion Mitterdorf</h1>
-    <p>Inhalte pflegen, danach <b>daten.json</b> herunterladen und auf GitHub ersetzen</p>
+    <p id="kopf-hinweis">Inhalte pflegen und veröffentlichen</p>
   </div>
 </header>
 
@@ -579,12 +579,7 @@ button.tat{font:inherit;font-size:13.5px;font-weight:600;border-radius:8px;paddi
     </div>
   </div>
 
-  <div class="tipp">
-    <b>Ablauf ohne GitHub-Zugang:</b> Änderungen hier eintragen, unten <code>daten.json</code> herunterladen,
-    die Datei im GitHub-Repository per Drag-and-drop ersetzen und den Commit bestätigen.
-    Nach etwa einer Minute ist die App aktuell. Diese Seite speichert nichts von selbst –
-    alles bleibt im Browser, bis du die Datei herunterlädst.
-  </div>
+  <div class="tipp" id="ablauf-hinweis"></div>
 </main>
 
 <div class="fuss">
@@ -1934,7 +1929,7 @@ $('gh-pruefen').onclick = async () => {
   ghStatus('Zugang wird geprüft…');
   try {
     const stand = await ghDateiStand();
-    ghSchreiben(); ghKnopfPruefen();
+    ghSchreiben(); ghKnopfPruefen(); ablaufHinweisZeigen();
     ghStatus(stand
       ? 'Verbindung steht. Die Datei wurde gefunden und kann überschrieben werden.'
       : 'Verbindung steht. Die Datei ist noch nicht vorhanden und wird beim Veröffentlichen angelegt.', true);
@@ -1946,12 +1941,31 @@ $('gh-pruefen').onclick = async () => {
 $('gh-loeschen').onclick = () => {
   ghZugang = { benutzer:'', repo:'', branch:'main', pfad:'daten.json', token:'' };
   try { window.localStorage.removeItem(GH_SPEICHER); } catch(e){}
-  ghFelderFuellen();
+  ghFelderFuellen(); ablaufHinweisZeigen();
   ghStatus('Der Schlüssel wurde aus diesem Browser entfernt. Denk daran, ihn auf github.com zu widerrufen, falls er nicht mehr gebraucht wird.', true);
 };
 
 /* Solange nichts geladen wurde, darf nichts veröffentlicht werden.
    Sonst überschreibt ein leerer Start die vorhandenen Inhalte. */
+/* Der Ablauf hängt davon ab, ob ein GitHub-Zugang eingerichtet ist */
+function ablaufHinweisZeigen(){
+  const mitZugang = ghBereit();
+  $('kopf-hinweis').textContent = mitZugang
+    ? 'Inhalte pflegen und mit einem Klick veröffentlichen'
+    : 'Inhalte pflegen, danach die Datei herunterladen und auf GitHub ersetzen';
+
+  $('ablauf-hinweis').innerHTML = mitZugang
+    ? '<b>Ablauf:</b> Änderungen eintragen, unten auf <b>Veröffentlichen</b> tippen. ' +
+      'Die Datei wird direkt in dein Repository geschrieben, nach etwa einer Minute ist die App aktuell. ' +
+      'Solange du nicht veröffentlichst, bleibt alles nur in diesem Browser.'
+    : '<b>Ablauf:</b> Änderungen eintragen, unten <code>daten.json</code> herunterladen, ' +
+      'die Datei im GitHub-Repository durch die neue ersetzen und den Commit bestätigen. ' +
+      'Nach etwa einer Minute ist die App aktuell. Diese Seite speichert nichts von selbst — ' +
+      'alles bleibt im Browser, bis du die Datei herunterlädst.<br><br>' +
+      'Bequemer geht es über den Reiter <b>Veröffentlichen</b>: Einmal einen Zugriffsschlüssel ' +
+      'hinterlegen, danach genügt ein Klick.';
+}
+
 function schreibschutzPruefen(){
   const sperre = !inhalteGeladen;
   const knopf = $('veroeffentlichen');
@@ -1959,6 +1973,7 @@ function schreibschutzPruefen(){
   knopf.title = sperre ? 'Erst Inhalte laden, dann veröffentlichen' : '';
   $('schreibschutz').style.display = sperre ? '' : 'none';
   ghKnopfPruefen();
+  ablaufHinweisZeigen();
 }
 
 $('veroeffentlichen').onclick = async () => {
