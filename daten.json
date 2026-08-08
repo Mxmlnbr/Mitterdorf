@@ -33,8 +33,9 @@
     },
     {
       "id": "schuetzen",
-      "name": "Schützenverein",
-      "kuerzel": "SVWB"
+      "name": "Schützenverein Waldeslust Roding-Bahnhof",
+      "kuerzel": "SVWB",
+      "ortsteil": "mitterdorf"
     },
     {
       "id": "ogv",
