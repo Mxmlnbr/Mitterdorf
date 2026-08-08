@@ -33,7 +33,7 @@
       "ortsteil": "alle"
     },
     {
-      "id": "schuetzen",
+      "id": "waldeslustschuetzen",
       "name": "Schützenverein Waldeslust Roding-Bahnhof",
       "kuerzel": "SVWB",
       "ortsteil": "mitterdorf"
@@ -415,7 +415,7 @@
     {
       "id": 46,
       "titel": "Schlachtfest",
-      "verein": "schuetzen",
+      "verein": "waldeslustschuetzen",
       "start": "2027-05-01T10:00",
       "ort": "Oberkreith",
       "text": "",
