@@ -44,6 +44,12 @@
       "name": "Jugendfeuerwehr",
       "kuerzel": "JFW",
       "mutter": "ffw"
+    },
+    {
+      "id": "kinderfeuerwehr",
+      "name": "Kinderfeuerwehr",
+      "kuerzel": "KFW",
+      "mutter": "ffw"
     }
   ],
   "termine": [
