@@ -180,7 +180,8 @@
       "titel": "TV Waldmünchen – SpVgg Mitterdorf",
       "start": "2026-08-30T15:15",
       "ort": "Sportgelände Geigant, Platz 1,Kellerweg 35,93449 Geigant",
-      "text": "Herren · Kreisliga · Auswärtsspiel"
+      "text": "Herren · Kreisliga · Auswärtsspiel",
+      "ortsteil": "mitterdorf"
     },
     {
       "id": 21,
