@@ -441,6 +441,20 @@
       "ort": "Oberkreith",
       "text": "",
       "ortsteil": "mitterdorf"
+    },
+    {
+      "id": 47,
+      "titel": "Gerätepflege",
+      "verein": "ffmitterdorf",
+      "start": "2026-09-01T18:30",
+      "ortsteil": "mitterdorf",
+      "ort": "Gerätehaus Mitterdorf",
+      "text": "",
+      "wiederholung": {
+        "art": "monat-wochentag",
+        "wochentag": 2,
+        "position": 1
+      }
     }
   ],
   "meldungen": [
