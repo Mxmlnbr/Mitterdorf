@@ -47,68 +47,12 @@
   ],
   "termine": [
     {
-      "id": 1,
-      "verein": "offen",
-      "titel": "Mitterdorfer Brückenschoppen",
-      "start": "2026-08-28T18:30",
-      "ort": "Garten Ruhland, Eingang unten neben der Brücke",
-      "text": "Gemütlich zusammensitzen und ratschen. Jeder bringt eine Flasche Wein, ein Glas und gute Laune mit."
-    },
-    {
-      "id": 2,
-      "verein": "ffw",
-      "titel": "Monatsübung: Technische Hilfeleistung",
-      "start": "2026-08-14T19:00",
-      "ort": "Gerätehaus Mitterdorf",
-      "text": "Übung mit dem Rettungssatz. Einsatzkleidung mitbringen."
-    },
-    {
       "id": 3,
       "verein": "spvgg-fussball",
       "titel": "Heimspiel gegen DJK Beucherling",
       "start": "2026-08-16T15:00",
       "ort": "Sportplatz Mitterdorf",
       "text": "Kreisliga-Heimspiel. Vorher spielt die A-Jugend um 12:45 Uhr."
-    },
-    {
-      "id": 4,
-      "verein": "burschen",
-      "titel": "Vorbereitung Kirwabaum",
-      "start": "2026-08-21T18:00",
-      "ort": "Bauhof",
-      "text": "Alle Burschen sind gefragt. Handschuhe nicht vergessen."
-    },
-    {
-      "id": 5,
-      "verein": "schuetzen",
-      "titel": "Vereinsmeisterschaft, erster Durchgang",
-      "start": "2026-09-04T19:30",
-      "ort": "Schützenheim",
-      "text": "Anmeldung bis eine Woche vorher beim Schützenmeister."
-    },
-    {
-      "id": 6,
-      "verein": "kifw",
-      "titel": "Ferienprogramm: Löschangriff für Kinder",
-      "start": "2026-09-06T14:00",
-      "ort": "Wiese am Gerätehaus",
-      "text": "Für Kinder von 6 bis 12 Jahren. Wechselkleidung mitbringen, es wird nass."
-    },
-    {
-      "id": 7,
-      "verein": "ffw",
-      "titel": "Jahreshauptversammlung",
-      "start": "2026-09-19T19:30",
-      "ort": "Gasthaus zur Post",
-      "text": "Berichte, Neuwahlen der Kassenprüfer, Ehrungen."
-    },
-    {
-      "id": 8,
-      "verein": "spvgg-ski",
-      "titel": "Saisoneröffnung mit Materialbörse",
-      "start": "2026-10-10T10:00",
-      "ort": "Vereinsheim",
-      "text": "Gebrauchte Ski und Schuhe verkaufen oder kaufen. Annahme ab 9 Uhr."
     },
     {
       "id": 9,
