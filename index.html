@@ -102,6 +102,20 @@ h2:first-child{margin-top:2px}
 .abfuhr-datum{font-size:13.5px;font-weight:600;min-width:104px}
 .abfuhr-rest{font-size:12.5px;color:var(--grau);margin-left:auto}
 
+.monatstrenner{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--grau);font-weight:700;padding:14px 2px 5px;border-bottom:1px solid var(--linie)}
+.monatstrenner:first-child{padding-top:2px}
+
+.mehr{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;
+  font:inherit;font-size:13px;font-weight:600;color:var(--tiefblau);
+  background:#fff;border:1px solid var(--linie);border-radius:10px;
+  padding:11px;cursor:pointer;margin-top:-2px}
+.mehr:hover{background:var(--blau-hell)}
+.mehr:focus-visible{outline:2px solid var(--ziegel);outline-offset:2px}
+.mehr svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2;
+  stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+.mehr[aria-expanded="true"] svg{transform:rotate(180deg)}
+
 .hinweis{font-size:12.5px;color:var(--grau);background:#fff;border:1px dashed var(--linie);
   border-radius:10px;padding:12px;margin-top:12px}
 .hinweis a{color:var(--tiefblau)}
@@ -179,6 +193,7 @@ nav button:focus-visible{outline:2px solid var(--ziegel);outline-offset:-3px}
       <div class="naechste" id="naechste"></div>
       <h2>Nächste Termine</h2>
       <div class="karte" id="abfuhrliste"></div>
+      <div id="mehr-box"></div>
       <h2>Beim Landkreis nachschlagen</h2>
       <div class="verweise">
         <a class="verweis" href="https://pwa.entsorgung-cham.de/termine" target="_blank" rel="noopener">
@@ -449,15 +464,53 @@ function muellZeigen(){
       return '<span class="tonne"><span class="punkt" style="background:' + t.farbe + '"></span>' + t.name + '</span>';
     }).join('') + '</div>';
 
-  document.getElementById('abfuhrliste').innerHTML = kommend.slice(0,12).map(a => {
+  abfuhrListeZeichnen(kommend);
+}
+
+/* Standardmäßig nur die nächsten Termine, auf Wunsch das ganze Jahr */
+const ABFUHR_KURZ = 6;
+let abfuhrOffen = false;
+
+function abfuhrListeZeichnen(kommend){
+  const sichtbar = abfuhrOffen ? kommend : kommend.slice(0, ABFUHR_KURZ);
+
+  let letzterMonat = null;
+  document.getElementById('abfuhrliste').innerHTML = sichtbar.map(a => {
     const x = new Date(a.datum);
     const t = TONNEN[a.art] || {name:a.art, farbe:'#888'};
-    return '<div class="abfuhr-zeile">' +
+    let vorspann = '';
+    if (abfuhrOffen){
+      const monat = x.getFullYear() + '-' + x.getMonth();
+      if (monat !== letzterMonat){
+        vorspann = '<div class="monatstrenner">' +
+          x.toLocaleDateString('de-DE',{month:'long', year:'numeric'}) + '</div>';
+        letzterMonat = monat;
+      }
+    }
+    return vorspann + '<div class="abfuhr-zeile">' +
       '<span class="punkt" style="background:' + t.farbe + '"></span>' +
       '<span class="abfuhr-datum">' + TAGE[x.getDay()] + ', ' + zz(x.getDate()) + '.' + zz(x.getMonth()+1) + '.</span>' +
       '<span>' + t.name + '</span>' +
       '<span class="abfuhr-rest">' + relativ(a.datum) + '</span></div>';
   }).join('');
+
+  const box = document.getElementById('mehr-box');
+  if (kommend.length <= ABFUHR_KURZ){ box.innerHTML = ''; return; }
+
+  const letztes = new Date(kommend[kommend.length-1].datum);
+  box.innerHTML =
+    '<button class="mehr" id="mehr-knopf" aria-expanded="' + abfuhrOffen + '" aria-controls="abfuhrliste">' +
+      (abfuhrOffen
+        ? 'Weniger anzeigen'
+        : 'Alle ' + kommend.length + ' Termine bis ' + letztes.toLocaleDateString('de-DE',{month:'long', year:'numeric'}) + ' anzeigen') +
+      '<svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>' +
+    '</button>';
+
+  document.getElementById('mehr-knopf').onclick = () => {
+    abfuhrOffen = !abfuhrOffen;
+    abfuhrListeZeichnen(kommend);
+    if (!abfuhrOffen) document.getElementById('abfuhrliste').scrollIntoView({block:'nearest', behavior:'smooth'});
+  };
 }
 
 /* ---------- Vereine ---------- */
