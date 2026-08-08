@@ -55,6 +55,12 @@
       "name": "Kinderfeuerwehr",
       "kuerzel": "KFW",
       "mutter": "ffmitterdorf"
+    },
+    {
+      "id": "abteilungturne",
+      "name": "Abteilung Turnen",
+      "ortsteil": "mitterdorf",
+      "mutter": "spvggmitterdorf"
     }
   ],
   "termine": [
