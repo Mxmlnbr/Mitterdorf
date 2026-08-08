@@ -11,7 +11,8 @@
     {
       "id": "spvgg",
       "name": "SpVgg Mitterdorf",
-      "kuerzel": "SpVg"
+      "kuerzel": "SpVg",
+      "ortsteil": "mitterdorf"
     },
     {
       "id": "spvgg-fussball",
