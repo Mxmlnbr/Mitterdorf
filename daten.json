@@ -406,6 +406,14 @@
       "start": "2026-11-08T14:15",
       "ort": "Sportplatz Dalking,Ränkamer Str.,93495 Weiding",
       "text": "Herren · Kreisliga · Auswärtsspiel"
+    },
+    {
+      "id": 42,
+      "titel": "Straßenfest Ziehring",
+      "verein": "ffw",
+      "start": "2026-08-08T18:30",
+      "ort": "Gerätehaus Mitterdorf",
+      "text": ""
     }
   ],
   "meldungen": [
