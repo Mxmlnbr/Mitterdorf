@@ -308,18 +308,10 @@ button.tat{font:inherit;font-size:13.5px;font-weight:600;border-radius:8px;paddi
   <div class="tafel" id="t-vereine">
     <div class="formular">
       <h3 id="verein-modus">Neuer Verein</h3>
-      <div class="unter">Das Kürzel erscheint als Kachel in der Vereinsliste, bis zu fünf Zeichen.</div>
+      <div class="unter">Die Kennung wird intern verwendet und erscheint nicht in der App.</div>
       <input type="hidden" id="verein-altid">
-      <div class="reihe">
-        <div>
-          <label for="verein-name">Name</label>
-          <input id="verein-name" placeholder="z. B. Obst- und Gartenbauverein">
-        </div>
-        <div>
-          <label for="verein-kuerzel">Kürzel</label>
-          <input id="verein-kuerzel" maxlength="5" placeholder="OGV">
-        </div>
-      </div>
+      <label for="verein-name">Name</label>
+      <input id="verein-name" placeholder="z. B. Obst- und Gartenbauverein">
       <label for="verein-id">Kennung (Kleinbuchstaben, keine Leerzeichen)</label>
       <input id="verein-id" placeholder="ogv">
       <div class="reihe">
@@ -996,8 +988,7 @@ function serviceListe(){
 
 /* ============ VEREINE ============ */
 function vereinFormularLeeren(){
-  $('verein-altid').value = ''; $('verein-name').value = '';
-  $('verein-kuerzel').value = ''; $('verein-id').value = '';
+  $('verein-altid').value = ''; $('verein-name').value = ''; $('verein-id').value = '';
   delete $('verein-id').dataset.manuell;
   $('verein-mutter').value = '';
   $('verein-modus').textContent = 'Neuer Verein';
@@ -1016,9 +1007,8 @@ $('verein-id').oninput = () => { $('verein-id').dataset.manuell = '1'; };
 
 $('verein-speichern').onclick = () => {
   const name = $('verein-name').value.trim();
-  const kuerzel = $('verein-kuerzel').value.trim();
   const id = $('verein-id').value.trim().toLowerCase();
-  if (!name || !kuerzel || !id){ melde('Name, Kürzel und Kennung sind Pflicht.', false); return; }
+  if (!name || !id){ melde('Name und Kennung sind Pflicht.', false); return; }
   if (!/^[a-z0-9]+$/.test(id)){ melde('Die Kennung darf nur Kleinbuchstaben und Ziffern enthalten.', false); return; }
 
   const mutter = $('verein-mutter').value;
@@ -1038,13 +1028,13 @@ $('verein-speichern').onclick = () => {
     }
 
     const v = DATEN.vereine.find(x => x.id === altid);
-    v.id = id; v.name = name; v.kuerzel = kuerzel; v.ortsteil = $('verein-ortsteil').value;
+    v.id = id; v.name = name; v.ortsteil = $('verein-ortsteil').value;
     if (mutter) v.mutter = mutter; else delete v.mutter;
 
     melde('Verein geändert.' + (umbenannt ? ' ' + umbenannt + ' Verweise mit angepasst.' : ''));
   } else {
     if (DATEN.vereine.some(v => v.id === id)){ melde('Diese Kennung gibt es schon.', false); return; }
-    const neuerV = { id, name, kuerzel, ortsteil: $('verein-ortsteil').value };
+    const neuerV = { id, name, ortsteil: $('verein-ortsteil').value };
     if (mutter) neuerV.mutter = mutter;
     DATEN.vereine.push(neuerV);
     melde('Verein angelegt.');
@@ -1060,7 +1050,7 @@ function vereineListe(){
     const n = DATEN.termine.filter(t => t.verein === v.id).length;
     return '<div class="eintrag"><div class="eintrag-text">' +
       '<div class="eintrag-titel">' + (v.mutter ? '&#8627; ' : '') + esc(v.name) + '</div>' +
-      '<div class="eintrag-meta">Kürzel ' + esc(v.kuerzel) + ' · ' + esc(ortsName(v.ortsteil)) +
+      '<div class="eintrag-meta">' + esc(ortsName(v.ortsteil)) +
       ' · ' + n + (n === 1 ? ' Termin' : ' Termine') + '</div></div>' +
       '<div class="eintrag-knopf"><button data-vb="' + esc(v.id) + '">Bearbeiten</button>' +
       '<button class="weg" data-vl="' + esc(v.id) + '">Löschen</button></div></div>';
@@ -1069,7 +1059,7 @@ function vereineListe(){
   box.querySelectorAll('[data-vb]').forEach(b => b.onclick = () => {
     const v = DATEN.vereine.find(x => x.id === b.dataset.vb);
     $('verein-altid').value = v.id; $('verein-name').value = v.name;
-    $('verein-kuerzel').value = v.kuerzel; $('verein-id').value = v.id;
+    $('verein-id').value = v.id;
     $('verein-id').dataset.manuell = '1';
     vereinsauswahl();
     $('verein-mutter').value = v.mutter || '';

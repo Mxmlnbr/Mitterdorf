@@ -94,8 +94,7 @@ h2:first-child{margin-top:2px}
 
 .abteilung{padding-left:22px;position:relative}
 .abteilung::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:1px;background:var(--linie)}
-.abteilung .kuerzel{flex:0 0 36px;height:32px;font-size:10.5px;background:var(--ziegel-hell);color:#8E4A1E}
-.abteilung .kuerzel[data-lang="1"]{font-size:9px}
+.abteilung .vpunkt{flex:0 0 8px;width:8px;height:8px;margin-top:5px}
 .abteilung .verein-name{font-size:13.5px}
 
 .meldung{border-left:3px solid var(--linie);padding-left:12px;margin-bottom:16px}
@@ -148,12 +147,9 @@ a.service-zeile:focus-visible{outline:2px solid var(--ziegel);outline-offset:-2p
 .verweis .unter{font-size:11.5px;color:var(--grau);line-height:1.4}
 .quelle{font-size:11.5px;color:var(--grau);margin:8px 2px 0;line-height:1.5}
 
-.verein-zeile{display:flex;align-items:center;gap:11px;padding:11px 2px;border-bottom:1px solid var(--linie)}
+.verein-zeile{display:flex;align-items:flex-start;gap:11px;padding:11px 2px;border-bottom:1px solid var(--linie)}
 .verein-zeile:last-child{border-bottom:none}
-.kuerzel{flex:0 0 42px;height:38px;border-radius:10px;background:var(--blau-hell);color:var(--tiefblau);
-  display:grid;place-items:center;font-weight:800;font-size:12.5px;
-  padding:0 2px;text-align:center;overflow:hidden}
-.kuerzel[data-lang="1"]{font-size:10.5px;letter-spacing:-.03em}
+.vpunkt{flex:0 0 11px;width:11px;height:11px;border-radius:50%;margin-top:5px}
 .verein-name{font-size:14.5px;font-weight:600}
 .verein-zahl{font-size:12px;color:var(--grau)}
 
@@ -537,6 +533,13 @@ function serviceZeigen(){
 }
 
 /* ---------- Vereine ---------- */
+/* Farbe fest an die Kennung gebunden, damit ein Verein sie dauerhaft behält */
+function farbeVon(id){
+  let summe = 0;
+  for (const z of String(id)) summe = (summe * 31 + z.charCodeAt(0)) % 360;
+  return 'hsl(' + summe + ' 40% 47%)';
+}
+
 function vereineZeigen(){
   const zaehle = id => DATEN.termine.filter(imOrt).filter(t =>
     (t.verein === id || wurzelVon(t.verein) === id) && new Date(t.start) >= heute).length;
@@ -544,8 +547,7 @@ function vereineZeigen(){
   const zeile = (v, istAbteilung) => {
     const n = zaehle(v.id);
     return '<div class="verein-zeile' + (istAbteilung ? ' abteilung' : '') + '">' +
-      '<div class="kuerzel"' + (String(v.kuerzel).length > 4 ? ' data-lang="1"' : '') + '>' +
-      esc(v.kuerzel) + '</div><div>' +
+      '<span class="vpunkt" style="background:' + farbeVon(v.id) + '"></span><div>' +
       '<div class="verein-name">' + esc(v.name) + '</div>' +
       '<div class="verein-zahl">' + (n === 0 ? 'kein Termin eingetragen' : n === 1 ? '1 Termin' : n + ' Termine') +
       '</div></div></div>';
