@@ -59,15 +59,6 @@
   ],
   "termine": [
     {
-      "id": 3,
-      "verein": "spvgg-fussball",
-      "titel": "Heimspiel gegen DJK Beucherling",
-      "start": "2026-08-16T15:00",
-      "ort": "Sportplatz Mitterdorf",
-      "text": "Kreisliga-Heimspiel. Vorher spielt die A-Jugend um 12:45 Uhr.",
-      "ortsteil": "mitterdorf"
-    },
-    {
       "id": 9,
       "verein": "spvgg-fussball",
       "quelle": "bfv",
