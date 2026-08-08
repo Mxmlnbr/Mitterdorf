@@ -455,6 +455,20 @@
         "wochentag": 2,
         "position": 1
       }
+    },
+    {
+      "id": 48,
+      "titel": "Stammtisch",
+      "verein": "ffmitterdorf",
+      "start": "2026-08-14T19:30",
+      "ortsteil": "mitterdorf",
+      "ort": "Gerätehaus Mitterdorf",
+      "text": "",
+      "wiederholung": {
+        "art": "monat-wochentag",
+        "wochentag": 5,
+        "position": 2
+      }
     }
   ],
   "meldungen": [
