@@ -410,7 +410,8 @@
       "verein": "schuetzen",
       "start": "2027-05-01T10:00",
       "ort": "Oberkreith",
-      "text": ""
+      "text": "",
+      "ortsteil": "mitterdorf"
     }
   ],
   "meldungen": [
