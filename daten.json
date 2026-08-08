@@ -3,7 +3,7 @@
   "stand": "2026-08-08",
   "vereine": [
     {
-      "id": "ffw",
+      "id": "ffmitterdorf",
       "name": "Freiwillige Feuerwehr Mitterdorf",
       "kuerzel": "FFW",
       "ortsteil": "mitterdorf"
@@ -47,13 +47,13 @@
       "id": "jugendfeuerwehr",
       "name": "Jugendfeuerwehr",
       "kuerzel": "JFW",
-      "mutter": "ffw"
+      "mutter": "ffmitterdorf"
     },
     {
       "id": "kinderfeuerwehr",
       "name": "Kinderfeuerwehr",
       "kuerzel": "KFW",
-      "mutter": "ffw"
+      "mutter": "ffmitterdorf"
     }
   ],
   "termine": [
@@ -378,7 +378,7 @@
     {
       "id": 42,
       "titel": "Straßenfest Ziehring",
-      "verein": "ffw",
+      "verein": "ffmitterdorf",
       "start": "2026-08-08T18:30",
       "ort": "Gerätehaus Mitterdorf",
       "text": "Wir besuchen am Samstag, 08.08. das Straßenfest der FFW Ziehring. Treffpunkt in Vereinskleidung zur gemeinsamen Abfahrt um 18.30 Uhr am Feuerwehrhaus",
@@ -396,7 +396,7 @@
     {
       "id": 44,
       "titel": "Kameradschaftsabend",
-      "verein": "ffw",
+      "verein": "ffmitterdorf",
       "start": "2026-08-14T19:00",
       "ort": "Gerätehaus Mitterdorf",
       "text": "Am Freitag, 14.08. findet unserer Kameradschaftsabend um 19 Uhr im Feuerwehrhaus statt.\nEingeladen sind alle aktiven Mitglieder, Helfer und Unterstützer der Feuerwehr.",
@@ -659,6 +659,10 @@
     {
       "id": "mitterdorf",
       "name": "Mitterdorf"
+    },
+    {
+      "id": "obertruebenbach",
+      "name": "Obertrübenbach"
     },
     {
       "id": "wetterfeld",
