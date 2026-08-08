@@ -727,5 +727,9 @@
       "id": "wetterfeld",
       "name": "Wetterfeld"
     }
-  ]
+  ],
+  "kontakt": {
+    "email": "maxbauer@online.de",
+    "whatsapp": "491711404455"
+  }
 }
