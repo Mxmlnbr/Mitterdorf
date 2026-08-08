@@ -67,6 +67,11 @@
       "name": "Abteilung Radsport",
       "ortsteil": "mitterdorf",
       "mutter": "spvggmitterdorf"
+    },
+    {
+      "id": "svmitterkreith",
+      "name": "SV Mitterkreith",
+      "ortsteil": "mitterkreith"
     }
   ],
   "termine": [
