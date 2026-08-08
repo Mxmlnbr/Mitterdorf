@@ -33,6 +33,11 @@
       "id": "schuetzen",
       "name": "Schützenverein",
       "kuerzel": "SV"
+    },
+    {
+      "id": "ogv",
+      "name": "Obst- und Gartenbauverein",
+      "kuerzel": "OGV"
     }
   ],
   "termine": [
