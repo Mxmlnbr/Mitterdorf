@@ -129,6 +129,7 @@ button.tat{font:inherit;font-size:13.5px;font-weight:600;border-radius:8px;paddi
   <button role="tab" data-tafel="meldungen" aria-selected="false">Meldungen</button>
   <button role="tab" data-tafel="service"   aria-selected="false">Service</button>
   <button role="tab" data-tafel="vereine"   aria-selected="false">Vereine</button>
+  <button role="tab" data-tafel="ortsteile" aria-selected="false">Ortsteile</button>
   <button role="tab" data-tafel="github"    aria-selected="false">Veröffentlichen</button>
 </div>
 
@@ -336,8 +337,17 @@ button.tat{font:inherit;font-size:13.5px;font-weight:600;border-radius:8px;paddi
         <button class="tat sekundaer" id="verein-abbrechen" style="display:none">Abbrechen</button>
       </div>
     </div>
+    <h2>Vereine</h2>
+    <div id="liste-vereine"></div>
+    <div class="tipp">
+      Ein Verein lässt sich nur löschen, wenn ihm kein Termin mehr zugeordnet ist.
+    </div>
+  </div>
+
+  <!-- ORTSTEILE -->
+  <div class="tafel" id="t-ortsteile">
     <div class="formular">
-      <h3>Ortsteile verwalten</h3>
+      <h3>Neuer Ortsteil</h3>
       <div class="unter">
         Diese Liste erscheint in der App im Auswahlfeld oben. Einträge ohne Ortsteil
         oder mit „Ganze Stadt“ sind überall sichtbar.
@@ -358,10 +368,11 @@ button.tat{font:inherit;font-size:13.5px;font-weight:600;border-radius:8px;paddi
       <div id="liste-ortsteile" style="margin-top:14px"></div>
     </div>
 
-    <h2>Vereine</h2>
-    <div id="liste-vereine"></div>
+
     <div class="tipp">
-      Ein Verein lässt sich nur löschen, wenn ihm kein Termin mehr zugeordnet ist.
+      Ein Ortsteil lässt sich nur entfernen, solange ihm keine Einträge zugeordnet sind.
+      Die Zahl an der Kachel zeigt, wie viele Termine, Meldungen, Vereine und Service-Einträge
+      daran hängen.
     </div>
   </div>
 
@@ -987,7 +998,7 @@ function serviceListe(){
 function vereinFormularLeeren(){
   $('verein-altid').value = ''; $('verein-name').value = '';
   $('verein-kuerzel').value = ''; $('verein-id').value = '';
-  $('verein-id').disabled = false;
+  delete $('verein-id').dataset.manuell;
   $('verein-mutter').value = '';
   $('verein-modus').textContent = 'Neuer Verein';
   $('verein-abbrechen').style.display = 'none';
@@ -1013,13 +1024,24 @@ $('verein-speichern').onclick = () => {
   const mutter = $('verein-mutter').value;
   const altid = $('verein-altid').value;
   if (altid){
+    if (mutter === altid){ melde('Ein Verein kann nicht sich selbst zugeordnet werden.', false); return; }
     if (mutter && DATEN.vereine.some(v => v.mutter === altid)){
       melde('Dieser Verein hat selbst Abteilungen und kann keiner anderen zugeordnet werden.', false); return;
     }
+
+    // Kennung geändert? Dann alle Verweise mitziehen.
+    let umbenannt = 0;
+    if (id !== altid){
+      if (DATEN.vereine.some(v => v.id === id)){ melde('Diese Kennung gibt es schon.', false); return; }
+      DATEN.termine.forEach(t => { if (t.verein === altid){ t.verein = id; umbenannt++; } });
+      DATEN.vereine.forEach(v => { if (v.mutter === altid){ v.mutter = id; umbenannt++; } });
+    }
+
     const v = DATEN.vereine.find(x => x.id === altid);
-    v.name = name; v.kuerzel = kuerzel; v.ortsteil = $('verein-ortsteil').value;
+    v.id = id; v.name = name; v.kuerzel = kuerzel; v.ortsteil = $('verein-ortsteil').value;
     if (mutter) v.mutter = mutter; else delete v.mutter;
-    melde('Verein geändert.');
+
+    melde('Verein geändert.' + (umbenannt ? ' ' + umbenannt + ' Verweise mit angepasst.' : ''));
   } else {
     if (DATEN.vereine.some(v => v.id === id)){ melde('Diese Kennung gibt es schon.', false); return; }
     const neuerV = { id, name, kuerzel, ortsteil: $('verein-ortsteil').value };
@@ -1028,6 +1050,7 @@ $('verein-speichern').onclick = () => {
     melde('Verein angelegt.');
   }
   markiere(); vereinFormularLeeren(); vereineListe(); vereinsauswahl(); pdfZielAuswahl();
+  termineListe();
 };
 
 function vereineListe(){
@@ -1047,7 +1070,7 @@ function vereineListe(){
     const v = DATEN.vereine.find(x => x.id === b.dataset.vb);
     $('verein-altid').value = v.id; $('verein-name').value = v.name;
     $('verein-kuerzel').value = v.kuerzel; $('verein-id').value = v.id;
-    $('verein-id').disabled = true;
+    $('verein-id').dataset.manuell = '1';
     vereinsauswahl();
     $('verein-mutter').value = v.mutter || '';
     $('verein-ortsteil').value = v.ortsteil || 'alle';
