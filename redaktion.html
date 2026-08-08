@@ -142,6 +142,13 @@ button.tat{font:inherit;font-size:13.5px;font-weight:600;border-radius:8px;paddi
 .ortsteil-marke button:hover{background:#FBE9E7;color:var(--warn)}
 .ortsteil-marke .zahl{color:var(--grau);font-size:11px}
 
+.wahl{display:flex;gap:10px;align-items:flex-start;margin-top:14px;
+  background:#fff;border:1px solid var(--linie);border-radius:9px;padding:11px 12px}
+.wahl input{width:auto;margin-top:2px;flex:0 0 auto}
+.wahl label{margin:0;font-size:14px;font-weight:600;color:var(--tinte);cursor:pointer}
+.wahl-text{font-size:12.5px;color:var(--grau);line-height:1.5;margin-top:2px}
+.wahl-zahl{display:block;margin-top:3px;font-weight:700;color:var(--blau)}
+
 .vorschau{margin-top:14px;border:1px solid var(--linie);border-radius:9px;background:#fff;padding:12px}
 .vorschau h4{font-size:14px;margin-bottom:8px}
 .vorschau ul{list-style:none;max-height:210px;overflow:auto;margin:0 0 4px}
@@ -306,24 +313,37 @@ button.tat{font:inherit;font-size:13.5px;font-weight:600;border-radius:8px;paddi
         Bereits importierte Spiele werden dabei ersetzt, von Hand angelegte Termine bleiben unberührt.
       </div>
 
-      <div class="reihe">
-        <div>
-          <label for="pdf-ziel">Eintragen unter</label>
-          <select id="pdf-ziel"></select>
-        </div>
-      </div>
-
-      <div class="kasten">
-        <input type="checkbox" id="pdf-heim">
-        <label for="pdf-heim">Nur Heimspiele übernehmen</label>
-      </div>
-      <div class="kasten">
-        <input type="checkbox" id="pdf-jugend" checked>
-        <label for="pdf-jugend">Juniorenmannschaften einschließen</label>
-      </div>
-
       <label for="pdf-datei">PDF auswählen</label>
       <input type="file" id="pdf-datei" accept=".pdf,application/pdf">
+
+      <div id="pdf-optionen" style="display:none">
+        <label for="pdf-ziel">Die Spiele werden eingetragen unter</label>
+        <select id="pdf-ziel"></select>
+
+        <div class="wahl">
+          <input type="checkbox" id="pdf-heim">
+          <div>
+            <label for="pdf-heim">Nur Heimspiele übernehmen</label>
+            <div class="wahl-text">
+              Auswärtsspiele bleiben weg. Als Heimspiel zählt, was laut Spielplan auf einem
+              Platz in Mitterdorf stattfindet.
+              <span class="wahl-zahl" id="zahl-heim"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="wahl">
+          <input type="checkbox" id="pdf-jugend" checked>
+          <div>
+            <label for="pdf-jugend">Jugendmannschaften mitnehmen</label>
+            <div class="wahl-text">
+              Zusätzlich zu Herren und Frauen auch die Spiele der A- bis G-Junioren,
+              einschließlich Spielgemeinschaften.
+              <span class="wahl-zahl" id="zahl-jugend"></span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div id="pdf-vorschau"></div>
     </div>
@@ -1387,6 +1407,17 @@ function vorschauZeichnen(){
 
   if (!pdfGefunden.length){ box.innerHTML = ''; return; }
 
+  const heimZahl   = pdfGefunden.filter(istHeimspiel).length;
+  const jugendZahl = pdfGefunden.filter(s =>
+    s.altersklasse !== 'Herren' && s.altersklasse !== 'Frauen').length;
+
+  $('zahl-heim').textContent = heimZahl
+    ? heimZahl + ' der ' + pdfGefunden.length + ' Spiele finden daheim statt.'
+    : 'In dieser Datei ist kein Heimspiel enthalten.';
+  $('zahl-jugend').textContent = jugendZahl
+    ? jugendZahl + ' Spiele betreffen Jugendmannschaften.'
+    : 'In dieser Datei sind keine Jugendspiele enthalten.';
+
   box.innerHTML = '<div class="vorschau"><h4>' + auswahl.length +
     ' von ' + pdfGefunden.length + ' Spielen werden übernommen</h4><ul>' +
     auswahl.map(s => '<li><b>' + s.datum + ' ' + s.zeit + '</b><span>' +
@@ -1407,6 +1438,7 @@ function vorschauZeichnen(){
     markiere(); termineListe(); vereineListe(); alteInfo();
     box.innerHTML = '';
     $('pdf-datei').value = '';
+    $('pdf-optionen').style.display = 'none';
     pdfGefunden = [];
     melde(auswahl.length + ' Spiele übernommen' + (ersetzt ? ', ' + ersetzt + ' frühere ersetzt' : '') + '.');
   };
@@ -1420,12 +1452,15 @@ $('pdf-datei').onchange = async e => {
     pdfGefunden = spieleAusZeilen(zeilen);
     if (!pdfGefunden.length){
       $('pdf-vorschau').innerHTML = '';
+      $('pdf-optionen').style.display = 'none';
       melde('In der Datei wurden keine Spiele gefunden. Ist es der Vereinsspielplan vom BFV?', false);
       return;
     }
+    $('pdf-optionen').style.display = '';
     vorschauZeichnen();
   } catch(err){
     $('pdf-vorschau').innerHTML = '';
+    $('pdf-optionen').style.display = 'none';
     melde('Die PDF konnte nicht gelesen werden: ' + err.message, false);
   }
 };
