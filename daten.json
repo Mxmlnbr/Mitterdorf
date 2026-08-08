@@ -348,7 +348,8 @@
       "titel": "SpVgg Mitterdorf – SG Schloßberg",
       "start": "2026-10-31T16:30",
       "ort": "Sportplatz 1 Mitterdorf,Kanalweg,93426 Roding",
-      "text": "Herren · Kreisliga · Heimspiel"
+      "text": "Herren · Kreisliga · Heimspiel",
+      "ortsteil": "mitterdorf"
     },
     {
       "id": 40,
