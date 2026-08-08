@@ -9,7 +9,7 @@
       "ortsteil": "mitterdorf"
     },
     {
-      "id": "spvgg",
+      "id": "spvggmitterdorf",
       "name": "SpVgg Mitterdorf",
       "kuerzel": "SpVg",
       "ortsteil": "mitterdorf"
@@ -18,13 +18,13 @@
       "id": "spvgg-fussball",
       "name": "Abteilung Fußball",
       "kuerzel": "FB",
-      "mutter": "spvgg"
+      "mutter": "spvggmitterdorf"
     },
     {
       "id": "spvgg-ski",
       "name": "Abteilung Ski",
       "kuerzel": "SKI",
-      "mutter": "spvgg"
+      "mutter": "spvggmitterdorf"
     },
     {
       "id": "burschen",
