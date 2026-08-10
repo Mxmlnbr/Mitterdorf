@@ -1151,6 +1151,15 @@
       "start": "2026-11-08T15:15",
       "ort": "Sportplatz Lohberg, Waldstadion,Schulweg 10,93470 Lohberg",
       "text": "Herren · Kreisklasse · Auswärtsspiel"
+    },
+    {
+      "id": 124,
+      "titel": "Monatsübung",
+      "verein": "ffmitterdorf",
+      "start": "2026-08-27T19:00",
+      "ortsteil": "mitterdorf",
+      "ort": "Gerätehaus Mitterdorf",
+      "text": "Thema: Löschwasserversorgung und -rückhalt"
     }
   ],
   "meldungen": [
