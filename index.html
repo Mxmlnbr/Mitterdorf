@@ -94,6 +94,15 @@ h2:first-child{margin-top:2px}
 .tag .zahl{font-size:21px;font-weight:800;line-height:1;color:var(--tiefblau)}
 .tag .mon{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--blau);font-weight:700}
 .tag .wtag{font-size:9.5px;color:var(--grau);margin-top:2px}
+.tag.bereich{padding:5px 0}
+.tag.bereich .zahl{font-size:17px}
+.tag.bereich .bis{font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--grau);line-height:1.5}
+.tag.bereich .mon{margin-top:1px}
+
+.laeuft{display:inline-block;margin-left:8px;padding:1px 8px;border-radius:999px;
+  background:#EAF4EC;color:var(--gruen);font-size:10.5px;font-weight:700;
+  letter-spacing:.02em;vertical-align:2px}
 .termin-kopf{font-weight:700;font-size:15.5px;line-height:1.3}
 .veranstalter{display:inline-block;font-size:11px;font-weight:600;color:var(--ziegel);margin-top:3px}
 .ortsmarke{display:inline-block;margin-left:7px;padding:1px 7px;border-radius:999px;
@@ -611,12 +620,21 @@ function termineEntfalten(liste, abDatum, monateVoraus){
       if (ausnahmen.has(iso)) return;
       const s = new Date(d); s.setHours(std, min, 0, 0);
       if (s < von) return;
-      raus.push(Object.assign({}, t, {
+      const kopie = Object.assign({}, t, {
         id: t.id + '@' + iso,
         stammId: t.id,
         start: iso + 'T' + zz(std) + ':' + zz(min),
         wiederholt: text
-      }));
+      });
+      // Mehrtägige Termine behalten ihre Dauer
+      if (t.ende){
+        const dauer = Math.round((new Date(t.ende + 'T00:00') - ankerTag) / 86400000);
+        if (dauer > 0){
+          const e = new Date(d); e.setDate(e.getDate() + dauer);
+          kopie.ende = e.getFullYear() + '-' + zz(e.getMonth()+1) + '-' + zz(e.getDate());
+        }
+      }
+      raus.push(kopie);
     };
 
     let n = 0;
@@ -662,7 +680,7 @@ function filterBauen(){
     return b;
   };
 
-  const kommend = TERMINE.filter(t => new Date(t.start) >= heute);
+  const kommend = TERMINE.filter(t => letzterTag(t) >= heute);
 
   /* Gesamtansicht: nach Ortsteil filtern statt nach Verein.
      Bei vielen Ortsteilen wäre eine Vereinsliste sonst unlesbar. */
@@ -717,29 +735,75 @@ function passt(t){
 
 function icsBauen(t){
   const s = new Date(t.start);
-  const e = new Date(s.getTime() + 2*3600*1000);
-  const f = d => d.getFullYear() + zz(d.getMonth()+1) + zz(d.getDate())
-             + 'T' + zz(d.getHours()) + zz(d.getMinutes()) + '00';
+  const tag  = d => d.getFullYear() + zz(d.getMonth()+1) + zz(d.getDate());
+  const zeit = d => tag(d) + 'T' + zz(d.getHours()) + zz(d.getMinutes()) + '00';
+
+  let start, ende;
+  if (t.ganztags || t.ende){
+    // Ganztägig: Ende ist im Kalenderformat der Folgetag
+    const letzter = new Date((t.ende || t.start.slice(0,10)) + 'T00:00');
+    letzter.setDate(letzter.getDate() + 1);
+    start = 'DTSTART;VALUE=DATE:' + tag(s);
+    ende  = 'DTEND;VALUE=DATE:' + tag(letzter);
+  } else {
+    start = 'DTSTART:' + zeit(s);
+    ende  = 'DTEND:' + zeit(new Date(s.getTime() + 2*3600*1000));
+  }
+
   return ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Mitterdorf//DE','BEGIN:VEVENT',
-    'UID:' + t.id + '@mitterdorf', 'DTSTART:' + f(s), 'DTEND:' + f(e),
+    'UID:' + t.id + '@mitterdorf', start, ende,
     'SUMMARY:' + t.titel, 'LOCATION:' + (t.ort||''),
     'DESCRIPTION:' + String(t.text||'').replace(/\n/g,' '),
     'END:VEVENT','END:VCALENDAR'].join('\r\n');
+}
+
+/* Letzter Tag eines Termins, für die Frage ob er noch ansteht */
+function letzterTag(t){
+  const d = new Date(t.ende ? t.ende + 'T23:59' : t.start);
+  return isNaN(d.getTime()) ? new Date(t.start) : d;
+}
+
+function laeuftGerade(t){
+  if (!t.ende) return false;
+  const a = new Date(t.start); a.setHours(0,0,0,0);
+  return a <= heute && heute <= new Date(t.ende + 'T23:59');
+}
+
+/* Zeitangabe: Uhrzeit, ganztägig oder Zeitraum */
+function zeitText(t){
+  const d = new Date(t.start);
+  const teile = [];
+
+  if (t.ende){
+    const e = new Date(t.ende + 'T00:00');
+    teile.push(d.getDate() + '. ' + MONATE[d.getMonth()] + ' bis ' +
+               e.getDate() + '. ' + MONATE[e.getMonth()]);
+    teile.push(t.ganztags ? 'ganztägig' : 'ab ' + zz(d.getHours()) + ':' + zz(d.getMinutes()) + ' Uhr');
+  } else {
+    teile.push(t.ganztags ? 'Ganztägig' : zz(d.getHours()) + ':' + zz(d.getMinutes()) + ' Uhr');
+  }
+  return teile.join(' · ');
 }
 
 function terminKarte(t){
   const d = new Date(t.start);
   return '<div class="karte">' +
     '<div class="termin">' +
-      '<div class="tag"><div class="zahl">' + d.getDate() + '</div>' +
-      '<div class="mon">' + MONATE[d.getMonth()] + '</div>' +
-      '<div class="wtag">' + TAGE[d.getDay()] + '</div></div>' +
+      (t.ende
+        ? '<div class="tag bereich"><div class="zahl">' + d.getDate() + '</div>' +
+          '<div class="bis">bis</div>' +
+          '<div class="zahl">' + new Date(t.ende + 'T00:00').getDate() + '</div>' +
+          '<div class="mon">' + MONATE[new Date(t.ende + 'T00:00').getMonth()] + '</div></div>'
+        : '<div class="tag"><div class="zahl">' + d.getDate() + '</div>' +
+          '<div class="mon">' + MONATE[d.getMonth()] + '</div>' +
+          '<div class="wtag">' + TAGE[d.getDay()] + '</div></div>') +
       '<div style="flex:1;min-width:0">' +
-        '<div class="termin-kopf">' + esc(t.titel) + '</div>' +
+        '<div class="termin-kopf">' + esc(t.titel) +
+          (laeuftGerade(t) ? '<span class="laeuft">läuft gerade</span>' : '') + '</div>' +
         '<div class="veranstalter">' + esc(anzeigeName(t.verein)) +
           (aktiverOrt === 'alle' && t.ortsteil && t.ortsteil !== 'alle'
             ? '<span class="ortsmarke">' + esc(ortsteilName(t.ortsteil)) + '</span>' : '') + '</div>' +
-        '<div class="termin-meta">' + zz(d.getHours()) + ':' + zz(d.getMinutes()) + ' Uhr' +
+        '<div class="termin-meta">' + esc(zeitText(t)) +
           (t.ort ? ' · ' + esc(t.ort) : '') +
           (t.wiederholt ? '<span class="wdh">' + esc(t.wiederholt) + '</span>' : '') + '</div>' +
         (t.text ? '<div class="termin-text">' + esc(t.text) + '</div>' : '') +
@@ -757,7 +821,7 @@ function termineZeigen(zustandBehalten){
   const box = document.getElementById('termine');
   const liste = TERMINE
     .filter(imOrt)
-    .filter(t => new Date(t.start) >= heute)
+    .filter(t => letzterTag(t) >= heute)
     .filter(passt)
     .sort((a,b) => new Date(a.start) - new Date(b.start));
 
@@ -832,7 +896,7 @@ function termineZeigen(zustandBehalten){
   box.querySelectorAll('[data-teilen]').forEach(b => b.onclick = async () => {
     const t = TERMINE.find(x => String(x.id) === b.dataset.teilen);
     const d = new Date(t.start);
-    const text = `${t.titel}\n${d.toLocaleDateString('de-DE')} um ${zz(d.getHours())}:${zz(d.getMinutes())} Uhr\n${t.ort||''}`;
+    const text = `${t.titel}\n${d.toLocaleDateString('de-DE')} · ${zeitText(t)}\n${t.ort||''}`;
     if (navigator.share){ try{ await navigator.share({title:t.titel, text}); }catch(e){} }
     else { try{ await navigator.clipboard.writeText(text); b.textContent='Kopiert';
       setTimeout(()=>b.textContent='Teilen',1600);}catch(e){} }
@@ -1009,7 +1073,7 @@ function farbeVon(id){
 
 function vereineZeigen(){
   const zaehle = id => TERMINE.filter(imOrt).filter(t =>
-    (t.verein === id || wurzelVon(t.verein) === id) && new Date(t.start) >= heute).length;
+    (t.verein === id || wurzelVon(t.verein) === id) && letzterTag(t) >= heute).length;
 
   const zeile = (v, istAbteilung) => {
     const n = zaehle(v.id);

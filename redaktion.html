@@ -175,6 +175,8 @@ button.tat{font:inherit;font-size:13.5px;font-weight:600;border-radius:8px;paddi
 .wahl label{margin:0;font-size:14px;font-weight:600;color:var(--tinte);cursor:pointer}
 .wahl-text{font-size:12.5px;color:var(--grau);line-height:1.5;margin-top:2px}
 .wahl-zahl{display:block;margin-top:3px;font-weight:700;color:var(--blau)}
+.feldhinweis{font-size:12.5px;color:var(--grau);margin-top:5px;min-height:16px}
+.feldhinweis.warn{color:var(--warn);font-weight:600}
 
 .vorschau{margin-top:14px;border:1px solid var(--linie);border-radius:9px;background:#fff;padding:12px}
 .vorschau h4{font-size:14px;margin-bottom:8px}
@@ -236,6 +238,18 @@ button.tat{font:inherit;font-size:13.5px;font-weight:600;border-radius:8px;paddi
           <select id="termin-ortsteil" class="ortswahl-feld"></select>
         </div>
       </div>
+
+      <div class="wahl">
+        <input type="checkbox" id="termin-ganztags">
+        <div>
+          <label for="termin-ganztags">Ganztägig</label>
+          <div class="wahl-text">Ohne feste Uhrzeit, etwa bei einem Ferienprogramm oder Markt.</div>
+        </div>
+      </div>
+
+      <label for="termin-ende">Endet am (nur bei mehrtägigen Terminen)</label>
+      <input type="date" id="termin-ende">
+      <div class="feldhinweis" id="ende-hinweis"></div>
       <label for="termin-ort">Ort</label>
       <input id="termin-ort" placeholder="z. B. Gerätehaus Mitterdorf">
       <label for="termin-text">Beschreibung</label>
@@ -841,12 +855,21 @@ function termineEntfalten(liste, abDatum, monateVoraus){
       if (ausnahmen.has(iso)) return;
       const s = new Date(d); s.setHours(std, min, 0, 0);
       if (s < von) return;
-      raus.push(Object.assign({}, t, {
+      const kopie = Object.assign({}, t, {
         id: t.id + '@' + iso,
         stammId: t.id,
         start: iso + 'T' + zz(std) + ':' + zz(min),
         wiederholt: text
-      }));
+      });
+      // Mehrtägige Termine behalten ihre Dauer
+      if (t.ende){
+        const dauer = Math.round((new Date(t.ende + 'T00:00') - ankerTag) / 86400000);
+        if (dauer > 0){
+          const e = new Date(d); e.setDate(e.getDate() + dauer);
+          kopie.ende = e.getFullYear() + '-' + zz(e.getMonth()+1) + '-' + zz(e.getDate());
+        }
+      }
+      raus.push(kopie);
     };
 
     let n = 0;
@@ -979,9 +1002,59 @@ function vereinsauswahl(){
       .map(v => '<option value="' + esc(v.id) + '">' + esc(v.name) + '</option>').join('');
 }
 
+/* Bei ganztägigen Terminen braucht das Feld keine Uhrzeit */
+function ganztagsUmschalten(){
+  const feld = $('termin-start');
+  const ganz = $('termin-ganztags').checked;
+  const wert = feld.value;
+
+  if (ganz && feld.type !== 'date'){
+    feld.type = 'date';
+    feld.value = wert ? wert.slice(0,10) : '';
+  } else if (!ganz && feld.type !== 'datetime-local'){
+    feld.type = 'datetime-local';
+    feld.value = wert ? wert.slice(0,10) + 'T18:00' : '';
+  }
+  endeHinweis();
+}
+
+/* Datum und Uhrzeit einheitlich als JJJJ-MM-TTThh:mm zurückgeben */
+function startWert(){
+  const w = $('termin-start').value;
+  if (!w) return '';
+  return w.length === 10 ? w + 'T00:00' : w;
+}
+
+function endeHinweis(){
+  const box = $('ende-hinweis');
+  const start = startWert();
+  const ende  = $('termin-ende').value;
+
+  if (!ende){ box.className = 'feldhinweis'; box.textContent = ''; return; }
+  if (!start){ box.className = 'feldhinweis warn';
+               box.textContent = 'Bitte zuerst das Startdatum wählen.'; return; }
+
+  const a = new Date(start.slice(0,10) + 'T00:00');
+  const e = new Date(ende + 'T00:00');
+  if (e <= a){
+    box.className = 'feldhinweis warn';
+    box.textContent = 'Das Ende muss nach dem Start liegen.';
+    return;
+  }
+  const tage = Math.round((e - a) / 86400000) + 1;
+  box.className = 'feldhinweis';
+  box.textContent = 'Läuft über ' + tage + ' Tage und bleibt bis zum letzten Tag in der App sichtbar.';
+}
+
+$('termin-ganztags').onchange = ganztagsUmschalten;
+$('termin-ende').onchange = endeHinweis;
+
 function terminFormularLeeren(){
   $('termin-id').value = ''; $('termin-titel').value = ''; $('termin-start').value = '';
   $('termin-ort').value = ''; $('termin-text').value = '';
+  $('termin-ganztags').checked = false;
+  $('termin-start').type = 'datetime-local';
+  $('termin-ende').value = ''; endeHinweis();
   $('termin-wdh').value = ''; $('termin-wdh-bis').value = ''; $('termin-wdh-aus').value = '';
   $('termin-wdh-pos').value = '1';
   wdhFelderZeigen();
@@ -993,12 +1066,19 @@ $('termin-abbrechen').onclick = terminFormularLeeren;
 
 $('termin-speichern').onclick = () => {
   const titel = $('termin-titel').value.trim();
-  const start = $('termin-start').value;
+  const start = startWert();
   const verein = $('termin-verein').value;
   if (!titel || !start || !verein){ melde('Titel, Verein und Zeitpunkt sind Pflicht.', false); return; }
 
+  const ende = $('termin-ende').value;
+  if (ende && new Date(ende + 'T00:00') <= new Date(start.slice(0,10) + 'T00:00')){
+    melde('Das Enddatum muss nach dem Startdatum liegen.', false); return;
+  }
+
   const daten = { titel, verein, start, ortsteil: $('termin-ortsteil').value,
     ort: $('termin-ort').value.trim(), text: $('termin-text').value.trim() };
+  if ($('termin-ganztags').checked) daten.ganztags = true;
+  if (ende) daten.ende = ende;
 
   const wdh = wdhAusFormular();
   if (wdh) daten.wiederholung = wdh;
@@ -1007,6 +1087,8 @@ $('termin-speichern').onclick = () => {
   if (id){
     const t = DATEN.termine.find(x => String(x.id) === id);
     if (!wdh) delete t.wiederholung;
+    if (!$('termin-ganztags').checked) delete t.ganztags;
+    if (!ende) delete t.ende;
     Object.assign(t, daten);
     melde('Termin geändert.');
   } else {
@@ -1072,9 +1154,10 @@ function termineListe(zustandBehalten){
 
   const regeln    = gefiltert.filter(t => t.wiederholung);
   const einzeln   = gefiltert.filter(t => !t.wiederholung);
-  const kommend   = einzeln.filter(t => new Date(t.start) >= heuteTag)
+  const bisWann = t => new Date(t.ende ? t.ende + 'T23:59' : t.start);
+  const kommend   = einzeln.filter(t => bisWann(t) >= heuteTag)
                            .sort((a,b) => new Date(a.start) - new Date(b.start));
-  const vergangen = einzeln.filter(t => new Date(t.start) < heuteTag)
+  const vergangen = einzeln.filter(t => bisWann(t) < heuteTag)
                            .sort((a,b) => new Date(b.start) - new Date(a.start));
 
   /* Gruppen in Anzeigereihenfolge aufbauen */
@@ -1121,8 +1204,13 @@ function termineListe(zustandBehalten){
         (n ? ' · <span class="naechster">nächster ' + zz(n.getDate()) + '.' + zz(n.getMonth()+1) + '.' +
              ' um ' + zz(n.getHours()) + ':' + zz(n.getMinutes()) + '</span>' : ' · läuft aus');
     } else {
-      wann = zz(d.getDate()) + '.' + zz(d.getMonth()+1) + '.' + d.getFullYear() +
-             ' um ' + zz(d.getHours()) + ':' + zz(d.getMinutes()) + ' Uhr';
+      wann = zz(d.getDate()) + '.' + zz(d.getMonth()+1) + '.' + d.getFullYear();
+      if (t.ende){
+        const e = new Date(t.ende + 'T00:00');
+        wann += ' bis ' + zz(e.getDate()) + '.' + zz(e.getMonth()+1) + '.' + e.getFullYear();
+      }
+      wann += t.ganztags ? ' · ganztägig'
+                         : ' · ' + zz(d.getHours()) + ':' + zz(d.getMinutes()) + ' Uhr';
     }
     return '<div class="eintrag' + (art === 'regel' ? ' regel' : art === 'alt' ? ' alt' : '') + '">' +
       '<div class="eintrag-text">' +
@@ -1157,7 +1245,11 @@ function termineListe(zustandBehalten){
   box.querySelectorAll('[data-bearbeiten]').forEach(b => b.onclick = () => {
     const t = DATEN.termine.find(x => String(x.id) === b.dataset.bearbeiten);
     $('termin-id').value = t.id; $('termin-titel').value = t.titel;
-    $('termin-verein').value = t.verein; $('termin-start').value = t.start;
+    $('termin-verein').value = t.verein;
+    $('termin-ganztags').checked = !!t.ganztags;
+    $('termin-start').type = t.ganztags ? 'date' : 'datetime-local';
+    $('termin-start').value = t.ganztags ? String(t.start).slice(0,10) : t.start;
+    $('termin-ende').value = t.ende || ''; endeHinweis();
     $('termin-ort').value = t.ort || ''; $('termin-text').value = t.text || '';
     $('termin-ortsteil').value = t.ortsteil || 'alle';
     const w = t.wiederholung || {};
@@ -1279,7 +1371,8 @@ $('vorschlag-leeren').onclick = () => {
 /* ---------- Vergangene Termine ---------- */
 function alteZaehlen(){
   const grenze = new Date(); grenze.setHours(0,0,0,0);
-  return DATEN.termine.filter(t => !t.wiederholung && new Date(t.start) < grenze);
+  return DATEN.termine.filter(t => !t.wiederholung &&
+    new Date(t.ende ? t.ende + 'T23:59' : t.start) < grenze);
 }
 
 function alteInfo(){
