@@ -2,7 +2,7 @@
    Grundsatz: Inhalte immer frisch aus dem Netz holen.
    Der Zwischenspeicher dient nur als Reserve, wenn kein Empfang da ist. */
 
-const CACHE = 'mitterdorf-v3';
+const CACHE = 'mitterdorf-v4';
 const SCHALE = ['./', './index.html', './daten.json', './manifest.json', './icon.svg',
                 './impressum.html', './datenschutz.html'];
 
@@ -52,7 +52,19 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  // Symbole und unveraenderliche Dateien: Zwischenspeicher genuegt
+  // Bilder: Zwischenspeicher zuerst, sie aendern sich unter ihrem Namen nie
+  if (/\.(jpg|jpeg|png|webp|gif|svg)$/i.test(url.pathname)) {
+    e.respondWith(
+      caches.match(e.request).then(t => t || fetch(e.request).then(a => {
+        const kopie = a.clone();
+        caches.open(CACHE).then(c => c.put(e.request, kopie)).catch(() => {});
+        return a;
+      }))
+    );
+    return;
+  }
+
+  // Uebrige Dateien: Zwischenspeicher genuegt
   e.respondWith(
     caches.match(e.request).then(t => t || netzZuerst(e.request))
   );

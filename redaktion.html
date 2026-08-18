@@ -176,6 +176,16 @@ button.tat{font:inherit;font-size:13.5px;font-weight:600;border-radius:8px;paddi
 .wahl-text{font-size:12.5px;color:var(--grau);line-height:1.5;margin-top:2px}
 .wahl-zahl{display:block;margin-top:3px;font-weight:700;color:var(--blau)}
 .feldhinweis{font-size:12.5px;color:var(--grau);margin-top:5px;min-height:16px}
+
+.bild-block{display:flex;gap:13px;align-items:flex-start;margin-top:11px;
+  background:#fff;border:1px solid var(--linie);border-radius:10px;padding:11px}
+.bild-block img{width:110px;height:110px;object-fit:cover;border-radius:8px;
+  background:#F1F3F5;flex:0 0 auto}
+.bild-neben{flex:1;min-width:0;display:flex;flex-direction:column;gap:9px;align-items:flex-start}
+.bild-info{font-size:12.5px;color:var(--grau);line-height:1.5}
+.bild-info.warn{color:var(--ziegel);font-weight:600}
+.eintrag-bild{width:34px;height:34px;object-fit:cover;border-radius:6px;flex:0 0 auto;
+  background:#F1F3F5;margin-right:2px}
 .feldhinweis.warn{color:var(--warn);font-weight:600}
 
 .vorschau{margin-top:14px;border:1px solid var(--linie);border-radius:9px;background:#fff;padding:12px}
@@ -250,6 +260,15 @@ button.tat{font:inherit;font-size:13.5px;font-weight:600;border-radius:8px;paddi
       <label for="termin-ende">Endet am (nur bei mehrtägigen Terminen)</label>
       <input type="date" id="termin-ende">
       <div class="feldhinweis" id="ende-hinweis"></div>
+
+      <label for="bild-datei">Bild, etwa ein Plakat (optional)</label>
+      <input type="file" id="bild-datei" accept="image/*">
+      <input type="hidden" id="bild-vorhanden">
+      <div class="feldhinweis">
+        Wird beim Hochladen automatisch verkleinert. Bitte nur Bilder verwenden,
+        deren Veröffentlichung erlaubt ist.
+      </div>
+      <div id="bild-vorschau"></div>
       <label for="termin-ort">Ort</label>
       <input id="termin-ort" placeholder="z. B. Gerätehaus Mitterdorf">
       <label for="termin-text">Beschreibung</label>
@@ -1055,6 +1074,8 @@ function terminFormularLeeren(){
   $('termin-ganztags').checked = false;
   $('termin-start').type = 'datetime-local';
   $('termin-ende').value = ''; endeHinweis();
+  bildNeu = null; $('bild-datei').value = ''; $('bild-vorhanden').value = '';
+  bildVorschauZeigen('');
   $('termin-wdh').value = ''; $('termin-wdh-bis').value = ''; $('termin-wdh-aus').value = '';
   $('termin-wdh-pos').value = '1';
   wdhFelderZeigen();
@@ -1064,7 +1085,7 @@ function terminFormularLeeren(){
 }
 $('termin-abbrechen').onclick = terminFormularLeeren;
 
-$('termin-speichern').onclick = () => {
+$('termin-speichern').onclick = async () => {
   const titel = $('termin-titel').value.trim();
   const start = startWert();
   const verein = $('termin-verein').value;
@@ -1080,6 +1101,27 @@ $('termin-speichern').onclick = () => {
   if ($('termin-ganztags').checked) daten.ganztags = true;
   if (ende) daten.ende = ende;
 
+  // Neues Bild vor dem Speichern ins Repository legen
+  const knopf = $('termin-speichern');
+  const alterText = knopf.textContent;
+  if (bildNeu){
+    if (!ghBereit()){
+      melde('Für Bilder wird der GitHub-Zugang benötigt. Bitte im Reiter „Veröffentlichen“ einrichten.', false);
+      return;
+    }
+    knopf.disabled = true; knopf.textContent = 'Bild wird hochgeladen…';
+    try {
+      daten.bild = await bildHochladen(bildNeu.blob, bildName(titel));
+    } catch(err){
+      melde('Das Bild konnte nicht hochgeladen werden: ' + err.message, false);
+      knopf.disabled = false; knopf.textContent = alterText;
+      return;
+    }
+    knopf.disabled = false; knopf.textContent = alterText;
+  } else if ($('bild-vorhanden').value){
+    daten.bild = $('bild-vorhanden').value;
+  }
+
   const wdh = wdhAusFormular();
   if (wdh) daten.wiederholung = wdh;
 
@@ -1089,6 +1131,7 @@ $('termin-speichern').onclick = () => {
     if (!wdh) delete t.wiederholung;
     if (!$('termin-ganztags').checked) delete t.ganztags;
     if (!ende) delete t.ende;
+    if (!daten.bild) delete t.bild;
     Object.assign(t, daten);
     melde('Termin geändert.');
   } else {
@@ -1213,6 +1256,7 @@ function termineListe(zustandBehalten){
                          : ' · ' + zz(d.getHours()) + ':' + zz(d.getMinutes()) + ' Uhr';
     }
     return '<div class="eintrag' + (art === 'regel' ? ' regel' : art === 'alt' ? ' alt' : '') + '">' +
+      (t.bild ? '<img class="eintrag-bild" src="' + esc(t.bild) + '" alt="">' : '') +
       '<div class="eintrag-text">' +
         '<div class="eintrag-titel">' + (art === 'regel' ? '↻ ' : '') + esc(t.titel) + '</div>' +
         '<div class="eintrag-meta">' + wann + ' · ' + esc(v ? v.name : '?') +
@@ -1250,6 +1294,10 @@ function termineListe(zustandBehalten){
     $('termin-start').type = t.ganztags ? 'date' : 'datetime-local';
     $('termin-start').value = t.ganztags ? String(t.start).slice(0,10) : t.start;
     $('termin-ende').value = t.ende || ''; endeHinweis();
+    bildNeu = null; $('bild-datei').value = '';
+    $('bild-vorhanden').value = t.bild || '';
+    if (t.bild) bildVorschauZeigen(t.bild, 'Bereits hochgeladen: ' + t.bild, false);
+    else bildVorschauZeigen('');
     $('termin-ort').value = t.ort || ''; $('termin-text').value = t.text || '';
     $('termin-ortsteil').value = t.ortsteil || 'alle';
     const w = t.wiederholung || {};
@@ -1275,6 +1323,131 @@ function termineListe(zustandBehalten){
 $('termin-suche').oninput = () => termineListe();
 $('termin-filter-ort').onchange = () => { termineFilterAuswahl(); termineListe(); };
 $('termin-filter-verein').onchange = () => termineListe();
+
+/* ============ BILDER ZU TERMINEN ============ */
+
+const BILD_ORDNER   = 'bilder';
+const BILD_KANTE    = 1600;   // längste Kante nach dem Verkleinern
+const BILD_GUETE    = 0.82;   // JPEG-Qualität
+const BILD_WARNUNG  = 500000; // ab dieser Größe ein Hinweis
+
+let bildNeu = null;   // { blob, name } bis zum Übernehmen
+
+/* Bild im Browser verkleinern, damit das Repository schlank bleibt */
+function bildVerkleinern(datei){
+  return new Promise((fertig, schief) => {
+    const leser = new FileReader();
+    leser.onerror = () => schief(new Error('Die Datei konnte nicht gelesen werden.'));
+    leser.onload = () => {
+      const bild = new Image();
+      bild.onerror = () => schief(new Error('Das ist kein lesbares Bild.'));
+      bild.onload = () => {
+        const faktor = Math.min(1, BILD_KANTE / Math.max(bild.width, bild.height));
+        const b = Math.round(bild.width * faktor);
+        const hh = Math.round(bild.height * faktor);
+
+        const flaeche = document.createElement('canvas');
+        flaeche.width = b; flaeche.height = hh;
+        const stift = flaeche.getContext('2d');
+        stift.fillStyle = '#fff';
+        stift.fillRect(0, 0, b, hh);
+        stift.drawImage(bild, 0, 0, b, hh);
+
+        flaeche.toBlob(blob => {
+          if (!blob) return schief(new Error('Das Bild konnte nicht umgewandelt werden.'));
+          fertig({ blob, breite:b, hoehe:hh });
+        }, 'image/jpeg', BILD_GUETE);
+      };
+      bild.src = leser.result;
+    };
+    leser.readAsDataURL(datei);
+  });
+}
+
+function blobNachBase64(blob){
+  return new Promise((fertig, schief) => {
+    const leser = new FileReader();
+    leser.onerror = () => schief(new Error('Das Bild konnte nicht kodiert werden.'));
+    leser.onload = () => fertig(String(leser.result).split(',')[1]);
+    leser.readAsDataURL(blob);
+  });
+}
+
+function bildName(titel){
+  const stamm = (titel || 'termin').toLowerCase()
+    .replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss')
+    .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40) || 'termin';
+  const kennung = Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+  return BILD_ORDNER + '/' + stamm + '-' + kennung + '.jpg';
+}
+
+async function bildHochladen(blob, pfad){
+  const inhalt = await blobNachBase64(blob);
+  const a = await fetch(ghAdresseFuer(pfad), {
+    method: 'PUT',
+    headers: Object.assign({ 'Content-Type':'application/json' }, ghKopf()),
+    body: JSON.stringify({
+      message: 'Bild ergänzt: ' + pfad,
+      content: inhalt,
+      branch: ghZugang.branch
+    })
+  });
+  if (!a.ok) throw new Error(await ghFehlertext(a));
+  return pfad;
+}
+
+async function bildLoeschen(pfad){
+  const a = await fetch(ghAdresseFuer(pfad) + '?ref=' + encodeURIComponent(ghZugang.branch),
+                        { headers: ghKopf(), cache:'no-store' });
+  if (!a.ok) return false;                       // gibt es nicht mehr, auch gut
+  const stand = await a.json();
+  const w = await fetch(ghAdresseFuer(pfad), {
+    method: 'DELETE',
+    headers: Object.assign({ 'Content-Type':'application/json' }, ghKopf()),
+    body: JSON.stringify({ message: 'Bild entfernt: ' + pfad, sha: stand.sha, branch: ghZugang.branch })
+  });
+  return w.ok;
+}
+
+function bildVorschauZeigen(quelle, hinweis, warnen){
+  const box = $('bild-vorschau');
+  if (!quelle){ box.innerHTML = ''; return; }
+  box.innerHTML =
+    '<div class="bild-block">' +
+      '<img src="' + esc(quelle) + '" alt="Vorschau">' +
+      '<div class="bild-neben">' +
+        '<div class="bild-info' + (warnen ? ' warn' : '') + '">' + esc(hinweis) + '</div>' +
+        '<button type="button" class="tat sekundaer" id="bild-weg">Bild entfernen</button>' +
+      '</div>' +
+    '</div>';
+  $('bild-weg').onclick = () => {
+    bildNeu = null;
+    $('bild-datei').value = '';
+    $('bild-vorhanden').value = '';
+    bildVorschauZeigen('');
+  };
+}
+
+$('bild-datei').onchange = async e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  if (!/^image\//.test(f.type)){ melde('Bitte eine Bilddatei auswählen.', false); return; }
+
+  $('bild-vorschau').innerHTML = '<div class="laedt">Bild wird vorbereitet…</div>';
+  try {
+    const { blob, breite, hoehe } = await bildVerkleinern(f);
+    bildNeu = { blob };
+    const kb = Math.round(blob.size / 1024);
+    bildVorschauZeigen(URL.createObjectURL(blob),
+      breite + ' × ' + hoehe + ' Pixel · ' + kb + ' KB' +
+      (blob.size > BILD_WARNUNG ? ' — recht groß, lädt auf dem Handy langsam' : ''),
+      blob.size > BILD_WARNUNG);
+  } catch(err){
+    bildNeu = null;
+    $('bild-vorschau').innerHTML = '';
+    melde(err.message, false);
+  }
+};
 
 /* ============ VORSCHLAEGE, AUFRAEUMEN, KONTAKT ============ */
 
@@ -2045,9 +2218,14 @@ function ghKnopfPruefen(){
   $('veroeffentlichen').disabled = !inhalteGeladen;
 }
 
-function ghAdresse(){
+function ghAdresseFuer(pfad){
   return 'https://api.github.com/repos/' + encodeURIComponent(ghZugang.benutzer) +
-         '/' + encodeURIComponent(ghZugang.repo) + '/contents/' + ghZugang.pfad;
+         '/' + encodeURIComponent(ghZugang.repo) + '/contents/' +
+         pfad.split('/').map(encodeURIComponent).join('/');
+}
+
+function ghAdresse(){
+  return ghAdresseFuer(ghZugang.pfad);
 }
 
 function ghKopf(){
